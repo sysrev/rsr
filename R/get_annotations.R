@@ -9,15 +9,16 @@
 #' getAnnotations(project=3144)
 getAnnotations <- function(project){
   res  <- httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project))
-  lapply(httr::content(res)$result,function(sublist){
+  list <- lapply(httr::content(res)$result,function(sublist){
     basic <- c(sublist[1:5])
     text  <- sublist[[6]]$`text-context`
     start <- sublist[[6]]$`start-offset`
     end   <- sublist[[6]]$`end-offset`
     unlist(c(basic,text,start,end))
-  }) %>% (function(l){
-    df <- do.call(rbind.data.frame,c(l,stringsAsFactors=FALSE))
-    colnames(df) <- c("selection","annotation","semantic_class","external_id","sysrev_id","text","start","end")
-    df
-  }) %>% mutate(datasource = "pubmed")
+  })
+
+  df <- do.call(rbind.data.frame,c(list,stringsAsFactors=FALSE))
+  colnames(df) <- c("selection","annotation","semantic_class","external_id","sysrev_id","text","start","end")
+
+  dplyr::mutate(df,datasource = "pubmed")
 }
