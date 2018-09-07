@@ -27,3 +27,4 @@ Each row corresponds to a single article annotation.  There may be multiple anno
 6. **text**           = reference text for annotation
 7. **start**          = number of characters offset until start of selected text
 8. **end**            = number of characters offset until end of selected text
+9. **datasource**     = the external data source that created this article 
