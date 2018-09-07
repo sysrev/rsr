@@ -5,7 +5,8 @@ An R client for sysrev.com.
 
 ```{r}
 devtools::install_github("sysrev/RSysrev")
-RSysrev::getAnnotations(3144)
+df <- RSysrev::getAnnotations(3144)
+View(df)
 ```
 
 This results in the below table:
