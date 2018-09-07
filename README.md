@@ -4,10 +4,8 @@ An R client for sysrev.com.
 ## Install and get annotations from public projects
 
 ```{r}
-library(devtools)
-install_github("sysrev/RSysrev")
-Library(RSysrev)
-getAnnotations(3144)
+devtools::install_github("sysrev/RSysrev")
+RSysrev::getAnnotations(3144)
 ```
 
 This results in the below table:
