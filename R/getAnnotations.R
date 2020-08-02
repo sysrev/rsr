@@ -8,17 +8,17 @@
 #' @examples
 #' getAnnotations(project=3144)
 getAnnotations <- function(project){
-  res  <- httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project))
-  list <- lapply(httr::content(res)$result,function(sublist){
-    basic <- c(sublist[1:5])
-    text  <- sublist[[6]]$`text-context`
-    start <- sublist[[6]]$`start-offset`
-    end   <- sublist[[6]]$`end-offset`
-    unlist(c(basic,text,start,end))
+  res  <- httr::content(httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project)))$result
+  list <- lapply(res,function(sl){
+    basic <- c(sl[1:5])
+    pmid  <- ifelse(is.null(sl$pmid),NA, sl$pmid)
+    text  <- sl$context$`text-context`
+    start <- sl$context$`start-offset`
+    end   <- sl$context$`end-offset`
+    unlist(c(sl$selection,sl$annotation,sl$`semantic-class`,pmid,sl$`article-id`,text,start,end))
   })
 
   df <- do.call(rbind.data.frame,c(list,stringsAsFactors=FALSE))
   colnames(df) <- c("selection","annotation","semantic_class","external_id","sysrev_id","text","start","end")
-
-  dplyr::mutate(df,datasource = "pubmed")
+  df
 }

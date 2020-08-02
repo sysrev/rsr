@@ -1,12 +1,14 @@
 Package: RSysrev
-Title: What the Package Does (one line, title case)
+Title: GraphQL R client for sysrev.com
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut"))
+Description: A simple client for sysrev.com/graphql. Retrieves graphql data as data frames.
 Depends: R (>= 3.4.4)
-License: What license is it under?
+License: Apache License Version 2.0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.0
 Imports:
-	dplyr
+	dplyr,
+	httr,
+	purrr
