@@ -7,8 +7,10 @@
 #' @export
 #' @examples
 #' getAnnotations(project=3144)
-getAnnotations <- function(project){
-  res  <- httr::content(httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project)))$result
+getAnnotations <- function(project,token){
+  req  <- httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project),
+                    httr::add_headers(Authorization=paste("Bearer",token)))
+  res  <- httr::content(req)$result
   list <- lapply(res,function(sl){
     basic <- c(sl[1:5])
     pmid  <- ifelse(is.null(sl$pmid),NA, sl$pmid)
