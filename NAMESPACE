@@ -6,3 +6,5 @@ export(getLabelDefinitions)
 export(loginAPIToken)
 export(getAPIToken)
 
+export(datasource.risFileCitationsByIds)
+export(sysrev.getProjectArticles)
