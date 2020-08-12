@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' getLabelDefinitions(project=3144,getAPIToken())
-getLabelDefinitions <- function(project,token){
+getLabelDefinitions <- function(project,token=.token){
   query <- sprintf('{project(id:%d){id labelDefinitions{id,name,question,ordering,required,type,consensus,enabled}}}',project)
   res   <- GQL(query,token)
   fnil <- function(v,default=NA){if(is.null(v)){NA}else{v}}

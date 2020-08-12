@@ -1,8 +1,8 @@
 Package: RSysrev
 Title: GraphQL R client for sysrev.com
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut","cre"))
-Description: A simple client for sysrev.com/graphql. Retrieves graphql data as data frames.
+Description: A simple client for sysrev.com/graphql. Retrieves graphql data as data frames. Still under rapid development. 
 Depends: R (>= 3.4.4)
 License: Apache License Version 2.0
 Encoding: UTF-8

@@ -7,7 +7,7 @@
 #' @export
 #' @examples
 #' getAnnotations(project=3144)
-getAnnotations <- function(project,token){
+getAnnotations <- function(project,token=.token){
   req  <- httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project),
                     httr::add_headers(Authorization=paste("Bearer",token)))
   res  <- httr::content(req)$result

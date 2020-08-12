@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' getLabelAnswers(project=3144,getAPIToken())
-getLabelAnswers <- function(project,token){
+getLabelAnswers <- function(project,token=.token){
   query <- sprintf('{project(id:%d){id articles{id, enabled, labels{id, question, name, answer, created, 
     consensus,resolve,confirmed,updated,type,reviewer{id,name}}}}}',project)
   res   <- GQL(query,token)

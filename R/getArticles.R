@@ -1,5 +1,5 @@
-sysrev.getProjectArticles <- function(project,token){
-  query   <- sprintf('{project(id:%d){articles{id,content,enabled,datasource_id,uuid}}}}',project)
+getArticles <- function(project,token=.token){
+  query   <- sprintf('{project(id:%d){articles{id,enabled,datasource_id,datasource_name,uuid}}}}',project)
   res     <- GQL(query,token)$project$articles
   fnil    <- function(v,default=NA){if(is.null(v)){NA}else{v}}
   dframes <- purrr::map(res,function(art){
@@ -7,8 +7,8 @@ sysrev.getProjectArticles <- function(project,token){
       project.id 		          = as.numeric(project),
   		article.id        		  = as.numeric(art$id),
   		article.enabled   		  = as.logical(art$enabled),
-  		article.content         = as.character(fnil(art$content)),
-  		article.datasource.id   = as.numeric(fnil(art$datasource_id)))
+  		article.datasource.id   = as.numeric(fnil(art$datasource_id)),
+      article.datasource.name = as.character(fnil(art$datasource_name)))
   	})
     
   do.call(rbind,dframes)
