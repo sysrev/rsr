@@ -10,3 +10,5 @@ export(loginAPIToken) #TODO - remove this
 export(getAPIToken)   #TODO - remove this
 
 export(datasource.getArticleData)
+export(datasource.createDataset)
+export(datasource.createEntity)
