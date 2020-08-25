@@ -1,6 +1,6 @@
-getArticles <- function(project,token=.token){
+sysrev.getArticles <- function(project,token=.token){
   query   <- sprintf('{project(id:%d){articles{id,enabled,datasource_id,datasource_name,uuid}}}}',project)
-  res     <- GQL(query,token)$project$articles
+  res     <- sysrev.graphql(query,token)$project$articles
   fnil    <- function(v,default=NA){if(is.null(v)){NA}else{v}}
   dframes <- purrr::map(res,function(art){
   	data.frame(

@@ -6,9 +6,9 @@
 #' @export
 #' @examples
 #' getLabelDefinitions(project=3144,getAPIToken())
-getLabelDefinitions <- function(project,token=.token){
+sysrev.getLabelDefinitions <- function(project,token=.token){
   query <- sprintf('{project(id:%d){id labelDefinitions{id,name,question,ordering,required,type,consensus,enabled}}}',project)
-  res   <- GQL(query,token)
+  res   <- sysrev.graphql(query,token)
   fnil <- function(v,default=NA){if(is.null(v)){NA}else{v}}
   lists <- lapply(res$project$labelDefinitions,function(ld){
         c(

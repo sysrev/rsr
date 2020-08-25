@@ -1,4 +1,4 @@
-GQL <- function(query,token,
+sysrev.graphql <- function(query,token,
                 .variables = NULL,
                 .operationName = NULL,
                 .url = "https://sysrev.com/graphql"){
