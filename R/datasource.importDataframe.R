@@ -1,9 +1,9 @@
-datasource.importDataframe <- function(datasource.id,df,token=.token){
-  apply(1,function(row){
-  	entity <- jsonlite::toJSON(row)
-  	encoded_entity <- gsub("\n","",jsonlite::base64_enc(entity))
-  	query <- sprintf('mutation M{createEntity(dataset: %d external_id: "%s" file: "%s" filename: "%s") {id}}',
-  	  dataset,external_id,file,filename)
-  	datasource.graphql(query,token)$createEntity$id
+datasource.importDataframe <- function(datasource.id,df,external.ids=NULL,filenames=NULL,token=.token){
+  external.ids 		<- ifelse(is.null(external.ids),as.character(1:nrow(df)),external.ids)
+  filenames			<- ifelse(is.null(filenames),sapply(1:nrow(df),function(x){sprintf("%d.json",x)}),filenames)
+  entities 			<- apply(df,1,jsonlite::toJSON)
+  encoded_entities 	<- lapply(entities,function(entity){gsub("\n","",jsonlite::base64_enc(entity))})
+  purrr::walk(1:nrow(df),function(i){
+  	datasource.createEntity(datasource.id,external.ids[i],encoded_entities[i],filenames[i],token)
   })
 }
