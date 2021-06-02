@@ -29,7 +29,7 @@ token <- loginAPIToken()
 
 You can set a default token value for function calls by using
 ```
-RSysrev::getLabelDefinitions(<your sysrev project id>,<your token>) # Typical function call
+RSysrev::sysrev.getLabelDefinitions(<your sysrev project id>,<your token>) # Typical function call
 
 .token <- "some token" # token is now provided implicitly
 RSysrev::sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
