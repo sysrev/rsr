@@ -23,6 +23,8 @@ token <- getAPIToken(<sysrev login email>,<sysrev.com password>)
 
 # method 2 - login through a text interface, which will ask for email and password.
 token <- loginAPIToken() 
+
+# method 3 (recommended) - log in to sysrev.com click on your profile and go to settings. Copy your token.
 ```
 
 You can set a default token value for function calls by using
@@ -30,7 +32,7 @@ You can set a default token value for function calls by using
 RSysrev::getLabelDefinitions(<your sysrev project id>,<your token>) # Typical function call
 
 .token <- "some token" # token is now provided implicitly
-RSysrev::getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
+RSysrev::sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
 ```
 
 ## Get label definitions
@@ -40,7 +42,7 @@ project identifier (3144 below) with your own project identifier.
 RSysrev calls will only work on projects for which your token is an administrator. 
 
 ```
-df <- RSysrev::getLabelDefinitions(3144)
+df <- RSysrev::sysrev.getLabelDefinitions(3144)
 ```
 | project.id|lbl.id                               |lbl.name   |lbl.question               | lbl.ordering|lbl.required |lbl.type    |lbl.consensus |lbl.enabled |
 |----------:|:------------------------------------|:----------|:--------------------------|------------:|:------------|:-----------|:-------------|:-----------|
@@ -49,7 +51,7 @@ df <- RSysrev::getLabelDefinitions(3144)
 
 ## Get label answers
 ```
-df <- RSysrev::getLabelAnswers(3144)
+df <- RSysrev::sysrev.getLabelAnswers(3144)
 ```
 | project.id| article.id|article.enabled |lbl.id                               |lbl.name |lbl.question          |lbl.type |answer.created      |answer.updated      |answer.resolve |answer.confirmed    |answer.consensus | reviewer.id|reviewer.name |answer |
 |----------:|----------:|:---------------|:------------------------------------|:--------|:---------------------|:--------|:-------------------|:-------------------|:--------------|:-------------------|:----------------|-----------:|:-------------|:------|
@@ -61,7 +63,7 @@ df <- RSysrev::getLabelAnswers(3144)
 
 ```{r}
 devtools::install_github("sysrev/RSysrev")
-df <- RSysrev::getAnnotations(3144)
+df <- RSysrev::sysrev.getAnnotations(3144)
 ```
 
 This results in the below table:
@@ -97,10 +99,10 @@ Each article on sysrev has 3 identifiers:
 
 
 ### Get sysrev article data
-Once you have uploaded documents to a sysrev project, you can get the article identifiers, enabled status, and datasource.insilica.co identifiers with `RSysrev::getArticles(project_id,token)`
+Once you have uploaded documents to a sysrev project, you can get the article identifiers, enabled status, and datasource.insilica.co identifiers with `RSysrev::sysrev.getArticles(project_id,token)`
 
 ```{r}
-df <- RSysrev::getArticles(3144)
+df <- RSysrev::sysrev.getArticles(3144)
 ```
 
 | project.id| article.id|article.enabled | article.datasource.id|article.datasource.name |
@@ -116,10 +118,10 @@ df <- RSysrev::getArticles(3144)
 5. **article.datasource.name:** The name of the datasource at datasource.insilica.co 
 
 ### Get datasource Pubmed data
-All sysrev article data comes from datasource.insilica.co. Datasource.insilica.co 
+All sysrev article data comes from datasource.insilica.co. Datasource functions are namespaced under `datasource`. 
 
 ```{r}
-srDF <- RSysrev::getArticles(3144) # sysrev.com/p/3144 uses pubmed articles
+srDF <- RSysrev::sysrev.getArticles(3144) # sysrev.com/p/3144 uses pubmed articles
 dsDF <- RSysrev::datasource.getArticleData(srDF$article.datasource.id,"pubmed")
 ```
 
@@ -134,7 +136,7 @@ A description of this schema is available at [datasource.insilica.co]()
 ### Get datasource RIS data
 
 ```{r}
-srDF <- RSysrev::getArticles(35446)
+srDF <- RSysrev::sysrev.getArticles(35446)
 dsDF <- RSysrev::datasource.getArticleData(srDF$article.datasource.id,"RIS")
 ```
 
