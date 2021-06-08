@@ -17,21 +17,11 @@ Install with `devtools::install_github("sysrev/RSysrev")`
 You need an API token to use RSysrev.  This API token is used to authenticate access to sysrev projects.
 To get an API token, you must have a pro or team pro account on sysrev.com.  See sysrev.com/pricing.
 
-```
-# method 1 - get token by providing your sysrev.com credentials
-token <- getAPIToken(<sysrev login email>,<sysrev.com password>)
-
-# method 2 - login through a text interface, which will ask for email and password.
-token <- loginAPIToken() 
-
-# method 3 (recommended) - log in to sysrev.com click on your profile and go to settings. Copy your token.
-```
+To get your token log in to sysrev.com click on your profile and go to settings. Copy your token.
 
 You can set a default token value for function calls by using
 ```
-RSysrev::sysrev.getLabelDefinitions(<your sysrev project id>,<your token>) # Typical function call
-
-.token <- "some token" # token is now provided implicitly
+.token <- "some token" # token is now provided implicitly to function calls
 RSysrev::sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
 ```
 
