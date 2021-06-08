@@ -5,8 +5,10 @@ The tool can be used to:
 1. [Get your API token](#get-your-api-token)
 2. [Get label definitions from projects](#get-label-definitions)
 3. [Get all reviewer answers from a project](#get-label-answers)
-4. [Get all reviewer annotations from a project](#get-annotations)
-5. [Get article data](#get-article-data)
+	1. [Get basic label answers](#get-label-answers)
+	2. [Get group label answers](#get-group-label-answers)
+5. [Get all reviewer annotations from a project](#get-annotations)
+6. [Get article data](#get-article-data)
 	1. [Get sysrev article data](#get-sysrev-article-data)
 	2. [Get datasource RIS data](#get-datasource-RIS-data)
 
@@ -49,6 +51,11 @@ df <- RSysrev::sysrev.getLabelAnswers(3144)
 |       3144|    1522710|TRUE            |1b3b792e-7233-459b-b211-0b822ca0f6e5 |Include  |Include this article? |boolean  |2018-09-04 23:52:53 |2018-09-04 23:52:53 |NA             |2018-09-04 23:52:53 |TRUE             |         184|andy.kelsall  |false  |
 |       3144|    1522758|TRUE            |1b3b792e-7233-459b-b211-0b822ca0f6e5 |Include  |Include this article? |boolean  |2018-08-29 22:35:06 |2018-08-29 22:35:06 |NA             |2018-08-29 22:35:06 |TRUE             |         174|zekeg3        |true   |
 
+## Get group label answers
+The `getGroupLabelAnswers` function returns a list of dataframes named by their group label name.
+```
+grouplabels <- RSysrev::sysrev.getGroupLabelAnswers(<your project id>)
+```
 ## Get annotations
 
 ```{r}
