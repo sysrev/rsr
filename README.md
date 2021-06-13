@@ -23,7 +23,7 @@ To get your token log in to sysrev.com click on your profile and go to settings.
 
 You can set a default token value for function calls by using
 ```
-.token <- "some token" # token is now provided implicitly to function calls
+.token <- rstudioapi::askForSecret("add your sysrev token here") # token is now provided implicitly to function calls
 RSysrev::sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
 ```
 
