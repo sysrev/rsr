@@ -21,8 +21,10 @@ sysrev.getGroupLabelAnswers <- function(project_id,token=.token){
   parse_grouplabels_from_article <- function(article){
     grouplabelDFs <- list()
     for(gl in article$groupLabels){
-      grouplabelDFs[[gl$name]] <- parse_data_frame_from_grouplabel(gl) %>%
+      old_gl_df = if(is.null(grouplabelDFs[[gl$name]])){data.frame()}else{grouplabelDFs[[gl$name]]}
+      new_gl_df <- parse_data_frame_from_grouplabel(gl) %>%
         mutate(Article.ID=article$id, User.ID=gl$reviewer$id, User.Name = gl$reviewer$name)
+      grouplabelDFs[[gl$name]] = dplyr::bind_rows(old_gl_df, new_gl_df)
     }
     return(grouplabelDFs)
   }
