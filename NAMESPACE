@@ -1,3 +1,5 @@
+import(dplyr)
+
 export(sysrev.importDataset)
 export(sysrev.getArticles)
 export(sysrev.getAnnotations)
