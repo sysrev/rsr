@@ -12,4 +12,6 @@ Imports:
 	dplyr,
 	httr,
 	purrr,
-	jsonlite
+	jsonlite,
+	magrittr
+	
