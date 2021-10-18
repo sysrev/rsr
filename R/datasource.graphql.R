@@ -5,7 +5,7 @@ datasource.graphql <- function(query,token,.url = "https://datasource.insilica.c
   
   res <- httr::content(req,as = "parsed", encoding = "UTF-8")
   
-  if(res$behavior == "error"){
+  if(!is.null(res$behavior) && res$behavior == "error"){
     stop(res$data[[1]]$message)
   }else{
     return(res$data)
