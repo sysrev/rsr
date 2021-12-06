@@ -4,9 +4,7 @@
 #' @param project The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token your personal token. get it with RSysrev::loginAPIToken()
 #' @export
-#' @examples
-#' getLabelAnswers(project=3144,getAPIToken())
-sysrev.getLabelAnswers <- function(project,token=.token){
+sysrev.getLabelAnswers <- function(project,token=keyring::key_get("sysrev.token")){
   query <- sprintf('{project(id:%d){id articles{id, enabled, labels{id, question, name, answer, created, 
     consensus,resolve,confirmed,updated,type,reviewer{id,name}}}}}',project)
   res   <- sysrev.graphql(query,token)

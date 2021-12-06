@@ -3,11 +3,11 @@ sysrev.graphql <- function(query,token,
                 .operationName = NULL,
                 .url = "https://sysrev.com/graphql"){
   pbody <- list(query = query, variables = .variables, operationName = .operationName)
-  req <- 
+  req <-
     if(is.null(token)){
       httr::POST(.url, body = list(query = query), encode="json")
     } else {
-      httr::POST(.url, body = list(query = query), encode="json", 
+      httr::POST(.url, body = list(query = query), encode="json",
         httr::add_headers(Authorization=paste("Bearer", token)))
     }
   res <- httr::content(req, as = "parsed", encoding = "UTF-8")

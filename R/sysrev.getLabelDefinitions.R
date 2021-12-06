@@ -4,9 +4,7 @@
 #' @param project The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token your personal token. get it with RSysrev::loginAPIToken()
 #' @export
-#' @examples
-#' getLabelDefinitions(project=3144,getAPIToken())
-sysrev.getLabelDefinitions <- function(project,token=.token){
+sysrev.getLabelDefinitions <- function(project,token=keyring::key_get("sysrev.token")){
   query <- sprintf('{project(id:%d){id labelDefinitions{id,name,question,ordering,required,type,consensus,enabled}}}',project)
   res   <- sysrev.graphql(query,token)
   fnil <- function(v,default=NA){if(is.null(v)){NA}else{v}}
@@ -22,9 +20,9 @@ sysrev.getLabelDefinitions <- function(project,token=.token){
           lbl.consensus= fnil(ld$consensus),
           lbl.enabled  = fnil(ld$enabled))
       })
-    
-  df <- as.data.frame(do.call(rbind,lists),stringsAsFactors = F) 
-  
+
+  df <- as.data.frame(do.call(rbind,lists),stringsAsFactors = F)
+
 
   dplyr::mutate(df,
           project.id      = as.numeric(project.id),

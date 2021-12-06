@@ -3,15 +3,19 @@ Title: GraphQL R client for sysrev.com
 Version: 0.1.4
 Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut","cre"))
 Description: A simple client for sysrev.com/graphql. Retrieves graphql data as data frames. Still under rapid development. 
-Depends: R (>= 3.4.4)
+Depends: R (>= 3.1.0)
 License: Apache License Version 2.0
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+VignetteBuilder: knitr
+RoxygenNote: 7.1.2
 Imports:
 	dplyr,
+	rlang,
+	readr,
+	knitr,
 	httr,
 	purrr,
 	jsonlite,
-	magrittr
-	
+	magrittr,
+	gsubfn

@@ -1,14 +1,13 @@
 #' Get user group label answers from project. returns a list with named dataframes corresponding to group label answers
 #'
 #' Get user answers in a long form data frame
-#' @param project The project identifier.  For sysrev.com/p/3144 the identifier is 3144
-#' @param token your personal token. get it at your user settings page on sysrev.com.
+#' @import dplyr
+#' @param project_id The project identifier.  For sysrev.com/p/3144 the identifier is 3144
+#' @param token a sysrev token with read access to the given project
 #' @export
-#' @examples
-#' getGroupLabelAnswers(project=3144,token=<your token>)
-sysrev.getGroupLabelAnswers <- function(project_id,token=.token){
+sysrev.getGroupLabelAnswers <- function(project_id,token=keyring::key_get("sysrev.token")){
   query <- sprintf('{project(id:%s){articles{id, enabled, groupLabels{name,reviewer{id,name},answer{name, answer}}}}}',project_id)
-  data = sysrev.graphql(query,.token)
+  data = sysrev.graphql(query,token)
 
   parse_data_frame_from_grouplabel <- function(gl){
     df <- data.frame()

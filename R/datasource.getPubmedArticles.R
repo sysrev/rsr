@@ -1,4 +1,11 @@
-datasource.getPubmedArticles <- function(datasource.ids,token=.token){
+#' datasource.getPubmedArticles
+#' @import dplyr
+#' @param datasource.ids article identifiers on datapub
+#' @param token a sysrev token - defaults to keyring "sysrev.token"
+#'
+#' @return dataframe with datasource.id,abstract,authors,date,keywords,primary_title,secondary_title,update,year,url
+#' @export
+datasource.getPubmedArticles <- function(datasource.ids,token=keyring::key_get("sysrev.token")){
   dsrcQ    <- sprintf("{pubmedEntities(pmids:[%s]){
   	id,abstract,authors,date,keywords,locations,primary_title,secondary_title,updated,year,url}}",
   	paste(datasource.ids,collapse=","))
@@ -7,7 +14,7 @@ datasource.getPubmedArticles <- function(datasource.ids,token=.token){
     as.data.frame(purrr::map(entity,function(l){
       if(length(l) == 0){as.character(NA)}else{paste(l,collapse=";")}
     }))
-  }) 
+  })
 
   df <- do.call(rbind,dframes)
   df <- mutate_all(df,as.character)

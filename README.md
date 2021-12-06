@@ -24,7 +24,7 @@ To get your token log in to sysrev.com click on your profile and go to settings.
 You can set a default token value for function calls by using
 ```
 .token <- rstudioapi::askForSecret("add your sysrev token here") # token is now provided implicitly to function calls
-RSysrev::sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
+sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
 ```
 
 ## Get label definitions
@@ -34,7 +34,7 @@ project identifier (3144 below) with your own project identifier.
 RSysrev calls will only work on projects for which your token is an administrator. 
 
 ```
-df <- RSysrev::sysrev.getLabelDefinitions(3144)
+df <- sysrev.getLabelDefinitions(3144)
 ```
 | project.id|lbl.id                               |lbl.name   |lbl.question               | lbl.ordering|lbl.required |lbl.type    |lbl.consensus |lbl.enabled |
 |----------:|:------------------------------------|:----------|:--------------------------|------------:|:------------|:-----------|:-------------|:-----------|
@@ -43,7 +43,7 @@ df <- RSysrev::sysrev.getLabelDefinitions(3144)
 
 ## Get label answers
 ```
-df <- RSysrev::sysrev.getLabelAnswers(3144)
+df <- sysrev.getLabelAnswers(3144)
 ```
 | project.id| article.id|article.enabled |lbl.id                               |lbl.name |lbl.question          |lbl.type |answer.created      |answer.updated      |answer.resolve |answer.confirmed    |answer.consensus | reviewer.id|reviewer.name |answer |
 |----------:|----------:|:---------------|:------------------------------------|:--------|:---------------------|:--------|:-------------------|:-------------------|:--------------|:-------------------|:----------------|-----------:|:-------------|:------|
@@ -54,13 +54,13 @@ df <- RSysrev::sysrev.getLabelAnswers(3144)
 ## Get group label answers
 The `getGroupLabelAnswers` function returns a list of dataframes named by their group label name.
 ```
-grouplabels <- RSysrev::sysrev.getGroupLabelAnswers(<your project id>)
+grouplabels <- sysrev.getGroupLabelAnswers(<your project id>)
 ```
 ## Get annotations
 
 ```{r}
 devtools::install_github("sysrev/RSysrev")
-df <- RSysrev::sysrev.getAnnotations(3144)
+df <- sysrev.getAnnotations(3144)
 ```
 
 This results in the below table:
@@ -96,10 +96,10 @@ Each article on sysrev has 3 identifiers:
 
 
 ### Get sysrev article data
-Once you have uploaded documents to a sysrev project, you can get the article identifiers, enabled status, and datasource.insilica.co identifiers with `RSysrev::sysrev.getArticles(project_id,token)`
+Once you have uploaded documents to a sysrev project, you can get the article identifiers, enabled status, and datasource.insilica.co identifiers with `sysrev.getArticles(project_id,token)`
 
 ```{r}
-df <- RSysrev::sysrev.getArticles(3144)
+df <- sysrev.getArticles(3144)
 ```
 
 | project.id| article.id|article.enabled | article.datasource.id|article.datasource.name |
@@ -118,8 +118,8 @@ df <- RSysrev::sysrev.getArticles(3144)
 All sysrev article data comes from datasource.insilica.co. Datasource functions are namespaced under `datasource`. 
 
 ```{r}
-srDF <- RSysrev::sysrev.getArticles(3144) # sysrev.com/p/3144 uses pubmed articles
-dsDF <- RSysrev::datasource.getArticleData(srDF$article.datasource.id,"pubmed")
+srDF <- sysrev.getArticles(3144) # sysrev.com/p/3144 uses pubmed articles
+dsDF <- datasource.getArticleData(srDF$article.datasource.id,"pubmed")
 ```
 
 | datasource.id|abstract                       |authors                        |date       |keywords                       |primary_title                  |secondary_title                |updated                    |year |url                            |
@@ -133,8 +133,8 @@ A description of this schema is available at [datasource.insilica.co]()
 ### Get datasource RIS data
 
 ```{r}
-srDF <- RSysrev::sysrev.getArticles(35446)
-dsDF <- RSysrev::datasource.getArticleData(srDF$article.datasource.id,"RIS")
+srDF <- sysrev.getArticles(35446)
+dsDF <- datasource.getArticleData(srDF$article.datasource.id,"RIS")
 ```
 
 |A2 |AB                             |AN |AU                             |DA        |DO                            |DP        |EP  |ET |IS |J2                             |KW                             |L2 |LA |M3 |N1                             |PB |PY   |SN        |SP  |T2                             |T3 |TI                             |TY   |UR                             |VL |id    | datasource.id|

@@ -1,4 +1,14 @@
-sysrev.getArticles <- function(project,token=.token){
+#' sysrev.getArticles
+#'
+#' get the basic article data from a sysrev project
+#'
+#' @param project the project to get articles from, i.e sysrev.com/p/<project_id>
+#' @param token a sysrev token with read access to the given project
+#'
+#' @return A dataframe
+#' @export
+#'
+sysrev.getArticles <- function(project,token=keyring::key_get("sysrev.token")){
   query   <- sprintf('{project(id:%d){articles{id,enabled,datasource_id,datasource_name,uuid}}}}',project)
   res     <- sysrev.graphql(query,token)$project$articles
   fnil    <- function(v,default=NA){if(is.null(v)){NA}else{v}}
@@ -7,9 +17,9 @@ sysrev.getArticles <- function(project,token=.token){
       project.id 		          = as.numeric(project),
   		article.id        		  = as.numeric(art$id),
   		article.enabled   		  = as.logical(art$enabled),
-  		article.datasource.id   = as.numeric(fnil(art$datasource_id)),
+  		article.datasource.id   = fnil(art$datasource_id),
       article.datasource.name = as.character(fnil(art$datasource_name)))
   	})
-    
+
   do.call(rbind,dframes)
 }

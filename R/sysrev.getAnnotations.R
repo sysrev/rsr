@@ -3,11 +3,10 @@
 #' This function allows you to get user annotations from sysrev for a specific project.
 #' The project must be public.
 #' @param project The project identifier.  For sysrev.com/p/3144 the identifier is 3144
+#' @param token your personal token, defaults to keyring::key_get("sysrev.token")
 #' @keywords annotations
 #' @export
-#' @examples
-#' getAnnotations(project=3144)
-sysrev.getAnnotations <- function(project,token=.token){
+sysrev.getAnnotations <- function(project,token=keyring::key_get("sysrev.token")){
   req  <- httr::GET(sprintf("https://sysrev.com/web-api/project-annotations?project-id=%d",project),
                     httr::add_headers(Authorization=paste("Bearer",token)))
   res  <- httr::content(req)$result

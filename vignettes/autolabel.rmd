@@ -1,0 +1,20 @@
+---
+title: "Analyzing PDFs"
+output: rmarkdown::html_vignette
+description: >
+  Learn how to automate article labeling
+vignette: >
+  %\VignetteIndexEntry{Styling your site}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+library(jsonlite)
+library(RSysrev)
+sysrev.getLabelDefinitions(101359)
+# sysrev.setLabelAnswer(project.id = 101359,
+#                                article.id = 13164751,
+#                                lbl.id = "cc53572d-9334-495b-9b92-1b3e095e1328",
+#                                lbl.value = FALSE)
+```
