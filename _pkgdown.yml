@@ -1,4 +1,6 @@
 url: https://rsysrev.sysrev.com
 template:
   bootstrap: 5
+  bootswatch: darkly
+  theme: github-dark
 
