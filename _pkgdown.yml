@@ -1,6 +1,13 @@
 url: https://rsysrev.sysrev.com
+
 template:
-  bootstrap: 5
-  bootswatch: darkly
-  theme: github-dark
+  bootswatch: spacelab
+  theme: solar
+
+navbar:
+  bg: dark
+
+authors:
+  Thomas Luechtefeld:
+    href: https://sysrev.com/user/139/profile
 

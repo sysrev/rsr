@@ -1,5 +1,5 @@
 Package: RSysrev
-Title: GraphQL R client for sysrev.com
+Title: RSysrev
 Version: 0.2.4
 Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut","cre"))
 Description: A simple client for sysrev.com/graphql. Retrieves graphql data as data frames. Still under rapid development. 
@@ -9,6 +9,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
+URL: https://github.com/sysrev/RSysrev, https://rsysrev.sysrev.com
 Imports:
 	dplyr,
 	rlang,
