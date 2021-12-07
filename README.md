@@ -1,31 +1,14 @@
-# RSysrev
-An R client for sysrev.com.  This simple client is built on [sysrev.com/graphql](https://sysrev.com/graphql) which is a graphql endpoint.  You can view the graphql schema by opening sysrev.com/graphql in a graphql IDE like [insomnia](https://insomnia.rest/graphql/).
+# RSysrev 
 
-The tool can be used to:
-1. [Get your API token](#get-your-api-token)
-2. [Get label definitions from projects](#get-label-definitions)
-3. [Get all reviewer answers from a project](#get-label-answers)
-	1. [Get basic label answers](#get-label-answers)
-	2. [Get group label answers](#get-group-label-answers)
-5. [Get all reviewer annotations from a project](#get-annotations)
-6. [Get article data](#get-article-data)
-	1. [Get sysrev article data](#get-sysrev-article-data)
-	2. [Get datasource RIS data](#get-datasource-RIS-data)
+A simple client for sysrev.com/graphql to:
 
-## Installation
-Install with `devtools::install_github("sysrev/RSysrev")`
+1. get project [article](#get-article-data), [definition](#get-label-definitions) and [review](#get-label-answers) data.
+2. automate reviews `?sysrev.setLabelAnswer`
 
-## <a href="#get-your-api-token">Get your api token</a>
-You need an API token to use RSysrev.  This API token is used to authenticate access to sysrev projects.
-To get an API token, you must have a pro or team pro account on sysrev.com.  See sysrev.com/pricing.
-
-To get your token log in to sysrev.com click on your profile and go to settings. Copy your token.
-
-You can set a default token value for function calls by using
-```
-.token <- rstudioapi::askForSecret("add your sysrev token here") # token is now provided implicitly to function calls
-sysrev.getLabelDefinitions(<project-id>) # works because the token argument default is set to `.token`
-```
+## Get Started
+1. Install with `devtools::install_github("sysrev/RSysrev")`.  
+2. A Sysrev premium token (API key) is required. Find it at your sysrev profile page.  
+3. RSysrev looks for your token at `keyring::key_get('sysrev.token')`.
 
 ## Get label definitions
 In the below examples we use some public projects.  
