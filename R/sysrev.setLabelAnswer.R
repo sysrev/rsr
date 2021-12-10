@@ -1,4 +1,4 @@
-#' sysrev.setLabelAnswer
+#' review
 #'
 #'
 #' @param project.id the project id to update
@@ -9,7 +9,7 @@
 #'
 #' @return true if successful
 #' @export
-sysrev.setLabelAnswer <- function(project.id,article.id,lbl.id,lbl.value,token=keyring::key_get("sysrev.token")){
+review <- function(project.id,article.id,lbl.id,lbl.value,token=keyring::key_get("sysrev.token")){
   lvals  = list() %>% (function(l){l[[lbl.id]] = lbl.value; l})
   lvaljs = jsonlite::toJSON(lvals,auto_unbox = T) %>% jsonlite::toJSON(auto_unbox = T)
   params = list(

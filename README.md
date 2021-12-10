@@ -21,9 +21,11 @@ Get and set sysrev data.
 
 ``` r
 library(RSysrev)
-# todo create a project
-# todo add documents a project
-# get articles
-# review some articles
-# get review data
+pid = create_project("my new project") # create a project
+import_raw_articles(pid,
+  lapply(1:10,function(x){list(`primary-title`=lorem::ipsum(sentences=1)[1],abstract=lorem::ipsum()[1])
+})) # import some articles
+dt = view_articles(pid) # get the articles
+# TODO review some articles
+# TODO get review data
 ```
