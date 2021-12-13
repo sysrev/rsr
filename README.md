@@ -1,4 +1,4 @@
-# RSysrev <img src="man/figures/logo.svg" align="right" />
+# rsysrev <img src="man/figures/logo.svg" align="right" />
 
 The RSysrev package provides tools to access and analyze data generated in sysrev.com projects.
 
