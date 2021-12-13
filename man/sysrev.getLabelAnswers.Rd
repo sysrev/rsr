@@ -9,7 +9,7 @@ sysrev.getLabelAnswers(project, token = keyring::key_get("sysrev.token"))
 \arguments{
 \item{project}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}
 
-\item{token}{your personal token. get it with RSysrev::loginAPIToken()}
+\item{token}{a sysrev token with read access to the given project}
 }
 \description{
 Get user answers in a long form data frame

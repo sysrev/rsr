@@ -17,7 +17,7 @@ review(
 
 \item{article.id}{the article id within the project id to update}
 
-\item{lbl.id}{the label id to update (see \link[RSysrev]{sysrev.getLabelDefinitions})}
+\item{lbl.id}{the label id to update (see \link[rsysrev]{get_labels})}
 
 \item{lbl.value}{the new value}
 

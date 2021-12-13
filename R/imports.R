@@ -7,7 +7,7 @@
 #' @export
 #'
 import_pmids <- function(pid,pmids,token=keyring::key_get("sysrev.token")){
-  ent = jsonlite::toJSON(list(`project-id`=pid,pmids=pmids),auto_unbox = T)
+  ent = list(`project-id`=pid,pmids=as.numeric(pmids))
   res = sysrev.webapi("import-pmids",ent,token = token)
   if(!is.null(res$error)){stop(res$error$message)}
   res

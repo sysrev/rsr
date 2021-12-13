@@ -3,7 +3,7 @@
 #'
 #' @param project.id the project id to update
 #' @param article.id the article id within the project id to update
-#' @param lbl.id the label id to update (see \link[RSysrev]{sysrev.getLabelDefinitions})
+#' @param lbl.id the label id to update (see \link[rsysrev]{get_labels})
 #' @param lbl.value the new value
 #' @param token a token with write access
 #'

@@ -1,5 +1,5 @@
 ---
-title: "Analyzing PDFs"
+title: "Automating Review"
 output: rmarkdown::html_vignette
 description: >
   Learn how to automate article labeling
@@ -11,7 +11,7 @@ vignette: >
 
 ```{r}
 library(jsonlite)
-library(RSysrev)
+library(rsysrev)
 # sysrev.getLabelDefinitions(101359)
 # sysrev.setLabelAnswer(project.id = 101359,
 #                                article.id = 13164751,

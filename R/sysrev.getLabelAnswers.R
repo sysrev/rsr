@@ -2,10 +2,10 @@
 #'
 #' Get user answers in a long form data frame
 #' @param project The project identifier.  For sysrev.com/p/3144 the identifier is 3144
-#' @param token your personal token. get it with RSysrev::loginAPIToken()
+#' @param token a sysrev token with read access to the given project
 #' @export
 sysrev.getLabelAnswers <- function(project,token=keyring::key_get("sysrev.token")){
-  query <- sprintf('{project(id:%d){id articles{id, enabled, labels{id, question, name, answer, created, 
+  query <- sprintf('{project(id:%d){id articles{id, enabled, labels{id, question, name, answer, created,
     consensus,resolve,confirmed,updated,type,reviewer{id,name}}}}}',project)
   res   <- sysrev.graphql(query,token)
   fnil <- function(v,default=NA){if(is.null(v)){NA}else{v}}
@@ -31,9 +31,9 @@ sysrev.getLabelAnswers <- function(project,token=keyring::key_get("sysrev.token"
       })
     }))
   }))
-    
-  df <- as.data.frame(do.call(rbind,lists),stringsAsFactors = F) 
-  
+
+  df <- as.data.frame(do.call(rbind,lists),stringsAsFactors = F)
+
 
   dplyr::mutate(df,
           project.id      = as.numeric(project.id),
