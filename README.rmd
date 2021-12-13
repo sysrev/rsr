@@ -2,21 +2,21 @@
 output: github_document
 ---
 
-# RSysrev <img src="man/figures/logo.svg" align="right" />
+# rsysrev <img src="man/figures/logo.svg" align="right" />
 
-The RSysrev package provides tools to access and analyze data generated in sysrev.com projects.
+The rsysrev package provides tools to access and analyze data generated in sysrev.com projects.
 
 ## Installation
 
-RSysrev is not yet on CRAN. The latest development version can be installed from github:
+rsysrev is not yet on CRAN. The latest development version can be installed from github:
 
 ``` r
-devtools::install_github('sysrev/RSysrev')
+devtools::install_github('sysrev/rsysrev')
 ```
 
 ## Authenticate
-Sysrev premium is required to use RSysrev.  
-RSysrev functions take a `token` argument which defaults to `keyring::key_get("sysrev.token")`. This is likely to change in the future. Find your token at your sysrev profile page.
+Sysrev premium is required to use rsysrev.  
+rsysrev functions take a `token` argument which defaults to `keyring::key_get("sysrev.token")`. This is likely to change in the future. Find your token at your sysrev profile page.
 
 
 ## Example
