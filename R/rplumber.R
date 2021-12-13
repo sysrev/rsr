@@ -7,7 +7,7 @@
 #' @return A dataframe
 #'
 rplumber = function(path,params=list(),token=keyring::key_get("sysrev.token")){
-  req   <- GET(config::get("plumber.sysrev"), path=path,query=params)
+  req   <- GET(getOption("rsysrev.sysrev.plumber.url"), path=path,query=params)
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   if(!is.null(res$errors)){ stop(paste(lapply(res$errors,function(e){e$message}),collapse = "\n")) }
   res
@@ -15,7 +15,7 @@ rplumber = function(path,params=list(),token=keyring::key_get("sysrev.token")){
 
 #' sysrev.webapi
 #' a simple wrapper for the sysrev.com/web-api/ service
-#' documnetation at https://sysrev.com/web-api/doc
+#' documentaiton at https://sysrev.com/web-api/doc
 #' @param path the service path see rplumber.sysrev.com/__docs__/#/
 #' @param params list of http parameters
 #' @param token a sysrev token with read access to the given project
