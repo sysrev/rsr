@@ -15,7 +15,7 @@ rplumber = function(path,params=list(),token=keyring::key_get("sysrev.token")){
 
 #' sysrev.webapi
 #' a simple wrapper for the sysrev.com/web-api/ service
-#' documentaiton at https://sysrev.com/web-api/doc
+#' documentation at https://sysrev.com/web-api/doc
 #' @param path the service path see rplumber.sysrev.com/__docs__/#/
 #' @param params list of http parameters
 #' @param token a sysrev token with read access to the given project

@@ -4,7 +4,7 @@
 \alias{sysrev.webapi}
 \title{sysrev.webapi
 a simple wrapper for the sysrev.com/web-api/ service
-documnetation at https://sysrev.com/web-api/doc}
+documentation at https://sysrev.com/web-api/doc}
 \usage{
 sysrev.webapi(path, params = list(), token = keyring::key_get("sysrev.token"))
 }
@@ -21,5 +21,5 @@ some json
 \description{
 sysrev.webapi
 a simple wrapper for the sysrev.com/web-api/ service
-documnetation at https://sysrev.com/web-api/doc
+documentation at https://sysrev.com/web-api/doc
 }
