@@ -1,0 +1,7 @@
+default:
+  plumber.sysrev:
+    url: "http://localhost:8000" # TODO, figure out where we are putting this.
+
+test:
+  plumber.sysrev:
+    url: "http://localhost:8000"

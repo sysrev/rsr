@@ -5,19 +5,12 @@
 \title{sysrev.plumber.get
 a simple wrapper for rplumber.sysrev.com httr api requests}
 \usage{
-rplumber(
-  path,
-  params = list(),
-  action = httr::GET,
-  token = keyring::key_get("sysrev.token")
-)
+rplumber(path, params = list(), token = keyring::key_get("sysrev.token"))
 }
 \arguments{
 \item{path}{the service path see rplumber.sysrev.com/__docs__/#/}
 
 \item{params}{list of http parameters}
-
-\item{action}{either httr::GET httr::POST or any other httr action}
 
 \item{token}{a sysrev token with read access to the given project}
 }

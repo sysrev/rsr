@@ -1,6 +1,6 @@
 Package: RSysrev
 Title: RSysrev
-Version: 0.2.5
+Version: 0.2.6
 Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut","cre"))
 Description: A simple client for sysrev.com/graphql. Retrieves graphql data as data frames. Still under rapid development. 
 Depends: R (>= 3.1.0)
@@ -20,4 +20,6 @@ Imports:
 	jsonlite,
 	magrittr,
 	keyring,
-	gsubfn
+	gsubfn,
+	glue,
+	config
