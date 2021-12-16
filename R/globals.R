@@ -3,4 +3,4 @@ utils::globalVariables(c("abstract","answer","answer.confirmed","answer.consensu
                          "datasource.id","json_articles","keywords","lbl.consensus","lbl.enabled","lbl.id",
                          "lbl.name","lbl.ordering","lbl.question","lbl.required","lbl.type",
                          "primary_title","project.id","reviewer.id","reviewer.name","secondary_title",
-                         "updated","year"))
+                         "updated","year","label_id"))

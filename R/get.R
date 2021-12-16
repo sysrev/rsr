@@ -61,3 +61,21 @@ get_labels <- function(pid,token=keyring::key_get("sysrev.token")){
                 lbl.consensus	  = as.logical(lbl.consensus),
                 lbl.enabled     = as.logical(lbl.enabled)) %>% tibble()
 }
+
+#' get_labels_tbl
+#' a simpler verison of get_labels
+#' @import tidyr
+#' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
+#' @param token a sysrev token with read access to the given project
+#' @export
+get_labels_tbl <- function(pid,token=keyring::key_get("sysrev.token")){
+  rplumber("get_labels",list(pid=pid),token) |> rename(lbl.id=label_id)|> tibble()
+}
+
+#' get_answers
+#' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
+#' @param token a sysrev token with read access to the given project
+#' @export
+get_answers <- function(pid,token=keyring::key_get("sysrev.token")){
+  rplumber("get_answers",list(pid=pid),token) |> rename(lbl.id=label_id)|> tibble()
+}

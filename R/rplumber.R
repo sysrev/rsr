@@ -7,7 +7,7 @@
 #' @return A dataframe
 #'
 rplumber = function(path,params=list(),token=keyring::key_get("sysrev.token")){
-  req   <- GET(getOption("rsysrev.sysrev.plumber.url"), path=path,query=params)
+  req   <- GET(modify_url(getOption("rsysrev.sysrev.plumber.url"), path=path,query=params))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   if(!is.null(res$errors)){ stop(paste(lapply(res$errors,function(e){e$message}),collapse = "\n")) }
   res

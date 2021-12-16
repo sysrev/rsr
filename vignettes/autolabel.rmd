@@ -1,5 +1,5 @@
 ---
-title: "Automating Review"
+title: "Downloading Labels"
 output: rmarkdown::html_vignette
 description: >
   Learn how to automate article labeling

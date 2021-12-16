@@ -1,3 +1,3 @@
 .onLoad <- function(libname, pkgname) {
-  options(rsysrev.sysrev.plumber.url="http://localhost:8000")
+  options(rsysrev.sysrev.plumber.url="http://localhost:8000") #TODO lets do this with a config file. See https://github.com/ChadGoymer/githapi/blob/main/R/on-load.R
 }

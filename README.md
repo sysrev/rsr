@@ -24,7 +24,7 @@ library(rsysrev)
 library(reutils) # library to search pubmed
 library(dplyr)
 
-pid    = create_project("my new project") # create a project 105561 - TODO this should be idempotent
+pid    = create_sysrev("my new project") # create a project 105561 - TODO this should be idempotent
 import = import_pmids(pid,uid(esearch("angry bees",db="pubmed"))) # successful import - TODO sourcing needs improvement
 
 labels = get_labels(pid) %>% select(lbl.id,lbl.name) # projects have default 'include' label
