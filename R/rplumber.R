@@ -1,5 +1,6 @@
 #' sysrev.plumber.get
 #' a simple wrapper for rplumber.sysrev.com httr api requests
+#' @import glue
 #' @import httr
 #' @param path the service path see rplumber.sysrev.com/__docs__/#/
 #' @param params list of http parameters
@@ -7,7 +8,7 @@
 #' @return A dataframe
 #'
 rplumber = function(path,params=list(),token=keyring::key_get("sysrev.token")){
-  req   <- GET(modify_url(getOption("rsysrev.sysrev.plumber.url"), path=path,query=params))
+  req   <- GET(modify_url(getOption("rsysrev.sysrev.plumber.url"),add_headers(Authorization=glue("bearer {token}")), path=path,query=params))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   if(!is.null(res$errors)){ stop(paste(lapply(res$errors,function(e){e$message}),collapse = "\n")) }
   res
