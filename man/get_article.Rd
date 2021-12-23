@@ -7,7 +7,7 @@
 get_article(aid, token = keyring::key_get("sysrev.token"))
 }
 \arguments{
-\item{aid}{the project to get articles from, i.e sysrev.com/p/<project_id>}
+\item{aid}{the article to get data for}
 
 \item{token}{a sysrev token with read access to the given project}
 }
