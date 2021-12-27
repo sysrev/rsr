@@ -34,7 +34,9 @@ get_article <- function(aid,token=keyring::key_get("sysrev.token")){
 #' @export
 #'
 get_predictions <- function(pid,token=keyring::key_get("sysrev.token")){
-  rplumber("get_predictions",list(pid=pid),token) |> tibble()
+  rplumber("get_predictions",list(pid=pid),token) |>
+    mutate(create_time = readr::parse_datetime(create_time)) |>
+    tibble()
 }
 
 #' get_labels
