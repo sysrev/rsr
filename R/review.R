@@ -2,6 +2,7 @@
 #' @import jsonlite
 #' @import dplyr
 #' @import glue
+#' @importFrom stats setNames
 #' @param pid the project id to update
 #' @param aid the article id within the project id to update
 #' @param lid the label id to update (see \link[rsysrev]{get_labels})

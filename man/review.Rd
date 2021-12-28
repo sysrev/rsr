@@ -22,7 +22,7 @@ review(
 
 \item{lid}{the label id to update (see \link[rsysrev]{get_labels})}
 
-\item{lval}{the new value}
+\item{lval}{the new value - this is an R object that can be parsed into json.}
 
 \item{resolve}{treat this label update as resolve (use the default if you don't know what this means)}
 

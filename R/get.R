@@ -29,13 +29,13 @@ get_article <- function(aid,token=keyring::key_get("sysrev.token")){
 #' get the predictions for a project
 #' @param pid the project to get articles from, i.e sysrev.com/p/<project_id>
 #' @param token a sysrev token with read access to the given project
-#'
+#' @importFrom rlang .data
 #' @return A dataframe
 #' @export
 #'
 get_predictions <- function(pid,token=keyring::key_get("sysrev.token")){
   rplumber("get_predictions",list(pid=pid),token) |>
-    mutate(create_time = readr::parse_datetime(create_time)) |>
+    mutate(create_time = readr::parse_datetime(.data$create_time)) |>
     tibble()
 }
 
