@@ -2,11 +2,10 @@
 % Please edit documentation in R/get.R
 \name{get_labels}
 \alias{get_labels}
-\title{get_labels
-TODO this needs some refactoring
-get the label definitions in a project}
+\title{get_labels_tbl
+a simpler verison of get_labels}
 \usage{
-get_labels(pid, token = get_key())
+get_labels(pid, token = get_srkey())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}
@@ -14,7 +13,6 @@ get_labels(pid, token = get_key())
 \item{token}{a sysrev token with read access to the given project}
 }
 \description{
-get_labels
-TODO this needs some refactoring
-get the label definitions in a project
+get_labels_tbl
+a simpler verison of get_labels
 }

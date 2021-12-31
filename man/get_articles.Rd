@@ -4,7 +4,7 @@
 \alias{get_articles}
 \title{get_articles}
 \usage{
-get_articles(pid, token = get_key())
+get_articles(pid, token = get_srkey())
 }
 \arguments{
 \item{pid}{the project to get articles from, i.e sysrev.com/p/<project_id>}

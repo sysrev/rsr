@@ -4,7 +4,7 @@
 \alias{get_predictions}
 \title{get_predictions}
 \usage{
-get_predictions(pid, token = get_key())
+get_predictions(pid, token = get_srkey())
 }
 \arguments{
 \item{pid}{the project to get articles from, i.e sysrev.com/p/<project_id>}

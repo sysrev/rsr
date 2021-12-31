@@ -4,10 +4,7 @@
 \alias{sysrev.getGroupLabelAnswers}
 \title{Get user group label answers from project. returns a list with named dataframes corresponding to group label answers}
 \usage{
-sysrev.getGroupLabelAnswers(
-  project_id,
-  token = keyring::key_get("sysrev.token")
-)
+sysrev.getGroupLabelAnswers(project_id, token = get_srkey())
 }
 \arguments{
 \item{project_id}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

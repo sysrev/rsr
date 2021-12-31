@@ -5,7 +5,7 @@
 \title{import_pmids
 creates a data source for the given sysrev project with the given pubme ids}
 \usage{
-import_pmids(pid, pmids, token = key_get())
+import_pmids(pid, pmids, token = get_srkey())
 }
 \arguments{
 \item{pid}{the project for which to create a source}

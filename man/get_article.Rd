@@ -4,7 +4,7 @@
 \alias{get_article}
 \title{get_article}
 \usage{
-get_article(aid, token = get_key())
+get_article(aid, token = get_srkey())
 }
 \arguments{
 \item{aid}{the article to get data for}

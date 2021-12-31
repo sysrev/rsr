@@ -17,7 +17,8 @@ import_pmids <- function(pid,pmids,token=get_srkey()){
 #' import_article_text
 #' creates a data source for the given sysrev project with articles generated from combined title and abstract
 #' @param pid the project for which to create a source
-#' @param pmids the pubmed ids to import
+#' @param title titles for articles
+#' @param abstract abstracts for articles
 #' @param token a sysrev token with read access to the given project
 #' @return success message
 #' @export

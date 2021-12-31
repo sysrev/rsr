@@ -7,7 +7,7 @@ a simple wrapper for datasource.insilica.co}
 \usage{
 datasource.gql(
   query,
-  token = get_key(),
+  token = get_srkey(),
   .url = "https://datasource.insilica.co/graphql"
 )
 }

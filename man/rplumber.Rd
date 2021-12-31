@@ -5,7 +5,7 @@
 \title{sysrev.plumber.get
 a simple wrapper for rplumber.sysrev.com httr api requests}
 \usage{
-rplumber(path, params = list(), token = get_key())
+rplumber(path, params = list(), token = get_srkey())
 }
 \arguments{
 \item{path}{the service path see rplumber.sysrev.com/__docs__/#/}

@@ -6,12 +6,14 @@
 a simple wrapper for the sysrev.com/web-api/ service
 documentation at https://sysrev.com/web-api/doc}
 \usage{
-sysrev.webapi(path, params = list(), token = get_key())
+sysrev.webapi(path, params = list(), unbox = F, token = get_srkey())
 }
 \arguments{
 \item{path}{the service path see rplumber.sysrev.com/__docs__/#/}
 
 \item{params}{list of http parameters}
+
+\item{unbox}{whether to unbox the params when parsing json}
 
 \item{token}{a sysrev token with read access to the given project}
 }

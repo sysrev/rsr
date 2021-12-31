@@ -5,7 +5,7 @@
 \title{create_sysrev
 create a sysrev project}
 \usage{
-create_sysrev(project_name, token = get_key())
+create_sysrev(project_name, token = get_srkey())
 }
 \arguments{
 \item{project_name}{the name of the project you want to create}
