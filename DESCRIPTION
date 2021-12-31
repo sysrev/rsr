@@ -23,7 +23,8 @@ Imports:
     keyring,
     glue,
     config,
-    stats
+    stats,
+    base64enc
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown

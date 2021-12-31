@@ -34,9 +34,9 @@ sysrev.webapi = function(path,params=list(),token=keyring::key_get("sysrev.token
 
 #' datasource.gql
 #' a simple wrapper for datasource.insilica.co
-#' @param path the service path see rplumber.sysrev.com/__docs__/#/
-#' @param params list of http parameters
+#' @param query the graphql query
 #' @param token a sysrev token with read access to the given project
+#' @param .url the url for datasource
 #' @return A dataframe
 #' @export
 #'

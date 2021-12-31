@@ -5,7 +5,7 @@
 \title{create_sysrev
 create a sysrev project}
 \usage{
-create_sysrev(project_name, token = keyring::key_get("sysrev.token"))
+create_sysrev(project_name, token = get_key())
 }
 \arguments{
 \item{project_name}{the name of the project you want to create}
