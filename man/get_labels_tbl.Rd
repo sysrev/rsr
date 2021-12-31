@@ -5,7 +5,7 @@
 \title{get_labels_tbl
 a simpler verison of get_labels}
 \usage{
-get_labels_tbl(pid, token = keyring::key_get("sysrev.token"))
+get_labels_tbl(pid, token = get_key())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

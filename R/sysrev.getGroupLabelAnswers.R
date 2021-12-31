@@ -5,7 +5,7 @@
 #' @param project_id The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project
 #' @export
-sysrev.getGroupLabelAnswers <- function(project_id,token=keyring::key_get("sysrev.token")){
+sysrev.getGroupLabelAnswers <- function(project_id,token=get_srkey()){
   query <- sprintf('{project(id:%s){articles{id, enabled, groupLabels{name,reviewer{id,name},answer{name, answer}}}}}',project_id)
   data = sysrev.graphql(query,token)
 

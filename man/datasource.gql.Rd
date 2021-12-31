@@ -5,7 +5,11 @@
 \title{datasource.gql
 a simple wrapper for datasource.insilica.co}
 \usage{
-datasource.gql(query, token, .url = "https://datasource.insilica.co/graphql")
+datasource.gql(
+  query,
+  token = get_key(),
+  .url = "https://datasource.insilica.co/graphql"
+)
 }
 \arguments{
 \item{query}{the graphql query}

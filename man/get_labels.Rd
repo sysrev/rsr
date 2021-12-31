@@ -6,7 +6,7 @@
 TODO this needs some refactoring
 get the label definitions in a project}
 \usage{
-get_labels(pid, token = keyring::key_get("sysrev.token"))
+get_labels(pid, token = get_key())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

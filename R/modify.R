@@ -10,7 +10,7 @@
 #' @param token a sysrev token with read access to the given project
 #' @return a success message
 #' @export
-update_entity = function(article_id,key,value,token=key_get("sysrev.token")){
+update_entity = function(article_id,key,value,token=get_srkey("sysrev.token")){
   req   <- POST(url    = modify_url(getOption("rsysrev.sysrev.plumber.url"),path="/update_article"),
                 body   = list(aid=article_id,key=key,value=value),
                 encode = "json")

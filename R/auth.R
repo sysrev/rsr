@@ -1,6 +1,6 @@
 #' get_key
 #' @return the users sysrev token
-get_key = function(){
+get_srkey = function(){
   tryCatch({
     keyring::key_get("sysrev","token")
   },error=function(e){

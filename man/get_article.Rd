@@ -4,7 +4,7 @@
 \alias{get_article}
 \title{get_article}
 \usage{
-get_article(aid, token = keyring::key_get("sysrev.token"))
+get_article(aid, token = get_key())
 }
 \arguments{
 \item{aid}{the article to get data for}

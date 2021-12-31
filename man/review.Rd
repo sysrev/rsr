@@ -12,7 +12,7 @@ review(
   resolve = T,
   change = T,
   confirm = T,
-  token = keyring::key_get("sysrev.token")
+  token = get_key()
 )
 }
 \arguments{

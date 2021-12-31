@@ -4,7 +4,7 @@
 \alias{get_articles}
 \title{get_articles}
 \usage{
-get_articles(pid, token = keyring::key_get("sysrev.token"))
+get_articles(pid, token = get_key())
 }
 \arguments{
 \item{pid}{the project to get articles from, i.e sysrev.com/p/<project_id>}

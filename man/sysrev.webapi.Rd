@@ -6,7 +6,7 @@
 a simple wrapper for the sysrev.com/web-api/ service
 documentation at https://sysrev.com/web-api/doc}
 \usage{
-sysrev.webapi(path, params = list(), token = keyring::key_get("sysrev.token"))
+sysrev.webapi(path, params = list(), token = get_key())
 }
 \arguments{
 \item{path}{the service path see rplumber.sysrev.com/__docs__/#/}

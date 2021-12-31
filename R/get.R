@@ -7,7 +7,7 @@
 #' @return A dataframe
 #' @export
 #'
-get_articles <- function(pid,token=keyring::key_get("sysrev.token")){
+get_articles <- function(pid,token=get_srkey()){
   rplumber("get_articles",list(pid=pid),token) %>% tibble()
 }
 
@@ -20,7 +20,7 @@ get_articles <- function(pid,token=keyring::key_get("sysrev.token")){
 #' @return A dataframe
 #' @export
 #'
-get_article <- function(aid,token=keyring::key_get("sysrev.token")){
+get_article <- function(aid,token=get_srkey()){
   rplumber("get_article",list(aid=aid),token) %>% tibble()
 }
 
@@ -33,7 +33,7 @@ get_article <- function(aid,token=keyring::key_get("sysrev.token")){
 #' @return A dataframe
 #' @export
 #'
-get_predictions <- function(pid,token=keyring::key_get("sysrev.token")){
+get_predictions <- function(pid,token=get_srkey()){
   rplumber("get_predictions",list(pid=pid),token) |>
     mutate(create_time = readr::parse_datetime(.data$create_time)) |>
     tibble()
@@ -45,7 +45,7 @@ get_predictions <- function(pid,token=keyring::key_get("sysrev.token")){
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project
 #' @export
-get_labels <- function(pid,token=keyring::key_get("sysrev.token")){
+get_labels <- function(pid,token=get_srkey()){
   query <- sprintf('{project(id:%d){id labelDefinitions{id,name,question,ordering,required,type,consensus,enabled}}}',pid)
   res   <- sysrev.graphql(query,token)
   fnil <- function(v,default=NA){if(is.null(v)){NA}else{v}}
@@ -83,7 +83,7 @@ get_labels <- function(pid,token=keyring::key_get("sysrev.token")){
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project
 #' @export
-get_labels_tbl <- function(pid,token=keyring::key_get("sysrev.token")){
+get_labels_tbl <- function(pid,token=get_srkey()){
   rplumber("get_labels",list(pid=pid),token) |> rename(lbl.id=label_id)|> tibble()
 }
 
@@ -93,7 +93,7 @@ get_labels_tbl <- function(pid,token=keyring::key_get("sysrev.token")){
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project
 #' @export
-get_users <- function(pid,token=keyring::key_get("sysrev.token")){
+get_users <- function(pid,token=get_srkey()){
   rplumber("get_users",list(pid=pid),token) |> tibble()
 }
 
@@ -101,6 +101,15 @@ get_users <- function(pid,token=keyring::key_get("sysrev.token")){
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project
 #' @export
-get_answers <- function(pid,token=keyring::key_get("sysrev.token")){
+get_answers <- function(pid,token=get_srkey()){
   rplumber("get_answers",list(pid=pid),token) |> rename(lbl.id=label_id)|> tibble()
+}
+
+#' get_answers
+#' @concept TODO this should really just be the same as get_articles?
+#' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
+#' @param token a sysrev token with read access to the given project
+get_entities <- function(pid,token=get_srkey()){
+  query <- sprintf("{project(id:%d){articles{id,datasource_id,datasource_name}}}",pid)
+  projectArticles <- sysrev.graphql(query,token)
 }
