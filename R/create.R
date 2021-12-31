@@ -11,3 +11,17 @@ create_sysrev <- function(project_name,token=keyring::key_get("sysrev.token")){
   if(!is.null(res$error)){stop(res$error$message)}
   pid
 }
+
+
+#' create_source
+#' @import glue
+#' @param name name of the source
+#' @param description description of the source
+#' @param url a reference url for the source
+#' @param token your private token
+#' @return
+#' @export
+create_source <- function(name,description,url,token=get_key()){
+  query = glue("mutation {{ createDataset( name: {double_quote(name)}, description: {double_quote(description)} ){{ id }} }")
+  datasource.gql(query,token = token)$createDataset$id
+}
