@@ -8,7 +8,9 @@
 #' @export
 #'
 get_articles <- function(pid,token=get_srkey()){
-  rplumber("get_articles",list(pid=pid),token) %>% tibble()
+  rplumber("get_articles",list(pid=pid),token) |>
+    rename(lid=label_id) |>
+    tibble()
 }
 
 #' get_article
@@ -46,7 +48,7 @@ get_predictions <- function(pid,token=get_srkey()){
 #' @param token a sysrev token with read access to the given project
 #' @export
 get_labels <- function(pid,token=get_srkey()){
-  rplumber("get_labels",list(pid=pid),token) |> rename(lid=label_id)|> tibble()
+  rplumber("get_labels",list(pid=pid),token) |> rename(lid=label_id) |> tibble()
 }
 
 #' get_users
@@ -60,11 +62,14 @@ get_users <- function(pid,token=get_srkey()){
 }
 
 #' get_answers
+#' @importFrom rlang .data
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project
 #' @export
 get_answers <- function(pid,token=get_srkey()){
-  rplumber("get_answers",list(pid=pid),token) |> rename(lid=label_id)|> tibble()
+  rplumber("get_answers",list(pid=pid),token) |>
+    rename(aid=.data$article_id,lid=.data$label_id)|>
+    tibble()
 }
 
 #' get_answers

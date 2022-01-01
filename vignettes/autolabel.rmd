@@ -11,7 +11,7 @@ vignette: >
 
 ```{r}
 library(jsonlite)
-library(rsysrev)
+library(rsr)
 # sysrev.getLabelDefinitions(101359)
 # sysrev.setLabelAnswer(project.id = 101359,
 #                                article.id = 13164751,

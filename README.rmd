@@ -2,29 +2,24 @@
 output: github_document
 ---
 
-# rsysrev <img src="man/figures/logo.svg" align="right" />
-
-The rsysrev package provides tools to access and analyze data generated in sysrev.com projects.
+# rsr <img src="man/figures/logo.svg" align="right" />
+Tools to access and analyze data generated in sysrev.com projects.
 
 ## Installation
-
-rsysrev is not yet on CRAN. The latest development version can be installed from github:
-
+`rsr` is not yet on CRAN. Install with:
 ``` r
-devtools::install_github('sysrev/rsysrev')
+devtools::install_github('sysrev/rsr')
 ```
 
 ## Authenticate
-Sysrev premium is required to use rsysrev.  
-rsysrev functions take a `token` argument which defaults to `keyring::key_get("sysrev.token")`. This is likely to change in the future. Find your token at your sysrev profile page.
+rsr requires sysrev premium access, a token is available at your user page.
 
 
 ## Example
-
 Get and set sysrev data.
 
 ```{r}
-library(rsysrev)
+library(rsr)
 library(reutils) # library to search pubmed
 library(dplyr)
 

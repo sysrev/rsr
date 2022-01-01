@@ -5,7 +5,7 @@
 #' @importFrom stats setNames
 #' @param pid the project id to update
 #' @param aid the article id within the project id to update
-#' @param lid the label id to update (see \link[rsysrev]{get_labels})
+#' @param lid the label id to update (see \link[rsr]{get_labels})
 #' @param lval the new value - this is an R object that can be parsed into json.
 #' @param resolve treat this label update as resolve (use the default if you don't know what this means)
 #' @param change treat this label update as a change (use default if you don't know what this means)

@@ -1,4 +1,4 @@
 library(testthat)
-library(rsysrev)
+library(rsr)
 
-test_check("rsysrev")
+test_check("rsr")

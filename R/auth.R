@@ -7,7 +7,7 @@ get_srkey = function(){
     stop(glue::glue_col("\nno cached key found.
                     set a default sysrev token with {red `keyring::key_set(\"sysrev\",\"token\")`}
                     Get your token on sysrev.com user page.
-                    You must have a premium account to use rsysrev"))
+                    You must have a premium account to use rsr"))
   })
 }
 
