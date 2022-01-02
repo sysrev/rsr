@@ -29,8 +29,3 @@ tidy.answer = function(value_type,answer){
                    string      = tidy.answers.basic,
                    group       = tidy.answers.group)()
 }
-
-
-# test = {
-#   a = rsr::get_answers(43140) |> filter(value_type=="group") |> mutate(answer=tidy.answer(value_type,answer))
-# }

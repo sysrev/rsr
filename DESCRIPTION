@@ -25,8 +25,10 @@ Imports:
     config,
     stats,
     base64enc,
-    jsonparse
+    jsonparse (>= 0.0.1.9000)
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown
 Config/testthat/edition: 3
+Remotes:  
+    ChrisMuir/jsonparse
