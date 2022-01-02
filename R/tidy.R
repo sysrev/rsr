@@ -20,12 +20,15 @@ tidy.answers.group   = function(answer){
 #' parses character vector json encodings of answers to rsr value types
 #' @param value_type 'boolean', 'categorical', 'string', or 'group'
 #' @param answer a json anwer to transform
+#' @param simplify if true, unlists the result
 #' @export
-tidy.answer = function(answer,value_type){
+tidy.answer = function(answer,value_type,simplify=F){
 
-  answer |> switch(first(value_type),
+  res = answer |> switch(first(value_type),
                    boolean     = tidy.answers.boolean,
                    categorical = tidy.answers.basic,
                    string      = tidy.answers.basic,
                    group       = tidy.answers.group)()
+
+  if(simplify){ unlist(res) }else{ res }
 }
