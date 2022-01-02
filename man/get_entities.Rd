@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.R
 \name{get_entities}
 \alias{get_entities}
-\title{get_answers}
+\title{get_entities}
 \usage{
 get_entities(pid, token = get_srkey())
 }
@@ -12,6 +12,6 @@ get_entities(pid, token = get_srkey())
 \item{token}{a sysrev token with read access to the given project}
 }
 \description{
-get_answers
+get_entities
 }
 \concept{TODO this should really just be the same as get_articles?}

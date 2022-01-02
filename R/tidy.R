@@ -1,52 +1,36 @@
-#' #' tidy_answers
-#' #' returns a list for each project label
-#' #' @param pid sysrev project id
-#' #' @export
-#' tidy_answers = function(pid){
-#'   lbls  = get_labels(pid)
-#'   get_answers(pid) |>
-#'     group_by(short_label,value_type) %>%
-#'     {setNames(group_split(.),group_keys(.)[[1]])} |>
-#'     purrr::map( ~ tidy_answers_internal(.,lbls))
-#' }
-#'
-#' tidy_answers_internal = function(tb,value_type){
-#'   vt = unique(tb$value_type)
-#'   if(length(vt) > 1){ stop("tb must be a tibble with a single value type") }
-#'
-#'   tidyfn = switch(vt,
-#'                   boolean     = tidy.answers.boolean,
-#'                   categorical = tidy.answers.basic,
-#'                   string      = tidy.answers.basic,
-#'                   group       = tidy.answers.group)
-#'
-#'   tidyfn(tb,lbls)
-#' }
-#'
-#'
-#'
-#' tidy.answers.basic = function(tb,labels){
-#'   tb |> mutate(answer = pbsapply(answer,parse_json,USE.NAMES = F,simplify = T))
-#' }
-#'
-#' tidy.answers.boolean = function(tb,labels){
-#'   tb |> mutate(answer = case_when(answer=="true"~T,answer=="false"~F,NULL))
-#' }
-#'
-#' tidy.answers.group = function(tb,labels){
-#'
-#'   loid = labels |> filter(lid == tb$lid[1]) |> pull(label_id_local)
-#'   lids = labels |> select(lid,root_label_id_local) |> filter(root_label_id_local==loid) |> pull(lid)
-#'   lidn = labels |> select(short_label,root_label_id_local) |> filter(root_label_id_local==loid) |> pull(short_label)
-#'
-#'   convert.row = function(answer.json){
-#'     answer.list  = fromJSON(answer.json)$labels
-#'     extract.rows = function(lid){ tibble(map(answer.list,lid)) }
-#'
-#'     quietly(map_dfc)(lids,extract.rows) |> pluck("result") |>
-#'       magrittr::set_colnames(lidn) |>
-#'       rowwise() |> mutate(across(everything(),~paste(.x,collapse=";"))) |> ungroup()
-#'   }
-#'
-#'   dt |> mutate(answer = pblapply(answer,convert.row)) |> unnest(answer) |> tibble()
-#' }
+tidy.answers.basic   = function(answer){ lapply(answer,jsonparse::from_json) }
+tidy.answers.boolean = function(answer){ lapply(answer,\(x) case_when(x=="true"~T,x=="false"~F,NULL)) }
+
+#' @title tidy.answer
+#' @importFrom rlang .data
+#' @param answer character vector json encoding for group labels
+#' @return <rsr_group> vector which is a subclass of <tbl>
+tidy.answers.group   = function(answer){
+  tibble(
+    aid=seq_along(answer),
+    answer = purrr::map(answer,~jsonparse::from_json(.)$labels)) |>
+    tidyr::unnest_longer(answer,indices_to = "row") |>
+    tidyr::unnest_longer(answer,indices_to = "lid") |>
+    select(.data$aid,.data$row,.data$lid,value=.data$.answer) |>
+    group_by(.data$aid) |> nest() |> ungroup() |> pull(data) |>
+    purrr::map(~ structure(.,class=c(class(.),"rsr_group")))
+}
+
+#' @title tidy.answer
+#' parses character vector json encodings of answers to rsr value types
+#' @param value_type 'boolean', 'categorical', 'string', or 'group'
+#' @param answer a json anwer to transform
+#' @export
+tidy.answer = function(value_type,answer){
+
+  answer |> switch(first(value_type),
+                   boolean     = tidy.answers.boolean,
+                   categorical = tidy.answers.basic,
+                   string      = tidy.answers.basic,
+                   group       = tidy.answers.group)()
+}
+
+
+# test = {
+#   a = rsr::get_answers(43140) |> filter(value_type=="group") |> mutate(answer=tidy.answer(value_type,answer))
+# }

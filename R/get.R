@@ -72,7 +72,7 @@ get_answers <- function(pid,token=get_srkey()){
     tibble()
 }
 
-#' get_answers
+#' get_entities
 #' @concept TODO this should really just be the same as get_articles?
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project

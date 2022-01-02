@@ -24,7 +24,8 @@ Imports:
     glue,
     config,
     stats,
-    base64enc
+    base64enc,
+    jsonparse
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown
