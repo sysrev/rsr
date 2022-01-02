@@ -21,7 +21,7 @@ tidy.answers.group   = function(answer){
 #' @param value_type 'boolean', 'categorical', 'string', or 'group'
 #' @param answer a json anwer to transform
 #' @export
-tidy.answer = function(value_type,answer){
+tidy.answer = function(answer,value_type){
 
   answer |> switch(first(value_type),
                    boolean     = tidy.answers.boolean,
