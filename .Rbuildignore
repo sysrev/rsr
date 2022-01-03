@@ -6,3 +6,4 @@
 ^\.github$
 ^README.rmd$
 ^config.yml$
+^tmp.R

@@ -5,12 +5,14 @@
 \title{tidy.answer
 parses character vector json encodings of answers to rsr value types}
 \usage{
-tidy.answer(value_type, answer)
+tidy.answer(answer, value_type, simplify = F)
 }
 \arguments{
+\item{answer}{a json anwer to transform}
+
 \item{value_type}{'boolean', 'categorical', 'string', or 'group'}
 
-\item{answer}{a json anwer to transform}
+\item{simplify}{if true, unlists the result}
 }
 \description{
 tidy.answer

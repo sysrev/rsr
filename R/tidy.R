@@ -6,14 +6,15 @@ tidy.answers.boolean = function(answer){ lapply(answer,\(x) case_when(x=="true"~
 #' @param answer character vector json encoding for group labels
 #' @return <rsr_group> vector which is a subclass of <tbl>
 tidy.answers.group   = function(answer){
-  tibble(
-    aid=seq_along(answer),
-    answer = purrr::map(answer,~jsonparse::from_json(.)$labels)) |>
+  longtb = tibble( aid=seq_along(answer), answer = purrr::map(answer,~jsonparse::from_json(.)$labels)) |>
     tidyr::unnest_longer(answer,indices_to = "row") |>
     tidyr::unnest_longer(answer,indices_to = "lid") |>
-    select(.data$aid,.data$row,.data$lid,value=.data$.answer) |>
-    group_by(.data$aid) |> nest() |> ungroup() |> pull(data) |>
-    purrr::map(~ structure(.,class=c(class(.),"rsr_group")))
+    mutate(row=as.numeric(row)) |>
+    select(.data$aid,.data$row,.data$lid,value=answer)
+
+  groups = longtb |> group_by(.data$aid) |> nest() |> ungroup() |> pull(data)
+
+  purrr::map(groups, ~ structure(.,class=c("rsr_group",class(.))))
 }
 
 #' @title tidy.answer
@@ -23,12 +24,14 @@ tidy.answers.group   = function(answer){
 #' @param simplify if true, unlists the result
 #' @export
 tidy.answer = function(answer,value_type,simplify=F){
+  stopifnot(n_distinct(value_type)==1)
 
   res = answer |> switch(first(value_type),
-                   boolean     = tidy.answers.boolean,
-                   categorical = tidy.answers.basic,
-                   string      = tidy.answers.basic,
-                   group       = tidy.answers.group)()
+                         boolean     = tidy.answers.boolean,
+                         categorical = tidy.answers.basic,
+                         string      = tidy.answers.basic,
+                         group       = tidy.answers.group)()
+
 
   if(simplify){ unlist(res) }else{ res }
 }

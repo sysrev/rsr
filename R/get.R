@@ -3,13 +3,13 @@
 #' get the basic article data from a sysrev project
 #' @param pid the project to get articles from, i.e sysrev.com/p/<project_id>
 #' @param token a sysrev token with read access to the given project
-#'
+#' @importFrom rlang .data
 #' @return A dataframe
 #' @export
 #'
 get_articles <- function(pid,token=get_srkey()){
   rplumber("get_articles",list(pid=pid),token) |>
-    rename(lid=label_id) |>
+    rename(aid=.data$article_id) |>
     tibble()
 }
 
