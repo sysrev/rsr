@@ -1,10 +1,10 @@
 ---
-title: "Downloading Labels"
+title: "auto reviewing documents"
 output: rmarkdown::html_vignette
 description: >
   Learn how to automate article labeling
 vignette: >
-  %\VignetteIndexEntry{Styling your site}
+  %\VignetteIndexEntry{auto reviewing documents}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -21,7 +21,9 @@ reference:
   - get_labels
   - get_users
   - get_predictions
-  - get_project_concordance_options
+  - get_or_create_sysrev
+  - get_sroptions
+  - get_sysrev
   - sysrev.getGroupLabelAnswers
 
 - title: tidy
@@ -39,13 +41,13 @@ reference:
   desc: create project sources
   contents:
   - create_sysrev
-  - create_source_insilica
+# - create_source_insilica
 
-- title: import
-  contents:
-  - import_article_text
-  - import_pmids
-  - import_source_insilica
+# - title: import
+#   contents:
+#   - import_article_text
+#   - import_pmids
+#   - import_source_insilica
 
 - title: review
   desc: set the value of a given article+label

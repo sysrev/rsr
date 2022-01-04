@@ -20,10 +20,9 @@ Get and set sysrev data.
 
 ```{r}
 library(rsr)
-library(reutils) # library to search pubmed
 library(dplyr)
 
-pid    = create_sysrev("my new project") # create a project 105561 - TODO this should be idempotent
+pid    = create_or_get_sysrev("rsr_project") # pid is a project id
 import = import_pmids(pid,uid(esearch("angry bees",db="pubmed"))) # successful import - TODO sourcing needs improvement
 
 labels = get_labels(pid) %>% select(lbl.id,lbl.name) # projects have default 'include' label
