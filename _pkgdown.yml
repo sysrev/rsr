@@ -21,7 +21,6 @@ reference:
   - get_labels
   - get_users
   - get_predictions
-  - get_or_create_sysrev
   - get_sroptions
   - get_sysrev
   - sysrev.getGroupLabelAnswers
@@ -43,10 +42,10 @@ reference:
   - create_sysrev
 # - create_source_insilica
 
-# - title: import
-#   contents:
+- title: import
+  contents:
 #   - import_article_text
-#   - import_pmids
+  - import_pmids
 #   - import_source_insilica
 
 - title: review

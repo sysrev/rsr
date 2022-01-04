@@ -14,12 +14,12 @@ get_sysrev <- function(name,token=get_srkey()){
 #' create_sysrev
 #' create a sysrev project
 #' @param name the name of the project you want to create
-#' @param get_existing get the project if it already exists
+#' @param get_if_exists get the project if it already exists
 #' @param token a sysrev token with read access to the given project
 #' @return json describing result of call
 #' @export
 #'
-create_sysrev <- function(name,get_existing=F,token=get_srkey()){
-  pid = if(get_existing){ get_sysrev(name,token) }
-  if(get_existing && pid$exists){ pid }else{ sysrev.rplumber.post("create_sysrev",list(name=name),token) }
+create_sysrev <- function(name,get_if_exists=F,token=get_srkey()){
+  pid = if(get_if_exists){ get_sysrev(name,token) }
+  if(get_if_exists && pid$exists){ pid }else{ sysrev.rplumber.post("create_sysrev",list(name=name),token) }
 }
