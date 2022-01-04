@@ -2,24 +2,24 @@
 output: pdf_document
 ---
 
-# srr <img src="man/figures/logo.svg" align="right" />
+# rsr <img src="man/figures/logo.svg" align="right" />
 Tools to access and analyze data generated in sysrev.com projects.
 
 ## Installation
-`srr` is not yet on CRAN. Install with:
+`rsr` is not yet on CRAN. Install with:
 ``` r
-devtools::install_github('sysrev/srr')
+devtools::install_github('sysrev/rsr')
 ```
 
 ## Authenticate
-srr requires sysrev premium access, a token is available at your user page.
+rsr requires sysrev premium access, a token is available at your user page.
 
 
 ## Example
 Get and set sysrev data.
 
 ```
-library(srr)
+library(rsr)
 library(reutils) # library to search pubmed
 library(dplyr)
 
