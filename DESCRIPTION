@@ -1,5 +1,5 @@
-Package: srr
-Title: srr
+Package: rsr
+Title: rsr
 Version: 0.2.10
 Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut","cre"))
 Description: an R client for sysrev.com. Comes packaged with some data analysis tools.

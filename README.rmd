@@ -1,5 +1,5 @@
 ---
-output: github_document
+output: pdf_document
 ---
 
 # srr <img src="man/figures/logo.svg" align="right" />
@@ -18,7 +18,7 @@ srr requires sysrev premium access, a token is available at your user page.
 ## Example
 Get and set sysrev data.
 
-```{r}
+```
 library(srr)
 library(reutils) # library to search pubmed
 library(dplyr)

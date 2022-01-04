@@ -11,5 +11,5 @@ vignette: >
 
 ```{r}
 library(jsonlite)
-library(srr)
+library(rsr)
 ```
