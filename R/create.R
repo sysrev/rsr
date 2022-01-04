@@ -1,35 +1,25 @@
 #' get_sysrev
 #' TODO need to move this back to get.R file and fix evaluation order
 #' get a sysrev metadata
-#' @param project_name the sysrev to get metadata from
+#' @param name the sysrev to get metadata from
 #' @param token a sysrev token with read access to the given project
 #' @importFrom rlang .data
 #' @return A dataframe
 #' @export
 #'
-get_sysrev <- function(project_name,token=get_srkey()){
-  sysrev.rplumber("get_sysrev",list(project_name=project_name),token) |> purrr::pluck("pid")
+get_sysrev <- function(name,token=get_srkey()){
+  sysrev.rplumber("get_sysrev",list(name=name),token)
 }
 
 #' create_sysrev
 #' create a sysrev project
-#' @param project_name the name of the project you want to create
+#' @param name the name of the project you want to create
+#' @param get_existing get the project if it already exists
 #' @param token a sysrev token with read access to the given project
 #' @return json describing result of call
 #' @export
 #'
-create_sysrev <- function(project_name,token=get_srkey()){
-  res = sysrev.rplumber("create_sysrev",list(project_name=project_name),token)
-  return(res)
+create_sysrev <- function(name,get_existing=F,token=get_srkey()){
+  pid = if(get_existing){ get_sysrev(name,token) }
+  if(get_existing && pid$exists){ pid }else{ sysrev.rplumber.post("create_sysrev",list(name=name),token) }
 }
-
-#' get a sysrev project by name, or create it.
-#' @importFrom purrr possibly
-#' @param project_name the name of the project you want to create
-#' @param token a sysrev token with read access to the given project
-#' @return a sysrev project id pid
-#' @export
-get_or_create_sysrev <- function(project_name,token=get_srkey()){
-  purrr::possibly(create_sysrev,otherwise = get_sysrev(project_name,token))(project_name,token)
-}
-

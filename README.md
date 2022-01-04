@@ -1,9 +1,5 @@
----
-output: github_document
----
-
 # rsr <img src="man/figures/logo.svg" align="right" />
-Tools to access and analyze data generated in sysrev.com projects.
+Tools to create/access/analyze Sysrev data.
 
 ## Installation
 `rsr` is not yet on CRAN. Install with:
@@ -22,7 +18,10 @@ Get and set sysrev data.
 library(rsr)
 library(dplyr)
 
-pid    = create_or_get_sysrev("rsr_project") # pid is a project id
+# Create or get a sysrev
+pid = create_sysrev("rsr",get_if_exists=T)
+
+# Import some pubmed ids
 import = import_pmids(pid,uid(esearch("angry bees",db="pubmed"))) # successful import - TODO sourcing needs improvement
 
 labels = get_labels(pid) %>% select(lbl.id,lbl.name) # projects have default 'include' label

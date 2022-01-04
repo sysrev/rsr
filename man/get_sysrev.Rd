@@ -6,10 +6,10 @@
 TODO need to move this back to get.R file and fix evaluation order
 get a sysrev metadata}
 \usage{
-get_sysrev(project_name, token = get_srkey())
+get_sysrev(name, token = get_srkey())
 }
 \arguments{
-\item{project_name}{the sysrev to get metadata from}
+\item{name}{the sysrev to get metadata from}
 
 \item{token}{a sysrev token with read access to the given project}
 }
