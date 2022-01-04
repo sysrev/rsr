@@ -15,3 +15,4 @@ get_entities(pid, token = get_srkey())
 get_entities
 }
 \concept{TODO this should really just be the same as get_articles?}
+\keyword{internal}

@@ -11,3 +11,54 @@ authors:
   Thomas Luechtefeld:
     href: https://sysrev.com/user/139/profile
 
+reference:
+- title: get
+  desc:  get articles, labels, users, sysrevs
+  contents:
+  - get_articles
+  - get_article
+  - get_answers
+  - get_labels
+  - get_users
+  - get_predictions
+  - get_project_concordance_options
+  - sysrev.getGroupLabelAnswers
+
+- title: tidy
+  desc: mutators for tidy data
+  contents:
+  - srtidy_answer
+
+- title: concordant
+  desc: concordance tools
+  contents:
+  - concordant
+  - concordant2
+
+- title: create
+  desc: create project sources
+  contents:
+  - create_sysrev
+  - create_source_insilica
+
+- title: import
+  contents:
+  - import_article_text
+  - import_pmids
+  - import_source_insilica
+
+- title: review
+  desc: set the value of a given article+label
+  contents:
+  - review
+
+- title: browse
+  desc: set the value of a given article+label
+  contents:
+  - browse_sysrev
+  - browse_article
+
+- title: authentication
+  desc: method for getting your sysrev token
+  contents:
+  - get_srkey

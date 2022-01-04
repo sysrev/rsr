@@ -1,3 +1,4 @@
+#' **deprecated**
 #' Get user group label answers from project. returns a list with named dataframes corresponding to group label answers
 #'
 #' Get user answers in a long form data frame
@@ -6,6 +7,7 @@
 #' @param token a sysrev token with read access to the given project
 #' @export
 sysrev.getGroupLabelAnswers <- function(project_id,token=get_srkey()){
+  lifecycle::deprecate_warn("0.2.9","sysrev.getGroupLabelAnswers()","get_answers")
   query <- sprintf('{project(id:%s){articles{id, enabled, groupLabels{name,reviewer{id,name},answer{name, answer}}}}}',project_id)
   data = sysrev.graphql(query,token)
 

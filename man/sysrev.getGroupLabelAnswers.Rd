@@ -2,7 +2,8 @@
 % Please edit documentation in R/sysrev.getGroupLabelAnswers.R
 \name{sysrev.getGroupLabelAnswers}
 \alias{sysrev.getGroupLabelAnswers}
-\title{Get user group label answers from project. returns a list with named dataframes corresponding to group label answers}
+\title{**deprecated**
+Get user group label answers from project. returns a list with named dataframes corresponding to group label answers}
 \usage{
 sysrev.getGroupLabelAnswers(project_id, token = get_srkey())
 }

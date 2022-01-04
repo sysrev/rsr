@@ -5,6 +5,7 @@ tidy.answers.boolean = function(answer){ lapply(answer,\(x) case_when(x=="true"~
 #' @importFrom rlang .data
 #' @param answer character vector json encoding for group labels
 #' @return <rsr_group> vector which is a subclass of <tbl>
+#' @keywords internal
 tidy.answers.group   = function(answer){
   longtb = tibble( aid=seq_along(answer), answer = purrr::map(answer,~jsonparse::from_json(.)$labels)) |>
     tidyr::unnest_longer(answer,indices_to = "row") |>
@@ -23,7 +24,7 @@ tidy.answers.group   = function(answer){
 #' @param answer a json anwer to transform
 #' @param simplify if true, unlists the result
 #' @export
-tidy.answer = function(answer,value_type,simplify=F){
+srtidy_answer = function(answer,value_type,simplify=F){
   stopifnot(n_distinct(value_type)==1)
 
   res = answer |> switch(first(value_type),

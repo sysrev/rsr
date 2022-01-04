@@ -11,7 +11,7 @@ concordant(a, single.concordance = T, pco)
 
 \item{single.concordance}{should length 1 value be considered concordant?}
 
-\item{pco}{concordance settings from `get_project_concordance_options(pid)`}
+\item{pco}{concordance settings from `get_sroptions(pid)`}
 }
 \value{
 `concordant()` returns T when all answers are concordant
