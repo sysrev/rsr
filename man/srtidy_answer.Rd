@@ -3,7 +3,7 @@
 \name{srtidy_answer}
 \alias{srtidy_answer}
 \title{tidy.answer
-parses character vector json encodings of answers to rsr value types}
+parses character vector json encodings of answers to srr value types}
 \usage{
 srtidy_answer(answer, value_type, simplify = F)
 }
@@ -16,5 +16,5 @@ srtidy_answer(answer, value_type, simplify = F)
 }
 \description{
 tidy.answer
-parses character vector json encodings of answers to rsr value types
+parses character vector json encodings of answers to srr value types
 }

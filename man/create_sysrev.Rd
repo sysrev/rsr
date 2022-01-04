@@ -5,12 +5,12 @@
 \title{create_sysrev
 create a sysrev project}
 \usage{
-create_sysrev(name, get_existing = F, token = get_srkey())
+create_sysrev(name, get_if_exists = F, token = get_srkey())
 }
 \arguments{
 \item{name}{the name of the project you want to create}
 
-\item{get_existing}{get the project if it already exists}
+\item{get_if_exists}{get the project if it already exists}
 
 \item{token}{a sysrev token with read access to the given project}
 }

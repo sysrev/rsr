@@ -1,9 +1,9 @@
-# rsr <img src="man/figures/logo.svg" align="right" />
+# srr <img src="man/figures/logo.svg" align="right" />
 Create, access and analyze Sysrev data. 
 
 **Install**
 ``` r
-devtools::install_github('sysrev/rsr')
+devtools::install_github('sysrev/srr')
 ```
 
 **Authenticate**  
@@ -14,10 +14,10 @@ Get your sysrev token from your sysrev.com user page.
 Setup a simple review of pubmed title/abstracts.
 
 ```{r}
-library(rsr)
+library(srr)
 
 # Create or get a sysrev and get it's `pid`
-pid = create_sysrev("rsr",get_if_exists=T)$pid
+pid = create_sysrev("srr",get_if_exists=T)$pid
 
 import_pmids(pid,pmids=c(1000,10001))
 

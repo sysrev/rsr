@@ -15,7 +15,7 @@ sroptions = function(consensus.labels=list(),na.rm=T){
 #' @return a project_concordant_options list
 #' @export
 get_sroptions = function(pid=NA){
-  lbl                   = rsr::get_labels(43140)
+  lbl                   = srr::get_labels(43140)
   lbl.loid              = lbl |> select(.data$lid,loid = .data$label_id_local)
   any.consensus.labels  = lbl |> filter(.data$consensus) |> select(.data$lid,ploid = .data$root_label_id_local)
   root.consensus.labels = lbl.loid |> filter(.data$loid %in% any.consensus.labels$ploid)
@@ -59,7 +59,7 @@ concordant2 = function(a,b,options){
 #' @importFrom dplyr filter
 #' @importFrom rlang .data
 #' @export
-concordant2.rsr_group = function(a,b,options){
+concordant2.srr_group = function(a,b,options){
   a1 = a |> filter(.data$lid %in% options$consensus.labels)
   b1 = b |> filter(.data$lid %in% options$consensus.labels)
   all_equal(a1,b1) == TRUE

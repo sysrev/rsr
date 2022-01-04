@@ -10,7 +10,7 @@ tidy.answers.group(answer)
 \item{answer}{character vector json encoding for group labels}
 }
 \value{
-<rsr_group> vector which is a subclass of <tbl>
+<srr_group> vector which is a subclass of <tbl>
 }
 \description{
 tidy.answer

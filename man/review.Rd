@@ -20,7 +20,7 @@ review(
 
 \item{aid}{the article id within the project id to update}
 
-\item{lid}{the label id to update (see \link[rsr]{get_labels})}
+\item{lid}{the label id to update (see \link[srr]{get_labels})}
 
 \item{lval}{the new value - this is an R object that can be parsed into json.}
 

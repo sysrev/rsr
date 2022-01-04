@@ -10,7 +10,7 @@
 #' @keywords internal
 #'
 sysrev.rplumber = function(path,params=list(),token=get_srkey()){
-  req   <- GET(modify_url(getOption("rsr.sysrev.plumber.url"), path=path,query=params),add_headers(Authorization=glue("bearer {token}")))
+  req   <- GET(modify_url(getOption("srr.sysrev.plumber.url"), path=path,query=params),add_headers(Authorization=glue("bearer {token}")))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   if(!is.null(res$error)){ stop(res$message) }
   res
@@ -27,7 +27,7 @@ sysrev.rplumber = function(path,params=list(),token=get_srkey()){
 #' @keywords internal
 #'
 sysrev.rplumber.post = function(path,body,token,encode="json"){
-  req   <- POST(modify_url(getOption("rsr.sysrev.plumber.url"), path=path),
+  req   <- POST(modify_url(getOption("srr.sysrev.plumber.url"), path=path),
                 add_headers(Authorization=glue("bearer {token}")),
                 body=body,encode = encode)
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()

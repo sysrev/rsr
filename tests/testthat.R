@@ -1,4 +1,4 @@
 library(testthat)
-library(rsr)
+library(srr)
 
-test_check("rsr")
+test_check("srr")
