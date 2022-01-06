@@ -9,7 +9,7 @@ get_answers_tidy(pid, drop.resolved.discordant = F)
 \arguments{
 \item{pid}{the project-id to export}
 
-\item{drop.resolved.discordant}{removes answers for articles that have a resolved alternative}
+\item{drop.resolved.discordant}{remove answers for articles that have a resolved alternative?}
 }
 \value{
 a tbl with tidy sysrev answers
