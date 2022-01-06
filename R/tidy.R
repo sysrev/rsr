@@ -1,15 +1,15 @@
 #' create a tidy version of sysrev answers
 #' @import dplyr
 #' @importFrom rlang .data
-#' @param pid the project-id to export
 #' @param drop.resolved.discordant remove answers for articles that have a resolved alternative?
+#' @inheritParams get_answers
 #' @return a tbl with tidy sysrev answers
 #' @export
-get_answers_tidy = function(pid,drop.resolved.discordant=F) {
+get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srkey()) {
 
-  pco = get_sroptions(pid)
+  pco = get_sroptions(pid,token=token)
 
-  a = get_answers(pid) |> # get tidy sysrev answers
+  a = get_answers(pid,token = token) |> # get tidy sysrev answers
     group_by(.data$lid) |> mutate(answer = srtidy_answer(.data$answer, .data$value_type)) |> ungroup() |>
     group_by(.data$aid) |> # filter out reviews superseded by a resolve review
     (\(tbl){ purrr::when(drop.resolved.discordant,
@@ -37,15 +37,15 @@ get_answers_tidy = function(pid,drop.resolved.discordant=F) {
 #' create a list of tidy answer tibbles
 #' a special `basic` value in the list is populated by categorical boolean and string labels
 #' every other value in the list represents a sysrev group label <rsr_group>
-#' @param pid the project-id to export
+#' @inheritParams get_answers
 #' @importFrom rlang .data
 #' @importFrom tidyr pivot_wider unnest
 #' @importFrom purrr map_chr map set_names pluck
 #' @return list of tibbles
 #' @export
-get_answers_list = function(pid){
+get_answers_list = function(pid,token=get_srkey()){
 
-  tidy.ans   = get_answers_tidy(pid)
+  tidy.ans   = get_answers_tidy(pid,token=token)
 
   basic.tbl  = tidy.ans |>
     filter(.data$value_type %in% c("categorical","boolean","string")) |>

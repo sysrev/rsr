@@ -6,10 +6,12 @@
 a special `basic` value in the list is populated by categorical boolean and string labels
 every other value in the list represents a sysrev group label <rsr_group>}
 \usage{
-get_answers_list(pid)
+get_answers_list(pid, token = get_srkey())
 }
 \arguments{
-\item{pid}{the project-id to export}
+\item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}
+
+\item{token}{a sysrev token with read access to the given project}
 }
 \value{
 list of tibbles

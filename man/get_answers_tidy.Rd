@@ -4,12 +4,14 @@
 \alias{get_answers_tidy}
 \title{create a tidy version of sysrev answers}
 \usage{
-get_answers_tidy(pid, drop.resolved.discordant = F)
+get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srkey())
 }
 \arguments{
-\item{pid}{the project-id to export}
+\item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}
 
 \item{drop.resolved.discordant}{remove answers for articles that have a resolved alternative?}
+
+\item{token}{a sysrev token with read access to the given project}
 }
 \value{
 a tbl with tidy sysrev answers

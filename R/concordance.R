@@ -11,11 +11,11 @@ sroptions = function(consensus.labels=list(),na.rm=T){
 #' get_sroptions
 #' @importFrom rlang .data
 #' @details concordance_options are used to compare two objects of the same type
-#' @param pid sysrev project_id, allows concordance_options to be looked up from sysrev.com
+#' @inheritParams get_answers
 #' @return a project_concordant_options list
 #' @export
-get_sroptions = function(pid=NA){
-  lbl                   = rsr::get_labels(43140)
+get_sroptions = function(pid=NA,token=get_srkey()){
+  lbl                   = rsr::get_labels(43140,token = token)
   lbl.loid              = lbl |> select(.data$lid,loid = .data$label_id_local)
   any.consensus.labels  = lbl |> filter(.data$consensus) |> select(.data$lid,ploid = .data$root_label_id_local)
   root.consensus.labels = lbl.loid |> filter(.data$loid %in% any.consensus.labels$ploid)

@@ -4,10 +4,12 @@
 \alias{get_sroptions}
 \title{get_sroptions}
 \usage{
-get_sroptions(pid = NA)
+get_sroptions(pid = NA, token = get_srkey())
 }
 \arguments{
-\item{pid}{sysrev project_id, allows concordance_options to be looked up from sysrev.com}
+\item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}
+
+\item{token}{a sysrev token with read access to the given project}
 }
 \value{
 a project_concordant_options list
