@@ -53,7 +53,7 @@ get_answers_list = function(pid,token=get_srkey()){
     mutate(answer = map_chr(.data$answer,~paste(.,collapse=";"))) |>
     pivot_wider(names_from=.data$short_label,values_from = .data$answer)
 
-  lookup.lidname  = get_labels(pid) |>
+  lookup.lidname  = get_labels(pid,token=token) |>
     with(\(n){ pluck(short_label,which(lid==n),.default = n) }) |>
     Vectorize()
 
