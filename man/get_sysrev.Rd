@@ -2,9 +2,7 @@
 % Please edit documentation in R/create.R
 \name{get_sysrev}
 \alias{get_sysrev}
-\title{get_sysrev
-TODO need to move this back to get.R file and fix evaluation order
-get a sysrev metadata}
+\title{get a sysrev with a name}
 \usage{
 get_sysrev(name, token = get_srtoken())
 }
@@ -17,7 +15,6 @@ get_sysrev(name, token = get_srtoken())
 A dataframe
 }
 \description{
-get_sysrev
 TODO need to move this back to get.R file and fix evaluation order
 get a sysrev metadata
 }

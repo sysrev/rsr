@@ -2,8 +2,7 @@
 % Please edit documentation in R/concordance.R
 \name{concordant2}
 \alias{concordant2}
-\title{concordant2
-TODO add a json equality to cover all undefined sysrev types}
+\title{check for binary answer concordance}
 \usage{
 concordant2(a, b, options)
 }
@@ -18,11 +17,11 @@ concordant2(a, b, options)
 `concordant()` returns T when a and b are 'concordant'
 }
 \description{
-concordant2
-TODO add a json equality to cover all undefined sysrev types
+check for binary answer concordance
 }
 \details{
 concordant refers to whether two sysrev answers are equivalent
+TODO add a json equality to cover all undefined sysrev types
 }
 \keyword{answer}
 \keyword{comparison}

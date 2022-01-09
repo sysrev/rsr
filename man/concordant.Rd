@@ -2,12 +2,12 @@
 % Please edit documentation in R/concordance.R
 \name{concordant}
 \alias{concordant}
-\title{concordant}
+\title{check if the answers in an answer vector}
 \usage{
 concordant(a, single.concordance = T, pco)
 }
 \arguments{
-\item{a}{input vector}
+\item{a}{answer vector}
 
 \item{single.concordance}{should length 1 value be considered concordant?}
 
@@ -17,7 +17,7 @@ concordant(a, single.concordance = T, pco)
 `concordant()` returns T when all answers are concordant
 }
 \description{
-concordant
+check if the answers in an answer vector
 }
 \details{
 concordant refers to whether two sysrev answers are equivalent

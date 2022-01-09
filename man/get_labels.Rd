@@ -2,8 +2,7 @@
 % Please edit documentation in R/get.R
 \name{get_labels}
 \alias{get_labels}
-\title{get_labels_tbl
-a simpler verison of get_labels}
+\title{get label definitions}
 \usage{
 get_labels(pid, token = get_srtoken())
 }
@@ -13,6 +12,5 @@ get_labels(pid, token = get_srtoken())
 \item{token}{a sysrev token with read access to the given project}
 }
 \description{
-get_labels_tbl
-a simpler verison of get_labels
+get label definitions
 }

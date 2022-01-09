@@ -41,8 +41,7 @@ get_predictions <- function(pid,token=get_srtoken()){
     tibble()
 }
 
-#' get_labels_tbl
-#' a simpler verison of get_labels
+#' get label definitions
 #' @import tidyr
 #' @param pid The project identifier.  For sysrev.com/p/3144 the identifier is 3144
 #' @param token a sysrev token with read access to the given project

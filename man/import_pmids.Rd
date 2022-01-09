@@ -2,8 +2,7 @@
 % Please edit documentation in R/imports.R
 \name{import_pmids}
 \alias{import_pmids}
-\title{import_pmids
-creates a data source for the given sysrev project with the given pubme ids}
+\title{create a data source with pubmed ids (pmids)}
 \usage{
 import_pmids(pid, pmids, token = get_srtoken())
 }
@@ -18,6 +17,5 @@ import_pmids(pid, pmids, token = get_srtoken())
 success message
 }
 \description{
-import_pmids
-creates a data source for the given sysrev project with the given pubme ids
+create a data source with pubmed ids (pmids)
 }

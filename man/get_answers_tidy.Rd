@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidy.R
 \name{get_answers_tidy}
 \alias{get_answers_tidy}
-\title{create a tidy version of sysrev answers}
+\title{get sysrev answers tibble with answers as rsr types}
 \usage{
 get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srtoken())
 }
@@ -17,5 +17,5 @@ get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srtoken())
 a tbl with tidy sysrev answers
 }
 \description{
-create a tidy version of sysrev answers
+get sysrev answers tibble with answers as rsr types
 }

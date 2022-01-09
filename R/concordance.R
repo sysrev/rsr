@@ -23,9 +23,9 @@ get_sroptions = function(pid=NA,token=get_srtoken()){
   sroptions(consensus.labels = consensus.labels)
 }
 
-#' concordant
+#' check if the answers in an answer vector
 #' @details concordant refers to whether two sysrev answers are equivalent
-#' @param a input vector
+#' @param a answer vector
 #' @param single.concordance should length 1 value be considered concordant?
 #' @param pco concordance settings from `get_sroptions(pid)`
 #' @return `concordant()` returns T when all answers are concordant
@@ -43,9 +43,10 @@ concordant = function(a,single.concordance=T,pco){
   purrr::every(a[-1], ~ concordant2(a[[1]],.,pco))
 }
 
-#' concordant2
+#' check for binary answer concordance
+#' @details
+#' concordant refers to whether two sysrev answers are equivalent
 #' TODO add a json equality to cover all undefined sysrev types
-#' @details concordant refers to whether two sysrev answers are equivalent
 #' @param a first object to compare
 #' @param b second object to compare
 #' @param options additional arguments for specific answer subclasses

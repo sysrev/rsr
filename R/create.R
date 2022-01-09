@@ -1,4 +1,5 @@
-#' get_sysrev
+#' get a sysrev with a name
+#' @description
 #' TODO need to move this back to get.R file and fix evaluation order
 #' get a sysrev metadata
 #' @param name the sysrev to get metadata from

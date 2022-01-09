@@ -2,9 +2,7 @@
 % Please edit documentation in R/tidy.R
 \name{get_answers_list}
 \alias{get_answers_list}
-\title{create a list of tidy answer tibbles
-a special `basic` value in the list is populated by categorical boolean and string labels
-every other value in the list represents a sysrev group label <rsr_group>}
+\title{get a list of tidy answer tibbles}
 \usage{
 get_answers_list(pid, token = get_srtoken())
 }
@@ -17,7 +15,6 @@ get_answers_list(pid, token = get_srtoken())
 list of tibbles
 }
 \description{
-create a list of tidy answer tibbles
 a special `basic` value in the list is populated by categorical boolean and string labels
 every other value in the list represents a sysrev group label <rsr_group>
 }

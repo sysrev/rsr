@@ -1,4 +1,4 @@
-#' create a tidy version of sysrev answers
+#' get sysrev answers tibble with answers as rsr types
 #' @import dplyr
 #' @importFrom rlang .data
 #' @param drop.resolved.discordant remove answers for articles that have a resolved alternative?
@@ -34,7 +34,9 @@ get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srtoken()) 
   )
 }
 
-#' create a list of tidy answer tibbles
+#' get a list of tidy answer tibbles
+#'
+#' @description
 #' a special `basic` value in the list is populated by categorical boolean and string labels
 #' every other value in the list represents a sysrev group label <rsr_group>
 #' @inheritParams get_answers
