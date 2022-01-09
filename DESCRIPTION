@@ -9,7 +9,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
-URL: https://github.com/sysrev/rsysrev, https://rsysrev.sysrev.com
+URL: https://github.com/sysrev/rsr, https://r.sysrev.com
 Imports:
     dplyr,
     tidyr,
