@@ -4,7 +4,7 @@
 \alias{get_sroptions}
 \title{get_sroptions}
 \usage{
-get_sroptions(pid = NA, token = get_srkey())
+get_sroptions(pid = NA, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

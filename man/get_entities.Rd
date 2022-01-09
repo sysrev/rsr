@@ -4,7 +4,7 @@
 \alias{get_entities}
 \title{get_entities}
 \usage{
-get_entities(pid, token = get_srkey())
+get_entities(pid, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

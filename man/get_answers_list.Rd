@@ -6,7 +6,7 @@
 a special `basic` value in the list is populated by categorical boolean and string labels
 every other value in the list represents a sysrev group label <rsr_group>}
 \usage{
-get_answers_list(pid, token = get_srkey())
+get_answers_list(pid, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

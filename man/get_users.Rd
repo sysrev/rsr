@@ -5,7 +5,7 @@
 \title{get_users
 get the users in a project}
 \usage{
-get_users(pid, token = get_srkey())
+get_users(pid, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

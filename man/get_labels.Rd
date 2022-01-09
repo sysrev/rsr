@@ -5,7 +5,7 @@
 \title{get_labels_tbl
 a simpler verison of get_labels}
 \usage{
-get_labels(pid, token = get_srkey())
+get_labels(pid, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

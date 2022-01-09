@@ -12,7 +12,7 @@ review(
   resolve = T,
   change = T,
   confirm = T,
-  token = get_srkey()
+  token = get_srtoken()
 )
 }
 \arguments{

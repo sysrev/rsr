@@ -20,6 +20,12 @@ get_sysrev <- function(name,token=get_srtoken()){
 #' @export
 #'
 create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
-  pid = if(get_if_exists){ get_sysrev(name,token) }
-  if(get_if_exists && pid$exists){ pid }else{ sysrev.rplumber.post("create_sysrev",list(name=name),token) }
+  sr = get_sysrev(name,token)
+  sr = if( get_if_exists && sr$exists){ sr }
+  else if(!sr$exists){ sysrev.rplumber.post("create_sysrev",list(name=name),token) }
+  else if(!get_if_exists && sr$exists){
+    stop(glue::glue_col("{red {name}} already exists, rerun with {cyan `get_if_exists=T`}?"))
+  }
+
+  sr$pid
 }

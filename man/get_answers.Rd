@@ -4,7 +4,7 @@
 \alias{get_answers}
 \title{get_answers}
 \usage{
-get_answers(pid, token = get_srkey())
+get_answers(pid, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

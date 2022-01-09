@@ -4,7 +4,7 @@
 \alias{get_answers_tidy}
 \title{create a tidy version of sysrev answers}
 \usage{
-get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srkey())
+get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srtoken())
 }
 \arguments{
 \item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}

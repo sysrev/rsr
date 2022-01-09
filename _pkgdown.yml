@@ -64,4 +64,4 @@ reference:
 - title: authentication
   desc: method for getting your sysrev token
   contents:
-  - get_srkey
+  - get_srtoken

@@ -6,7 +6,7 @@
 TODO need to move this back to get.R file and fix evaluation order
 get a sysrev metadata}
 \usage{
-get_sysrev(name, token = get_srkey())
+get_sysrev(name, token = get_srtoken())
 }
 \arguments{
 \item{name}{the sysrev to get metadata from}

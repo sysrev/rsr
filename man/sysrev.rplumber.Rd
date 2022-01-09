@@ -4,9 +4,9 @@
 \alias{sysrev.rplumber}
 \title{sysrev.plumber
 a simple wrapper for rplumber.sysrev.com httr api requests
-TODO - remove get_srkey}
+TODO - remove get_srtoken}
 \usage{
-sysrev.rplumber(path, params = list(), token = get_srkey())
+sysrev.rplumber(path, params = list(), token = get_srtoken())
 }
 \arguments{
 \item{path}{the service path see rplumber.sysrev.com/__docs__/#/}
@@ -21,6 +21,6 @@ A dataframe
 \description{
 sysrev.plumber
 a simple wrapper for rplumber.sysrev.com httr api requests
-TODO - remove get_srkey
+TODO - remove get_srtoken
 }
 \keyword{internal}
