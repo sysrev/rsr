@@ -2,7 +2,7 @@
 #' @return the users sysrev token
 get_srtoken = function(){
   res = tryCatch({
-    list(token = keyring::key_get("sysrev","tokens"),success=T)
+    list(token = keyring::key_get("sysrev","token"),success=T)
   },error=function(e){
     list(success=F,error = glue::glue_col(
     'no default token found. use:
