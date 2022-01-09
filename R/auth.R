@@ -9,7 +9,7 @@ get_srtoken = function(){
     1. {cyan `> keyring::key_set("sysrev","token")`}  # to cache a token
     2. {cyan `> rsr::get_*(3144,token="some-token")`} # to manually set a token for a function'))
   })
-  if(res$success){ stop(res$token) }else{ stop(res$error) }
+  if(res$success){ res$token }else{ stop(res$error) }
 }
 
 #' test_token
