@@ -7,7 +7,7 @@
 #' @return A dataframe
 #' @export
 #'
-get_sysrev <- function(name,token=get_srkey()){
+get_sysrev <- function(name,token=get_srtoken()){
   sysrev.rplumber("get_sysrev",list(name=name),token)
 }
 
@@ -19,7 +19,7 @@ get_sysrev <- function(name,token=get_srkey()){
 #' @return json describing result of call
 #' @export
 #'
-create_sysrev <- function(name,get_if_exists=F,token=get_srkey()){
+create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
   pid = if(get_if_exists){ get_sysrev(name,token) }
   if(get_if_exists && pid$exists){ pid }else{ sysrev.rplumber.post("create_sysrev",list(name=name),token) }
 }

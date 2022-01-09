@@ -14,7 +14,7 @@ sroptions = function(consensus.labels=list(),na.rm=T){
 #' @inheritParams get_answers
 #' @return a project_concordant_options list
 #' @export
-get_sroptions = function(pid=NA,token=get_srkey()){
+get_sroptions = function(pid=NA,token=get_srtoken()){
   lbl                   = rsr::get_labels(43140,token = token)
   lbl.loid              = lbl |> select(.data$lid,loid = .data$label_id_local)
   any.consensus.labels  = lbl |> filter(.data$consensus) |> select(.data$lid,ploid = .data$root_label_id_local)

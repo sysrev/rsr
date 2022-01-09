@@ -5,7 +5,7 @@
 #' @inheritParams get_answers
 #' @return a tbl with tidy sysrev answers
 #' @export
-get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srkey()) {
+get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srtoken()) {
 
   pco = get_sroptions(pid,token=token)
 
@@ -43,7 +43,7 @@ get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srkey()) {
 #' @importFrom purrr map_chr map set_names pluck
 #' @return list of tibbles
 #' @export
-get_answers_list = function(pid,token=get_srkey()){
+get_answers_list = function(pid,token=get_srtoken()){
 
   tidy.ans   = get_answers_tidy(pid,token=token)
 

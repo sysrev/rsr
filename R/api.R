@@ -1,6 +1,6 @@
 #' sysrev.plumber
 #' a simple wrapper for rplumber.sysrev.com httr api requests
-#' TODO - remove get_srkey
+#' TODO - remove get_srtoken
 #' @import glue
 #' @import httr
 #' @param path the service path see rplumber.sysrev.com/__docs__/#/
@@ -9,7 +9,7 @@
 #' @return A dataframe
 #' @keywords internal
 #'
-sysrev.rplumber = function(path,params=list(),token=get_srkey()){
+sysrev.rplumber = function(path,params=list(),token=get_srtoken()){
   req   <- GET(modify_url(getOption("srplumber.url"), path=path,query=params),add_headers(Authorization=glue("bearer {token}")))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   if(!is.null(res$error)){ stop(res$message) }

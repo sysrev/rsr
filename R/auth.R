@@ -1,14 +1,15 @@
 #' get_key
 #' @return the users sysrev token
-get_srkey = function(){
-  tryCatch({
-    keyring::key_get("sysrev","token")
+get_srtoken = function(){
+  res = tryCatch({
+    list(token = keyring::key_get("sysrev","tokens"),success=T)
   },error=function(e){
-    stop(glue::glue_col("\nno cached key found.
-                    set a default sysrev token with {red `keyring::key_set(\"sysrev\",\"token\")`}
-                    Get your token on sysrev.com user page.
-                    You must have a premium account to use rsr"))
+    list(success=F,error = glue::glue_col(
+    'no default token found. use:
+    1. {cyan `> keyring::key_set("sysrev","token")`}  # to cache a token
+    2. {cyan `> rsr::get_*(3144,token="some-token")`} # to manually set a token for a function'))
   })
+  if(res$success){ stop(res$token) }else{ stop(res$error) }
 }
 
 #' test_token

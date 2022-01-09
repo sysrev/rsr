@@ -13,7 +13,7 @@
 #' @param token a token with write acces
 #' @return true if successful
 #' @export
-review <- function(pid,aid,lid,lval,resolve=T,change=T,confirm=T,token=get_srkey()){
+review <- function(pid,aid,lid,lval,resolve=T,change=T,confirm=T,token=get_srtoken()){
   lvals = list(lval) |> setNames(lid) |> jsonlite::toJSON(auto_unbox=T) |> toString()
   query = glue::glue("mutation {{
                      setLabels(

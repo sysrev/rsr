@@ -6,6 +6,6 @@
 #' @return success message
 #' @export
 #'
-import_pmids <- function(pid,pmids,token=get_srkey()){
+import_pmids <- function(pid,pmids,token=get_srtoken()){
   sysrev.rplumber.post("import_pmids",list(pid=pid,pmids=pmids),token)$result
 }
