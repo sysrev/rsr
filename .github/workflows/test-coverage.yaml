@@ -12,7 +12,8 @@ jobs:
   test-coverage:
     runs-on: ubuntu-latest
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT:   ${{ secrets.GITHUB_TOKEN }}
+      sysrev.token: ${{ secrets.SYSREV_TEST_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
