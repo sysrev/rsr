@@ -15,16 +15,9 @@ reference:
 - title: get
   desc:  get articles, labels, users, sysrevs
   contents:
-  - get_articles
-  - get_article
-  - get_answers
-  - get_answers_tidy
-  - get_answers_list
-  - get_labels
-  - get_users
-  - get_predictions
-  - get_sroptions
   - get_sysrev
+  - get_
+  - get_answers
   - sysrev.getGroupLabelAnswers
 
 - title: tidy

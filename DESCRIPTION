@@ -26,7 +26,8 @@ Imports:
     stats,
     base64enc,
     jsonparse (>= 0.0.1.9000),
-    lifecycle
+    lifecycle,
+    withr
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown,

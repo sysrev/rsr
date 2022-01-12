@@ -8,11 +8,7 @@ sroptions = function(consensus.labels=list(),na.rm=T){
   list(consensus.labels=consensus.labels,na.rm=na.rm)
 }
 
-#' get_sroptions
-#' @importFrom rlang .data
-#' @details concordance_options are used to compare two objects of the same type
-#' @inheritParams get_answers
-#' @return a project_concordant_options list
+#' @rdname get_sysrev
 #' @export
 get_sroptions = function(pid=NA,token=get_srtoken()){
   lbl                   = rsr::get_labels(43140,token = token)

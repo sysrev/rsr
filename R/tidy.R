@@ -92,7 +92,7 @@ tidy.answers.group   = function(answer){
     mutate(row=as.numeric(row)) |>
     select(.data$aid,.data$row,.data$lid,value=answer)
 
-  groups = longtb |> group_by(.data$aid) |> nest() |> ungroup() |> pull(data)
+  groups = longtb |> group_by(.data$aid) |> tidyr::nest() |> ungroup() |> pull(data)
 
   purrr::map(groups, ~ structure(.,class=c("rsr_group",class(.))))
 }

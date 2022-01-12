@@ -4,7 +4,7 @@
 \alias{get_answers}
 \alias{get_answers_tidy}
 \alias{get_answers_list}
-\title{get_answers}
+\title{get sysrev answers tibble with answers as rsr types}
 \usage{
 get_answers(pid, token = get_srtoken())
 
@@ -13,7 +13,7 @@ get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srtoken())
 get_answers_list(pid, token = get_srtoken())
 }
 \arguments{
-\item{pid}{The project identifier.  For sysrev.com/p/3144 the identifier is 3144}
+\item{pid}{the project to get articles from, i.e sysrev.com/p/<project_id>}
 
 \item{token}{a sysrev token with read access to the given project}
 

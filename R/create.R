@@ -1,14 +1,9 @@
-#' get a sysrev with a name
-#' @description
-#' TODO need to move this back to get.R file and fix evaluation order
-#' get a sysrev metadata
+#' get sysrev project/options with a name or id
 #' @param name the sysrev to get metadata from
-#' @param token a sysrev token with read access to the given project
-#' @importFrom rlang .data
+#' @inheritParams get_
 #' @return A dataframe
 #' @export
-#'
-get_sysrev <- function(name,token=get_srtoken()){
+get_sysrev <- function(name,pid=NA,token=get_srtoken()){
   sysrev.rplumber("get_sysrev",list(name=name),token)
 }
 
