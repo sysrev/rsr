@@ -6,3 +6,4 @@
 tmp.rmd
 docs
 tmp.R
+.secrets.yaml
