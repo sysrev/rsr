@@ -1,3 +1,8 @@
+<!-- badges: start -->
+[![Test Coverage](https://codecov.io/gh/sysrev/rsr/branch/main/graph/badge.svg)]
+(https://app.codecov.io/gh/sysrev/rsr?branch=main)
+<!-- badges: end -->
+
 # rsr <img src="man/figures/logo.svg" align="right" />
 Create and analyze Sysrev data. 
 
