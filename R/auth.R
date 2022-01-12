@@ -1,5 +1,6 @@
 #' get_key
 #' @return the users sysrev token
+#' @keywords internal
 get_srtoken = function(){
   res = tryCatch({
     st    = Sys.getenv("SYSREV_TOKEN")

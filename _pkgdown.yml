@@ -60,8 +60,3 @@ reference:
   contents:
   - browse_sysrev
   - browse_article
-
-- title: authentication
-  desc: method for getting your sysrev token
-  contents:
-  - get_srtoken
