@@ -29,7 +29,8 @@ Imports:
     lifecycle
 Suggests:
     testthat (>= 3.0.0),
-    rmarkdown
+    rmarkdown,
+    covr
 Config/testthat/edition: 3
 Remotes: 
     ChrisMuir/jsonparse

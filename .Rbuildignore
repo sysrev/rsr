@@ -7,3 +7,4 @@
 ^README.rmd$
 ^config.yml$
 ^tmp.R
+^codecov\.yml$
