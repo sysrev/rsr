@@ -19,13 +19,14 @@ get_sroptions = function(pid=NA,token=get_srtoken()){
   sroptions(consensus.labels = consensus.labels)
 }
 
-#' check if the answers in an answer vector
+#' concordant
+#' @description Is an answer vector concordant?
 #' @details concordant refers to whether two sysrev answers are equivalent
 #' @param a answer vector
 #' @param single.concordance should length 1 value be considered concordant?
 #' @param pco concordance settings from `get_sroptions(pid)`
-#' @return `concordant()` returns T when all answers are concordant
-#' @keywords sysrev answer comparison
+#' @return True or False
+#' @keywords internal sysrev answer comparison
 #' @export
 concordant = function(a,single.concordance=T,pco){
 
@@ -46,23 +47,22 @@ concordant = function(a,single.concordance=T,pco){
 #' @param a first object to compare
 #' @param b second object to compare
 #' @param options additional arguments for specific answer subclasses
-#' @return `concordant()` returns T when a and b are 'concordant'
-#' @keywords sysrev answer comparison
-#' @export
+#' @return T when a and b are 'concordant'
+#' @keywords internal sysrev answer comparison
 concordant2 = function(a,b,options){
   UseMethod("concordant2")
 }
 
 #' @importFrom dplyr filter
 #' @importFrom rlang .data
-#' @export
+#' @keywords internal
 concordant2.rsr_group = function(a,b,options){
   a1 = a |> filter(.data$lid %in% options$consensus.labels)
   b1 = b |> filter(.data$lid %in% options$consensus.labels)
   all_equal(a1,b1) == TRUE
 }
 
-#' @export
+#' @keywords internal
 concordant2.default = function(a,b,options){
   setequal(a,b)
 }

@@ -92,7 +92,7 @@ tidy.answers.group   = function(answer){
     mutate(row=as.numeric(row)) |>
     select(.data$aid,.data$row,.data$lid,value=answer)
 
-  groups = longtb |> group_by(.data$aid) |> tidyr::nest() |> ungroup() |> pull(data)
+  groups = longtb |> group_by(.data$aid) |> tidyr::nest() |> ungroup() |> pull(.data$data)
 
   purrr::map(groups, ~ structure(.,class=c("rsr_group",class(.))))
 }
@@ -102,7 +102,7 @@ tidy.answers.group   = function(answer){
 #' @param value_type 'boolean', 'categorical', 'string', or 'group'
 #' @param answer a json anwer to transform
 #' @param simplify if true, unlists the result
-#' @export
+#' @keywords internal
 srtidy_answer = function(answer,value_type,simplify=F){
   stopifnot(n_distinct(value_type)==1)
 

@@ -13,7 +13,7 @@ get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srtoken())
 get_answers_list(pid, token = get_srtoken())
 }
 \arguments{
-\item{pid}{the project to get articles from, i.e sysrev.com/p/<project_id>}
+\item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
 \item{token}{a sysrev token with read access to the given project}
 

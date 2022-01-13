@@ -14,7 +14,7 @@ concordant2(a, b, options)
 \item{options}{additional arguments for specific answer subclasses}
 }
 \value{
-`concordant()` returns T when a and b are 'concordant'
+T when a and b are 'concordant'
 }
 \description{
 check for binary answer concordance
@@ -25,4 +25,5 @@ TODO add a json equality to cover all undefined sysrev types
 }
 \keyword{answer}
 \keyword{comparison}
+\keyword{internal}
 \keyword{sysrev}

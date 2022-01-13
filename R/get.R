@@ -1,6 +1,6 @@
 #' basic getters
 #' @description export tibbles from sysrev projects
-#' @param pid the project to get articles from, i.e sysrev.com/p/<project_id>
+#' @param pid a sysrev project id - sysrev.com/p/<pid>
 #' @param token a sysrev token with read access to the given project
 #' @return A tibble
 #' @name get_

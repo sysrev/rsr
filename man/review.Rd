@@ -2,16 +2,16 @@
 % Please edit documentation in R/review.R
 \name{review}
 \alias{review}
-\title{review}
+\title{set the value of a given article+label}
 \usage{
 review(
   pid,
   aid,
   lid,
-  lval,
-  resolve = T,
+  answer,
+  multi = T,
   change = T,
-  confirm = T,
+  resolve = F,
   token = get_srtoken()
 )
 }
@@ -22,13 +22,13 @@ review(
 
 \item{lid}{the label id to update}
 
-\item{lval}{the new value - this is an R object that can be parsed into json.}
+\item{answer}{the new value - this is an R object that can be parsed into json.}
 
-\item{resolve}{treat this label update as resolve (use the default if you don't know what this means)}
+\item{multi}{does this label take multiple answers? (eventually will be automated)}
 
 \item{change}{treat this label update as a change (use default if you don't know what this means)}
 
-\item{confirm}{treat this label update as a confirmed label (use default if you don't know what this means)}
+\item{resolve}{treat this label update as resolve (use the default if you don't know what this means)}
 
 \item{token}{a token with write acces}
 }
@@ -36,5 +36,5 @@ review(
 true if successful
 }
 \description{
-review
+set the value of a given article+label
 }

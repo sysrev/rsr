@@ -18,3 +18,4 @@ srtidy_answer(answer, value_type, simplify = F)
 tidy.answer
 parses character vector json encodings of answers to rsr value types
 }
+\keyword{internal}

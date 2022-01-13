@@ -10,7 +10,7 @@ get_sroptions(pid = NA, token = get_srtoken())
 get_sysrev(name, pid = NA, token = get_srtoken())
 }
 \arguments{
-\item{pid}{the project to get articles from, i.e sysrev.com/p/<project_id>}
+\item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
 \item{token}{a sysrev token with read access to the given project}
 

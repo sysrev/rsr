@@ -18,7 +18,7 @@ test_that("setting a label value works", {
   ans = \(){get_answers(pid) |> filter(user_id==uid,lid==lid,aid==aid) |> pull(answer)=="true"}
 
   ans.pre  = ans()
-  res      = review(pid,aid,lid,resolve=F,lval = !ans.pre)
+  res      = review(pid=pid,aid=aid,lid=lid,answer = !ans.pre,multi = F)
   ans.post = ans()
 
   expect_true(all(is.logical(c(ans.pre,ans.post))))

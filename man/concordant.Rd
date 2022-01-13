@@ -2,7 +2,7 @@
 % Please edit documentation in R/concordance.R
 \name{concordant}
 \alias{concordant}
-\title{check if the answers in an answer vector}
+\title{concordant}
 \usage{
 concordant(a, single.concordance = T, pco)
 }
@@ -14,14 +14,15 @@ concordant(a, single.concordance = T, pco)
 \item{pco}{concordance settings from `get_sroptions(pid)`}
 }
 \value{
-`concordant()` returns T when all answers are concordant
+True or False
 }
 \description{
-check if the answers in an answer vector
+Is an answer vector concordant?
 }
 \details{
 concordant refers to whether two sysrev answers are equivalent
 }
 \keyword{answer}
 \keyword{comparison}
+\keyword{internal}
 \keyword{sysrev}
