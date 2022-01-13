@@ -4,16 +4,7 @@
 \alias{review}
 \title{set the value of a given article+label}
 \usage{
-review(
-  pid,
-  aid,
-  lid,
-  answer,
-  multi = T,
-  change = T,
-  resolve = F,
-  token = get_srtoken()
-)
+review(pid, aid, lid, answer, change = T, resolve = F, token = get_srtoken())
 }
 \arguments{
 \item{pid}{the project id to update}
@@ -23,8 +14,6 @@ review(
 \item{lid}{the label id to update}
 
 \item{answer}{the new value - this is an R object that can be parsed into json.}
-
-\item{multi}{does this label take multiple answers? (eventually will be automated)}
 
 \item{change}{treat this label update as a change (use default if you don't know what this means)}
 

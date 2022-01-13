@@ -2,8 +2,7 @@
 % Please edit documentation in R/create.R
 \name{create_sysrev}
 \alias{create_sysrev}
-\title{create_sysrev
-create a sysrev project}
+\title{create a sysrev project}
 \usage{
 create_sysrev(name, get_if_exists = F, token = get_srtoken())
 }
@@ -18,6 +17,5 @@ create_sysrev(name, get_if_exists = F, token = get_srtoken())
 json describing result of call
 }
 \description{
-create_sysrev
 create a sysrev project
 }

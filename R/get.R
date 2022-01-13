@@ -1,9 +1,8 @@
-#' basic getters
-#' @description export tibbles from sysrev projects
+#' @name get_
+#' @title export tibbles from sysrev projects
 #' @param pid a sysrev project id - sysrev.com/p/<pid>
 #' @param token a sysrev token with read access to the given project
 #' @return A tibble
-#' @name get_
 NULL
 
 #' @rdname get_

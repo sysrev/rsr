@@ -7,7 +7,6 @@ get_sysrev <- function(name,pid=NA,token=get_srtoken()){
   sysrev.rplumber("get_sysrev",list(name=name),token)
 }
 
-#' create_sysrev
 #' create a sysrev project
 #' @param name the name of the project you want to create
 #' @param get_if_exists get the project if it already exists

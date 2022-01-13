@@ -6,7 +6,7 @@
 \alias{get_predictions}
 \alias{get_labels}
 \alias{get_users}
-\title{basic getters}
+\title{export tibbles from sysrev projects}
 \usage{
 get_articles(pid, token = get_srtoken())
 

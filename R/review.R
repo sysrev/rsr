@@ -1,4 +1,5 @@
 #' @name common_params
+#' @title common_params
 #' @description provides common argument descriptions
 #' @param pid the project id to update
 #' @param aid the article id within the project id to update
@@ -11,16 +12,12 @@ NULL
 #' @inheritParams common_params
 #' @importFrom jsonlite toJSON
 #' @param answer the new value - this is an R object that can be parsed into json.
-#' @param multi does this label take multiple answers? (eventually will be automated)
 #' @param resolve treat this label update as resolve (use the default if you don't know what this means)
 #' @param change treat this label update as a change (use default if you don't know what this means)
 #' @return true if successful
 #' @export
-review <- function(pid,aid,lid,answer,
-                   multi = T,change = T,resolve = F,
-                   token = get_srtoken()){
-
-  lvals = list(answer) |> stats::setNames(lid) |> jsonlite::toJSON(auto_unbox = !multi)
+review <- function(pid,aid,lid,answer,change = T,resolve = F,token = get_srtoken()){
+  lvals = list(answer) |> stats::setNames(lid) |> jsonlite::toJSON(auto_unbox = T) |> toString()
   query = glue::glue("mutation {{
                      setLabels(
                       projectID:{pid},articleID:{aid},
