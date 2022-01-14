@@ -1,3 +1,0 @@
-man/figures/cardiotox-source-living.png filter=lfs diff=lfs merge=lfs -text
-man/figures/cardiotox-source.png filter=lfs diff=lfs merge=lfs -text
-man/figures/logo.old.svg filter=lfs diff=lfs merge=lfs -text
