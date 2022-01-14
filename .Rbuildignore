@@ -8,3 +8,6 @@
 ^config.yml$
 ^tmp.R
 ^codecov\.yml$
+^vignettes/articles$
+^doc$
+^Meta$

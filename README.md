@@ -1,9 +1,10 @@
-<!-- badges: start -->
-[![Test Coverage](https://codecov.io/gh/sysrev/rsr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/sysrev/rsr?branch=main)
-<!-- badges: end -->
-
 # rsr <img src="man/figures/logo.svg" align="right" />
+<!-- badges: start -->
+[![codecov](https://codecov.io/gh/sysrev/rsr/branch/master/graph/badge.svg?token=PPYGBLSWV3)](https://codecov.io/gh/sysrev/rsr)
+<!-- badges: end -->
 Create and analyze Sysrev data. 
+
+
 
 **Install**
 ``` r
@@ -24,7 +25,7 @@ library(rsr)
 sr = create_sysrev("rsr",get_if_exists=T)
 
 # Import articles from pubmed with pmids
-import_pmids(sr,pmids=c(1000,10001))
+create_source_pmids(sr,pmids=c(1000,10001))
 
 # pull article data into R
 get_articles(sr)

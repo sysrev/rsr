@@ -9,7 +9,7 @@
 #' @return A dataframe
 #' @keywords internal
 #'
-sysrev.rplumber = function(path,params=list(),token=get_srtoken()){
+srplumber = function(path,params=list(),token=get_srtoken()){
   req   <- GET(modify_url(getOption("srplumber.url"), path=path,query=params),add_headers(Authorization=glue("bearer {token}")))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   if(!is.null(res$error)){ stop(res$message) }
@@ -26,7 +26,7 @@ sysrev.rplumber = function(path,params=list(),token=get_srtoken()){
 #' @return A dataframe
 #' @keywords internal
 #'
-sysrev.rplumber.post = function(path,body,token,encode="json"){
+srplumber.post = function(path,body,token,encode="json"){
   req   <- POST(modify_url(getOption("srplumber.url"), path=path),
                 add_headers(Authorization=glue("bearer {token}")),
                 body=body,encode = encode)

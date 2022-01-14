@@ -4,14 +4,16 @@
 \alias{create_source_pmids}
 \title{create a data source with pubmed ids (pmids)}
 \usage{
-create_source_pmids(pid, pmids, token = get_srtoken())
+create_source_pmids(pid, name, pmids, token = get_srtoken())
 }
 \arguments{
-\item{pid}{the project for which to create a source}
+\item{pid}{the project id to update}
+
+\item{name}{give your source a name}
 
 \item{pmids}{the pubmed ids to import}
 
-\item{token}{a sysrev token with read access to the given project}
+\item{token}{a token with write acces}
 }
 \value{
 success message

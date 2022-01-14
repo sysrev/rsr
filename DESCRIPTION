@@ -31,7 +31,8 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown,
-    covr
+    covr,
+    DiagrammeR
 Config/testthat/edition: 3
 Remotes: 
     ChrisMuir/jsonparse
