@@ -1,9 +1,6 @@
 ---
 title: "Reviewing Drugs@FDA"
 output: rmarkdown::html_vignette
-resource_files:
-  - figures/cardiotox-source-living.png
-  - figures/cardiotox-source.png
 description: >
   Tracking 
 vignette: >
@@ -108,7 +105,7 @@ create_sysrev("Cardiotox@FDA",get_if_exists=T)
 browse_sysrev(pid=111474)
 ```
 
-We are working on automation, but for now we need to click things to get our FDA docs. We'll select new drug application **`NDA`** documents of document type **`label`** that match **"cardiotoxicity"**. Learn more about FDA applications types at [FDA How Drugs Are Developed.](https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications)
+To create the FDA source go to [sysrev.com/p/111474/add-articles](https://sysrev.com/p/111474/add-articles). We'll select new drug application **`NDA`** documents of document type **`label`** that match **"cardiotoxicity"**. Learn more about FDA applications types at [FDA How Drugs Are Developed.](https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications)
 
 ```{r fda_docs, fig.cap="Creating a Drugs\\@FDA source for [Cardiotox@FDA](https://sysrev.com/p/111474)", out.width = '100%', echo=F}
 knitr::include_graphics("figures/cardiotox-source.png")
