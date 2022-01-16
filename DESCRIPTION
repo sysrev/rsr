@@ -32,7 +32,12 @@ Suggests:
     testthat (>= 3.0.0),
     rmarkdown,
     covr,
-    DiagrammeR
+    DiagrammeR,
+    yaml,
+    ggthemes,
+    inspectdf,
+    ggplot2,
+    here
 Config/testthat/edition: 3
 Remotes: 
     ChrisMuir/jsonparse

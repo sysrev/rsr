@@ -2,30 +2,34 @@
 title: "Reviewing Drugs@FDA"
 output: rmarkdown::html_vignette
 description: >
-  Tracking 
+  Using rsr to create a Drugs@FDA review of cardiotoxicity documents.
+  Analyze the metadata, automate labelling, do some analysis of cardiotoxicity FDA reviews.
 vignette: >
   %\VignetteIndexEntry{Reviewing Drugs@FDA}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-```{r setup, include=F}
+
+```{r, setup-libs, echo=F, result=F, message=FALSE}
+knitr::opts_chunk$set(out.width = '100%')
+library(here)
 library(glue)
 library(rsr)
-knitr::opts_chunk$set(fig.path = "man/figures/")
+library(tidyr)
+library(dplyr)
+library(purrr)
+library(ggplot2)
 ```
 
-Sysrev provides a Drugs\@FDA searchable stream for document reviews which politely ingests PDFs and metadata from [labels.fda.gov](https://labels.fda.gov/). 
+Sysrev provides a Drugs\@FDA searchable stream for document reviews which politely ingests PDFs and metadata from [labels.fda.gov](https://labels.fda.gov/).
 
-The docs/metadata are indexed with a PDF parsing / OCR function to enable full text search and categorization. Sysrev also creates a versioning system for FDA documents by evaluating FDA application numbers and types. 
+The docs/metadata are indexed with a PDF parsing / OCR function to enable full text search and categorization. Sysrev also creates a versioning system for FDA documents by evaluating FDA application numbers and types.
 
-In this vignette, you will learn to:  
+In this vignette, you will learn to:
 **Search** Drugs\@FDA --> **Review** drug labels --> **Analyze** the results.
 
 
 ```{r echo=F}
-# graph    = function(var,style,fillcolor,label,shape){}
-# node     = function(var,style,fillcolor,label,shape){}
-# subgraph = function(name){glue("subgraph cluster_{name} {{")}
 fdanode = glue('subgraph cluster_0 {{
   graph         [style=filled fillcolor=HoneyDew label=<<B>External Source</B>>]
   node          [style=filled fillcolor=white width=1.5 shape=rectangle];
@@ -74,7 +78,7 @@ analysis = function(){glue('subgraph cluster_analysis {{
       a   -> b [style=invis]
 }}'
 )}
-    
+
 
 DiagrammeR::grViz(glue('digraph G {{
     newrank=true;
@@ -84,7 +88,7 @@ DiagrammeR::grViz(glue('digraph G {{
     {datapub()}
     {sysrev}
     {analysis()}
-    
+
     FDA     -> Index
     CT      -> Index
     PubMed  -> Index
@@ -92,32 +96,102 @@ DiagrammeR::grViz(glue('digraph G {{
     Version -> Datapub
     Datapub -> source1
     sysrev1 -> rsr;
-    
+
     {{ rank=same; FDA; Index; source1; rsr}}
-    
+
   }}'),height=250)
 ```
 
 ## Cardiotox\@FDA sysrev
 We are going to create a living review of FDA drug labels called [Cardiotox\@FDA](https://sysrev.com/p/111474).
-```{r results=F}
-create_sysrev("Cardiotox@FDA",get_if_exists=T) 
-browse_sysrev(pid=111474)
+```{r create-review, results=F}
+create_sysrev("Cardiotox@FDA",get_if_exists=T)
+if(interactive()){ browse_sysrev(pid=111474) }
 ```
 
-To create the FDA source go to [sysrev.com/p/111474/add-articles](https://sysrev.com/p/111474/add-articles). We'll select new drug application **`NDA`** documents of document type **`label`** that match **"cardiotoxicity"**. Learn more about FDA applications types at [FDA How Drugs Are Developed.](https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications)
+To create the FDA source go to [sysrev.com/p/111474/add-articles](https://sysrev.com/p/111474/add-articles). We'll select new drug application **`NDA`** documents of document type **`Review`** with **"cardiotoxicity"** in the document text. Learn more about FDA applications types at [FDA How Drugs Are Developed.](https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications)
 
-```{r fda_docs, fig.cap="Creating a Drugs\\@FDA source for [Cardiotox@FDA](https://sysrev.com/p/111474)", out.width = '100%', echo=F}
+```{r fig.cap="Creating a Drugs\\@FDA source", out.width = '100%', echo=F}
 knitr::include_graphics("figures/cardiotox-source.png")
 ```
 
-The search results in 40 articles, a manageable size for a short vignette. 'Import' pushes the labels into Cardiotox\@FDA. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking "check new results".
+The search results in 112 articles, a manageable size for a vignette. 'Import' pushes the labels into the Cardiotox\@FDA sysrev. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking "check new results".
 
-```{r fda_living_docs, fig.cap="Clicking **check for new results** makes a living review", out.width = '100%', echo=F}
+```{r fig.cap="Clicking **check for new results** makes a living review", out.width = '100%', echo=F}
 knitr::include_graphics("figures/cardiotox-source-living.png")
 ```
 
+Now, anytime the FDA adds a new drug application review document with "cardiotoxicity" in the text it will be added to this review. Why might this be useful?
 
-## Annotate hazards
-## Automate annotation
+## Analyze Meta
+```{r analyze-meta}
+meta.tb = rsr::get_article_content(111474)               |> # sysrev article content
+  mutate(path     = glue('{here()}/tmp/pdf/{aid}.pdf'))  |> # make local file names
+  mutate(metadata = map(metadata,jsonlite::parse_json))  |> # map FDA metadata to list
+  unnest_wider(metadata)                                 |> # map FDA list to columns
+  select(aid,
+         fda.id     = ApplNo,
+         sponsor    = SponsorName,
+         review     = ReviewDocumentType,
+         products   = Products,
+         submission = Submissions,
+         url        = contentUrl,
+         path)
+
+prod.tb = meta.tb |> select(aid,products)           |> # build aid -> products tbl
+  unnest_longer(products) |> unnest_wider(products) |> # list to columns
+  separate_rows(ActiveIngredient,sep="; ")          |> # "name; name" -> 2 rows
+  select(aid, prod.active = ActiveIngredient)
+
+sub.tb = meta.tb |> select(aid,submission)               |> # build aid -> submission
+  unnest_longer(submission) |> unnest_wider(submission)  |> # list to columns
+  select(aid,
+         sub.priority= ReviewPriority,
+         sub.subtype = SubmissionType)
+
+fda.tb = meta.tb |> left_join(prod.tb,by="aid") |> left_join(sub.tb, by="aid") |>
+  select(aid, sponsor, review, sub.priority, sub.subtype, prod.active) |>
+  distinct()
+```
+
+### Meta categories
+
+```{r inspect_meta_categories}
+icat <- inspectdf::inspect_cat(fda.tb)
+icat |> inspectdf::show_plot(label_color = "black")
+```
+
+
+```
+fda.tb |> filter(sponsor=="GILEAD SCIENCES INC")        |> # GET GSI docs
+  count(prod.active,priority=sub.priority=="PRIORITY")    |> # get count by priority
+  ggplot(aes(x=reorder(prod.active,n),y=n,fill=priority)) +  # make a plot
+  geom_col(position = "stack") + ...
+```
+
+```{r gilead_priority_drug_graph, echo=F}
+fda.tb |> filter(sponsor=="GILEAD SCIENCES INC")          |> # GET GSI docs
+  count(prod.active,priority=sub.priority=="PRIORITY")    |> # get count by priority
+  ggplot(aes(x=reorder(prod.active,n),y=n,fill=priority)) +  # make a plot
+  geom_col(position = "stack") +
+  coord_flip() +
+  ggtitle("GSI ACTIVE INGREDIENT FDA PRIORITY STATUS") + xlab("") + 
+  scale_y_continuous(expand=c(0,0)) +
+  ggthemes::theme_fivethirtyeight() +
+  theme(plot.title.position = "plot",legend.position = c(0.7,0.1))
+```
+
+## Manually Label
+
+
+## Automate Labels
+
+```{r}
+# if(FALSE){
+  # slow.dl = download.file |> insistently(rate_delay(10,max_times = 5))
+  # runjob(jobname = "download", libs = c("purrr"),expr({ with(meta.tb, map2(url, path, slow.dl) )}))
+# }
+```
+
 ## Counting things
+

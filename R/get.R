@@ -15,6 +15,15 @@ get_articles <- function(pid,token=get_srtoken()){
 
 #' @rdname get_
 #' @export
+get_article_content <- function(pid,token=get_srtoken()){
+  srplumber("get_article_content",list(pid=pid),token) |> tibble()
+    # rename(aid=.data$article_id) |>
+
+}
+
+
+#' @rdname get_
+#' @export
 get_predictions <- function(pid,token=get_srtoken()){
   srplumber("get_predictions",list(pid=pid),token) |>
     mutate(create_time = readr::parse_datetime(.data$create_time)) |>

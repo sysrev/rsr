@@ -3,12 +3,15 @@
 \name{get_}
 \alias{get_}
 \alias{get_articles}
+\alias{get_article_content}
 \alias{get_predictions}
 \alias{get_labels}
 \alias{get_users}
 \title{export tibbles from sysrev projects}
 \usage{
 get_articles(pid, token = get_srtoken())
+
+get_article_content(pid, token = get_srtoken())
 
 get_predictions(pid, token = get_srtoken())
 

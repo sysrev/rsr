@@ -17,17 +17,6 @@ NULL
 #' @return true if successful
 #' @export
 review <- function(pid,aid,lid,answer,change = T,resolve = F,token = get_srtoken()){
-  lvals = list(answer) |> stats::setNames(lid) |> jsonlite::toJSON(auto_unbox = T) |> toString()
-  query = glue::glue("mutation {{
-                     setLabels(
-                      projectID:{pid},articleID:{aid},
-                      confirm:{confirm},resolve:{resolve},change:{change},
-                      labelValues:{glue::double_quote(lvals)}
-                     )}}",
-                     confirm = jsonlite::toJSON(T,auto_unbox = T),
-                     resolve = jsonlite::toJSON(resolve,auto_unbox = T),
-                     change  = jsonlite::toJSON(change, auto_unbox = T),
-                     lvals   = lvals)
-
-  sysrev.graphql(query = query,token = token)
+  body = as.list(environment())
+  srplumber.post("review",body,token)
 }

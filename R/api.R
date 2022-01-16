@@ -25,7 +25,6 @@ srplumber = function(path,params=list(),token=get_srtoken()){
 #' @param token a sysrev token with read access to the given project
 #' @return A dataframe
 #' @keywords internal
-#'
 srplumber.post = function(path,body,token,encode="json"){
   req   <- POST(modify_url(getOption("srplumber.url"), path=path),
                 add_headers(Authorization=glue("bearer {token}")),

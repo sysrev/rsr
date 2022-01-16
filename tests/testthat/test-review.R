@@ -1,10 +1,16 @@
-local_token <- function(){
-  old.token = Sys.getenv("SYSREV_TOKEN")
-  token     = Sys.getenv("SYSREV_TEST_TOKEN")
+local_token <- function(envir=parent.frame()){
+  old.st  = Sys.getenv("SYSREV_TOKEN")
+  old.stt = Sys.getenv("sysrev.testtoken")
+  tk      = ifelse(old.stt=='',yaml::read_yaml("~/.sr/credentials")$testtoken,old.stt)
 
-  Sys.setenv(SYSREV_TOKEN = token)
-  withr::defer_parent({Sys.setenv(SYSREV_TOKEN = old.token)})
-  token
+  Sys.setenv(sysrev.testtoken=tk)
+  Sys.setenv(SYSREV_TOKEN    =tk)
+  withr::defer({
+    Sys.setenv(sysrev.testtoken = old.stt)
+    Sys.setenv(SYSREV_TOKEN     = old.st)
+  },envir)
+
+  tk
 }
 
 test_that("setting a label value works", {
