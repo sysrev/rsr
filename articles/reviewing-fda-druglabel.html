@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Tracking 
+<meta name="description" content="Using rsr to create a Drugs@FDA review of cardiotoxicity documents. Analyze the metadata, automate labelling, do some analysis of cardiotoxicity FDA reviews.
 ">
 <title>Reviewing Drugs@FDA • rsr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -19,7 +19,7 @@
 <script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reviewing Drugs@FDA">
-<meta property="og:description" content="Tracking 
+<meta property="og:description" content="Using rsr to create a Drugs@FDA review of cardiotoxicity documents. Analyze the metadata, automate labelling, do some analysis of cardiotoxicity FDA reviews.
 ">
 <meta property="og:image" content="https://r.sysrev.com/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rsr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
 
 
 <script src="reviewing-fda-druglabel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="reviewing-fda-druglabel_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="reviewing-fda-druglabel_files/viz-1.8.2/viz.js"></script><link href="reviewing-fda-druglabel_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-<script src="reviewing-fda-druglabel_files/grViz-binding-1.0.6.1/grViz.js"></script><div class="row">
+<script src="reviewing-fda-druglabel_files/grViz-binding-1.0.7/grViz.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Reviewing Drugs@FDA</h1>
             
@@ -91,35 +91,86 @@
     
 <p>Sysrev provides a Drugs@FDA searchable stream for document reviews which politely ingests PDFs and metadata from <a href="https://labels.fda.gov/" class="external-link">labels.fda.gov</a>.</p>
 <p>The docs/metadata are indexed with a PDF parsing / OCR function to enable full text search and categorization. Sysrev also creates a versioning system for FDA documents by evaluating FDA application numbers and types.</p>
-<p>In this vignette, you will learn to:<br><strong>Search</strong> Drugs@FDA –&gt; <strong>Review</strong> drug labels –&gt; <strong>Analyze</strong> the results.</p>
-<div id="htmlwidget-08087f2f16630af381fd" style="width:700px;height:250px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-08087f2f16630af381fd">{"x":{"diagram":"digraph G {\n  newrank=true;\n\n  graph [splines=ortho nodesep=\"0.15\" ranksep=\"0.2\"]\n  subgraph cluster_0 {\n  graph         [style=filled fillcolor=HoneyDew label=<<B>External Source<\/B>>]\n  node          [style=filled fillcolor=white width=1.5 shape=rectangle];\n  FDA           [label = <<B>Drugs@FDA<\/B>> fillcolor=\"#ff6600ff\"]\n  CT            [label = \"ClinicalTrials\" ]\n  PubMed        [label = \"PubMed\" ]\n  FDA -> CT     [style=invis]\n  CT  -> PubMed [style=invis]\n}\n  subgraph cluster_b {\n  graph [style=\"filled\" fillcolor=brown2 label = <<B> Build Stream <\/B>> ]\n  node  [style=\"filled\" fillcolor=\"white\" width=1.5]\n  {\n    Index    [label = \"Indexing\", shape=\"rectangle\" ]\n    Version  [label = \"Versioning\", shape=\"rectangle\" ]\n    Datapub  [label = \"Stream API\", shape=\"rectange\"]\n  }\n}\n  subgraph cluster_1 {\n  graph   [style=filled fillcolor=\"#a9bde6ff\" label=<<B>Review Entities<\/B>>]\n  node    [style=filled fillcolor=white width=1.5 shape=\"rectangle\"];\n  {\n    rank=same;\n    source1 [label=\"source\" width=0.4]\n    labels1 [label=\"labels\" width=0.4]\n  }\n  revs    [label=\"reviewers\"]\n  sysrev1 [label=\"sysrev.com/p/...\" shape=\"rectangle\"]\n  labels1 -> revs\n  source1 -> revs\n  revs -> sysrev1\n}\n  subgraph cluster_analysis {\n      graph [style=\"filled\" fillcolor=darkorchid1 label =<<B>Analyze<\/B>> ]\n      node  [style=\"filled\" fillcolor=\"white\" width=1.5 shape=rectangle]\n      {\n        rsr [label=\"r.sysrev\"]\n        a   [label=\"Applications\"]\n        b   [style=invis]\n      }\n      rsr -> a\n      a   -> b [style=invis]\n}\n  \n  FDA     -> Index\n  CT      -> Index\n  PubMed  -> Index\n  Index   -> Version\n  Version -> Datapub\n  Datapub -> source1\n  sysrev1 -> rsr;\n  \n  { rank=same; FDA; Index; source1; rsr}\n  \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><div class="section level2">
+<p>In this vignette, you will learn to: <strong>Search</strong> Drugs@FDA –&gt; <strong>Review</strong> drug labels –&gt; <strong>Analyze</strong> the results.</p>
+<div id="htmlwidget-9cef541d84804e4477db" style="width:100%;height:250px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9cef541d84804e4477db">{"x":{"diagram":"digraph G {\n  newrank=true;\n\n  graph [splines=ortho nodesep=\"0.15\" ranksep=\"0.2\"]\n  subgraph cluster_0 {\n  graph         [style=filled fillcolor=HoneyDew label=<<B>External Source<\/B>>]\n  node          [style=filled fillcolor=white width=1.5 shape=rectangle];\n  FDA           [label = <<B>Drugs@FDA<\/B>> fillcolor=\"#ff6600ff\"]\n  CT            [label = \"ClinicalTrials\" ]\n  PubMed        [label = \"PubMed\" ]\n  FDA -> CT     [style=invis]\n  CT  -> PubMed [style=invis]\n}\n  subgraph cluster_b {\n  graph [style=\"filled\" fillcolor=brown2 label = <<B> Build Stream <\/B>> ]\n  node  [style=\"filled\" fillcolor=\"white\" width=1.5]\n  {\n    Index    [label = \"Indexing\", shape=\"rectangle\" ]\n    Version  [label = \"Versioning\", shape=\"rectangle\" ]\n    Datapub  [label = \"Stream API\", shape=\"rectange\"]\n  }\n}\n  subgraph cluster_1 {\n  graph   [style=filled fillcolor=\"#a9bde6ff\" label=<<B>Review Entities<\/B>>]\n  node    [style=filled fillcolor=white width=1.5 shape=\"rectangle\"];\n  {\n    rank=same;\n    source1 [label=\"source\" width=0.4]\n    labels1 [label=\"labels\" width=0.4]\n  }\n  revs    [label=\"reviewers\"]\n  sysrev1 [label=\"sysrev.com/p/...\" shape=\"rectangle\"]\n  labels1 -> revs\n  source1 -> revs\n  revs -> sysrev1\n}\n  subgraph cluster_analysis {\n      graph [style=\"filled\" fillcolor=darkorchid1 label =<<B>Analyze<\/B>> ]\n      node  [style=\"filled\" fillcolor=\"white\" width=1.5 shape=rectangle]\n      {\n        rsr [label=\"r.sysrev\"]\n        a   [label=\"Applications\"]\n        b   [style=invis]\n      }\n      rsr -> a\n      a   -> b [style=invis]\n}\n\n  FDA     -> Index\n  CT      -> Index\n  PubMed  -> Index\n  Index   -> Version\n  Version -> Datapub\n  Datapub -> source1\n  sysrev1 -> rsr;\n\n  { rank=same; FDA; Index; source1; rsr}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><div class="section level2">
 <h2 id="cardiotoxfda-sysrev">Cardiotox@FDA sysrev<a class="anchor" aria-label="anchor" href="#cardiotoxfda-sysrev"></a>
 </h2>
 <p>We are going to create a living review of FDA drug labels called <a href="https://sysrev.com/p/111474" class="external-link">Cardiotox@FDA</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/create_sysrev.html">create_sysrev</a></span><span class="op">(</span><span class="st">"Cardiotox@FDA"</span>,get_if_exists<span class="op">=</span><span class="cn">T</span><span class="op">)</span> 
-<span class="fu"><a href="../reference/browse_.html">browse_sysrev</a></span><span class="op">(</span>pid<span class="op">=</span><span class="fl">111474</span><span class="op">)</span></code></pre></div>
-<p>To create the FDA source go to <a href="https://sysrev.com/p/111474/add-articles" class="external-link">sysrev.com/p/111474/add-articles</a>. We’ll select new drug application <strong><code>NDA</code></strong> documents of document type <strong><code>label</code></strong> that match <strong>“cardiotoxicity”</strong>. Learn more about FDA applications types at <a href="https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications" class="external-link">FDA How Drugs Are Developed.</a></p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/create_sysrev.html">create_sysrev</a></span><span class="op">(</span><span class="st">"Cardiotox@FDA"</span>,get_if_exists<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span> <span class="fu"><a href="../reference/browse_.html">browse_sysrev</a></span><span class="op">(</span>pid<span class="op">=</span><span class="fl">111474</span><span class="op">)</span> <span class="op">}</span></code></pre></div>
+<p>To create the FDA source go to <a href="https://sysrev.com/p/111474/add-articles" class="external-link">sysrev.com/p/111474/add-articles</a>. We’ll select new drug application <strong><code>NDA</code></strong> documents of document type <strong><code>Review</code></strong> with <strong>“cardiotoxicity”</strong> in the document text. Learn more about FDA applications types at <a href="https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications" class="external-link">FDA How Drugs Are Developed.</a></p>
 <div class="figure">
-<img src="figures/cardiotox-source.png" alt="Creating a Drugs\@FDA source for [Cardiotox@FDA](https://sysrev.com/p/111474)" width="100%"><p class="caption">
-Creating a Drugs@FDA source for <a href="https://sysrev.com/p/111474" class="external-link">Cardiotox@FDA</a>
+<img src="figures/cardiotox-source.png" alt="Creating a Drugs\@FDA source" width="100%"><p class="caption">
+Creating a Drugs@FDA source
 </p>
 </div>
-<p>The search results in 40 articles, a manageable size for a short vignette. ‘Import’ pushes the labels into Cardiotox@FDA. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking “check new results”.</p>
+<p>The search results in 112 articles, a manageable size for a vignette. ‘Import’ pushes the labels into the Cardiotox@FDA sysrev. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking “check new results”.</p>
 <div class="figure">
 <img src="figures/cardiotox-source-living.png" alt="Clicking **check for new results** makes a living review" width="100%"><p class="caption">
 Clicking <strong>check for new results</strong> makes a living review
 </p>
 </div>
+<p>Now, anytime the FDA adds a new drug application review document with “cardiotoxicity” in the text it will be added to this review. Why might this be useful?</p>
 </div>
 <div class="section level2">
-<h2 id="annotate-hazards">Annotate hazards<a class="anchor" aria-label="anchor" href="#annotate-hazards"></a>
+<h2 id="analyze-meta">Analyze Meta<a class="anchor" aria-label="anchor" href="#analyze-meta"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">meta.tb</span> <span class="op">=</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_.html">get_article_content</a></span><span class="op">(</span><span class="fl">111474</span><span class="op">)</span>               |&gt; <span class="co"># sysrev article content</span>
+  <span class="fu">mutate</span><span class="op">(</span>path     <span class="op">=</span> <span class="fu">glue</span><span class="op">(</span><span class="st">'{here()}/tmp/pdf/{aid}.pdf'</span><span class="op">)</span><span class="op">)</span>  |&gt; <span class="co"># make local file names</span>
+  <span class="fu">mutate</span><span class="op">(</span>metadata <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">metadata</span>,<span class="fu">jsonlite</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html" class="external-link">parse_json</a></span><span class="op">)</span><span class="op">)</span>  |&gt; <span class="co"># map FDA metadata to list</span>
+  <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>                                 |&gt; <span class="co"># map FDA list to columns</span>
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,
+         fda.id     <span class="op">=</span> <span class="va">ApplNo</span>,
+         sponsor    <span class="op">=</span> <span class="va">SponsorName</span>,
+         review     <span class="op">=</span> <span class="va">ReviewDocumentType</span>,
+         products   <span class="op">=</span> <span class="va">Products</span>,
+         submission <span class="op">=</span> <span class="va">Submissions</span>,
+         url        <span class="op">=</span> <span class="va">contentUrl</span>,
+         <span class="va">path</span><span class="op">)</span>
+
+<span class="va">prod.tb</span> <span class="op">=</span> <span class="va">meta.tb</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">products</span><span class="op">)</span>           |&gt; <span class="co"># build aid -&gt; products tbl</span>
+  <span class="fu">unnest_longer</span><span class="op">(</span><span class="va">products</span><span class="op">)</span> |&gt; <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">products</span><span class="op">)</span> |&gt; <span class="co"># list to columns</span>
+  <span class="fu">separate_rows</span><span class="op">(</span><span class="va">ActiveIngredient</span>,sep<span class="op">=</span><span class="st">"; "</span><span class="op">)</span>          |&gt; <span class="co"># "name; name" -&gt; 2 rows</span>
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, prod.active <span class="op">=</span> <span class="va">ActiveIngredient</span><span class="op">)</span>
+
+<span class="va">sub.tb</span> <span class="op">=</span> <span class="va">meta.tb</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">submission</span><span class="op">)</span>               |&gt; <span class="co"># build aid -&gt; submission</span>
+  <span class="fu">unnest_longer</span><span class="op">(</span><span class="va">submission</span><span class="op">)</span> |&gt; <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">submission</span><span class="op">)</span>  |&gt; <span class="co"># list to columns</span>
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,
+         sub.priority<span class="op">=</span> <span class="va">ReviewPriority</span>,
+         sub.subtype <span class="op">=</span> <span class="va">SubmissionType</span><span class="op">)</span>
+
+<span class="va">fda.tb</span> <span class="op">=</span> <span class="va">meta.tb</span> |&gt; <span class="fu">left_join</span><span class="op">(</span><span class="va">prod.tb</span>,by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span> |&gt; <span class="fu">left_join</span><span class="op">(</span><span class="va">sub.tb</span>, by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span> |&gt;
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, <span class="va">sponsor</span>, <span class="va">review</span>, <span class="va">sub.priority</span>, <span class="va">sub.subtype</span>, <span class="va">prod.active</span><span class="op">)</span> |&gt;
+  <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="section level3">
+<h3 id="meta-categories">Meta categories<a class="anchor" aria-label="anchor" href="#meta-categories"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">icat</span> <span class="op">&lt;-</span> <span class="fu">inspectdf</span><span class="fu">::</span><span class="fu"><a href="https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.html" class="external-link">inspect_cat</a></span><span class="op">(</span><span class="va">fda.tb</span><span class="op">)</span>
+<span class="va">icat</span> |&gt; <span class="fu">inspectdf</span><span class="fu">::</span><span class="fu"><a href="https://alastairrushworth.github.io/inspectdf/reference/show_plot.html" class="external-link">show_plot</a></span><span class="op">(</span>label_color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></code></pre></div>
+<p><img src="reviewing-fda-druglabel_files/figure-html/inspect_meta_categories-1.png" width="100%"></p>
+<pre><code><span class="va">fda.tb</span> |&gt; <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sponsor</span><span class="op">==</span><span class="st">"GILEAD SCIENCES INC"</span><span class="op">)</span>        |&gt; <span class="co"># GET GSI docs</span>
+  <span class="fu">count</span><span class="op">(</span><span class="va">prod.active</span>,priority<span class="op">=</span><span class="va">sub.priority</span><span class="op">==</span><span class="st">"PRIORITY"</span><span class="op">)</span>    |&gt; <span class="co"># get count by priority</span>
+  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">prod.active</span>,<span class="va">n</span><span class="op">)</span>,y<span class="op">=</span><span class="va">n</span>,fill<span class="op">=</span><span class="va">priority</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># make a plot</span>
+  <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span> <span class="op">+</span> <span class="va">...</span></code></pre>
+<p><img src="reviewing-fda-druglabel_files/figure-html/gilead_priority_drug_graph-1.png" width="100%"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="manually-label">Manually Label<a class="anchor" aria-label="anchor" href="#manually-label"></a>
 </h2>
 </div>
 <div class="section level2">
-<h2 id="automate-annotation">Automate annotation<a class="anchor" aria-label="anchor" href="#automate-annotation"></a>
+<h2 id="automate-labels">Automate Labels<a class="anchor" aria-label="anchor" href="#automate-labels"></a>
 </h2>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># if(FALSE){</span>
+  <span class="co"># slow.dl = download.file |&gt; insistently(rate_delay(10,max_times = 5))</span>
+  <span class="co"># runjob(jobname = "download", libs = c("purrr"),expr({ with(meta.tb, map2(url, path, slow.dl) )}))</span>
+<span class="co"># }</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="counting-things">Counting things<a class="anchor" aria-label="anchor" href="#counting-things"></a>
