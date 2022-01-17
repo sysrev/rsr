@@ -10,6 +10,8 @@ service_run(pid, service, ...)
 \item{pid}{the project id to update}
 
 \item{service}{name of the service to run}
+
+\item{...}{arguments to run service}
 }
 \description{
 Run a service within the context of a given project
