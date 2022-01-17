@@ -11,12 +11,15 @@ sroptions = function(consensus.labels=list(),na.rm=T){
 #' @rdname get_sysrev
 #' @export
 get_sroptions = function(pid=NA,token=get_srtoken()){
-  lbl                   = rsr::get_labels(43140,token = token)
-  lbl.loid              = lbl |> select(.data$lid,loid = .data$label_id_local)
-  any.consensus.labels  = lbl |> filter(.data$consensus) |> select(.data$lid,ploid = .data$root_label_id_local)
-  root.consensus.labels = lbl.loid |> filter(.data$loid %in% any.consensus.labels$ploid)
-  consensus.labels      = c(root.consensus.labels$lid, any.consensus.labels$lid) |> unique()
-  sroptions(consensus.labels = consensus.labels)
+  lbl           = rsr::get_labels(pid,token = token)
+  consensus.lbl = lbl |> filter(.data$consensus)
+
+  group.consensus = if("root_label_id_local" %in% colnames(lbl)){
+    lbl |> filter(.data$label_id_local %in% consensus.lbl$root_label_id_local)
+  } # A group label with a consensus child is a consensus label
+
+  sroptions(consensus.labels = unique(c(consensus.lbl$lid,
+                                        group.consensus$lid)))
 }
 
 #' concordant

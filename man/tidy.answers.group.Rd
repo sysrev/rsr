@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidy.R
 \name{tidy.answers.group}
 \alias{tidy.answers.group}
-\title{tidy.answer}
+\title{tidy answers for group labels}
 \usage{
 tidy.answers.group(answer)
 }
@@ -13,6 +13,6 @@ tidy.answers.group(answer)
 <rsr_group> vector which is a subclass of <tbl>
 }
 \description{
-tidy.answer
+tidy answers for group labels
 }
 \keyword{internal}

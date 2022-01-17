@@ -37,7 +37,8 @@ Suggests:
     ggthemes,
     inspectdf,
     ggplot2,
-    here
+    here,
+    forcats
 Config/testthat/edition: 3
 Remotes: 
     ChrisMuir/jsonparse

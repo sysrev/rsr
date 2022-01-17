@@ -80,7 +80,7 @@ get_answers_list = function(pid,token=get_srtoken()){
 tidy.answers.basic   = function(answer){ lapply(answer,jsonparse::from_json) }
 tidy.answers.boolean = function(answer){ lapply(answer,\(x) case_when(x=="true"~T,x=="false"~F,NULL)) }
 
-#' @title tidy.answer
+#' tidy answers for group labels
 #' @importFrom rlang .data
 #' @param answer character vector json encoding for group labels
 #' @return <rsr_group> vector which is a subclass of <tbl>
@@ -97,6 +97,10 @@ tidy.answers.group   = function(answer){
   purrr::map(groups, ~ structure(.,class=c("rsr_group",class(.))))
 }
 
+tidy.answers.annotation = function(answer){
+
+}
+
 #' @title tidy.answer
 #' parses character vector json encodings of answers to rsr value types
 #' @param value_type 'boolean', 'categorical', 'string', or 'group'
@@ -110,6 +114,7 @@ srtidy_answer = function(answer,value_type,simplify=F){
                          boolean     = tidy.answers.boolean,
                          categorical = tidy.answers.basic,
                          string      = tidy.answers.basic,
+                         annotation  = tidy.answers.annotation,
                          group       = tidy.answers.group)()
 
 

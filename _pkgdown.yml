@@ -31,3 +31,8 @@ reference:
 - title: browse
   contents:
   - browse_
+
+- title: service
+  contents:
+  - service_list
+  - service_run

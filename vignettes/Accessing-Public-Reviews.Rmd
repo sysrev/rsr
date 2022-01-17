@@ -1,0 +1,27 @@
+---
+title: "Accessing-Public-Reviews"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Accessing-Public-Reviews}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+A case study extracting and modeling 
+
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(out.width = '100%')
+```
+
+## Create a sysrev
+
+```{r}
+library(rsr)
+pid = rsr::create_sysrev("angry bees",get_if_exists = T)
+```
+
+## Import a source
+
+## Create labels
+
+## Analyze Documents

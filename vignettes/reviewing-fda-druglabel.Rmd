@@ -8,6 +8,8 @@ vignette: >
   %\VignetteIndexEntry{Reviewing Drugs@FDA}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+resource_files:
+  - data/
 ---
 
 ```{r, setup-libs, echo=F, result=F, message=FALSE}
@@ -19,15 +21,15 @@ library(tidyr)
 library(dplyr)
 library(purrr)
 library(ggplot2)
+library(forcats)
 ```
 
 Sysrev provides a Drugs\@FDA searchable stream for document reviews which politely ingests PDFs and metadata from [labels.fda.gov](https://labels.fda.gov/).
 
 The docs/metadata are indexed with a PDF parsing / OCR function to enable full text search and categorization. Sysrev also creates a versioning system for FDA documents by evaluating FDA application numbers and types.
 
-In this vignette, you will learn to:
-**Search** Drugs\@FDA --> **Review** drug labels --> **Analyze** the results.
-
+In this vignette, you will learn to:\
+**Search** Drugs\@FDA --> **Review** drug labels --> **Analyze** results.
 
 ```{r echo=F}
 fdanode = glue('subgraph cluster_0 {{
@@ -103,70 +105,92 @@ DiagrammeR::grViz(glue('digraph G {{
 ```
 
 ## Cardiotox\@FDA sysrev
+
 We are going to create a living review of FDA drug labels called [Cardiotox\@FDA](https://sysrev.com/p/111474).
+
 ```{r create-review, results=F}
 create_sysrev("Cardiotox@FDA",get_if_exists=T)
 if(interactive()){ browse_sysrev(pid=111474) }
 ```
 
-To create the FDA source go to [sysrev.com/p/111474/add-articles](https://sysrev.com/p/111474/add-articles). We'll select new drug application **`NDA`** documents of document type **`Review`** with **"cardiotoxicity"** in the document text. Learn more about FDA applications types at [FDA How Drugs Are Developed.](https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications)
+An FDA Sysrev source is created at [sysrev.com/p/111474/add-articles](https://sysrev.com/p/111474/add-articles) by selecting FDA docs of application type new drug application **`NDA`** document type **`Review`** and text matching **`cardiotoxicity`**. Learn more about FDA applications types at [FDA How Drugs Are Developed.](https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications)
 
 ```{r fig.cap="Creating a Drugs\\@FDA source", out.width = '100%', echo=F}
 knitr::include_graphics("figures/cardiotox-source.png")
 ```
 
-The search results in 112 articles, a manageable size for a vignette. 'Import' pushes the labels into the Cardiotox\@FDA sysrev. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking "check new results".
+The search results in 112 articles, a manageable size for a vignette. `Import` pushes the labels into the Cardiotox\@FDA sysrev. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking "check new results" at the cardiotox\@fda [sources page](https://sysrev.com/p/111474/add-articles) (below screenshot).
 
 ```{r fig.cap="Clicking **check for new results** makes a living review", out.width = '100%', echo=F}
 knitr::include_graphics("figures/cardiotox-source-living.png")
 ```
 
-Now, anytime the FDA adds a new drug application review document with "cardiotoxicity" in the text it will be added to this review. Why might this be useful?
+Anytime the FDA adds a new drug application review document with "cardiotoxicity" in the text it will be added to this review. Why might this be useful?
 
 ## Analyze Meta
+
+After importing our source we can start analyzing the documents. `rsr::get_article_content(111474)` retrieves the article content (including meta-data) for every imported FDA drug document. The below code associates the sysrev article_id (called aid) with druglabel review type, sponsor, products data, and submission data.
+
 ```{r analyze-meta}
 meta.tb = rsr::get_article_content(111474)               |> # sysrev article content
   mutate(path     = glue('{here()}/tmp/pdf/{aid}.pdf'))  |> # make local file names
   mutate(metadata = map(metadata,jsonlite::parse_json))  |> # map FDA metadata to list
   unnest_wider(metadata)                                 |> # map FDA list to columns
-  select(aid,
-         fda.id     = ApplNo,
-         sponsor    = SponsorName,
-         review     = ReviewDocumentType,
-         products   = Products,
-         submission = Submissions,
-         url        = contentUrl,
-         path)
+  select(aid,                             
+         fda.id     = ApplNo,             # FDA Application Number
+         sponsor    = SponsorName,        # Sponsor of reviewed product 
+         review     = ReviewDocumentType, # review type medical, pharmacology,etc.
+         product    = Products,           # nested list containing product data
+         submission = Submissions,        # nested list with submission data
+         url        = contentUrl,         # a url for the included pdf
+         path)                            # a local path where we store the pdfs
 
-prod.tb = meta.tb |> select(aid,products)           |> # build aid -> products tbl
-  unnest_longer(products) |> unnest_wider(products) |> # list to columns
+meta.tb[1:2,]
+```
+
+Sometimes a document contains multiple submissions and products. These complex subfields can have many rows and a few columns. In the below code, we extract the active ingredient from `product`, and review priority / submission type from `submission`.
+
+```{r}
+prod.tb = meta.tb |> select(aid,product)            |> # build aid -> products tbl
+  unnest_longer(product) |> unnest_wider(product)   |> # list to columns
   separate_rows(ActiveIngredient,sep="; ")          |> # "name; name" -> 2 rows
   select(aid, prod.active = ActiveIngredient)
 
 sub.tb = meta.tb |> select(aid,submission)               |> # build aid -> submission
   unnest_longer(submission) |> unnest_wider(submission)  |> # list to columns
   select(aid,
-         sub.priority= ReviewPriority,
-         sub.subtype = SubmissionType)
+         sub.priority = ReviewPriority,
+         sub.subtype  = SubmissionType)
+```
 
+Joining the meta, products and submission tables on sysrev article_id (aid) gives us a basic analyis table `fda.tb`. Note that article ids are repeated for documents with multiple products/submissions.
+
+```{r}
 fda.tb = meta.tb |> left_join(prod.tb,by="aid") |> left_join(sub.tb, by="aid") |>
   select(aid, sponsor, review, sub.priority, sub.subtype, prod.active) |>
   distinct()
+
+fda.tb[1:2,]
 ```
 
 ### Meta categories
+
+The [inspectDF](https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.html) provides a quick way to analyze these the fda.tb.
 
 ```{r inspect_meta_categories}
 icat <- inspectdf::inspect_cat(fda.tb)
 icat |> inspectdf::show_plot(label_color = "black")
 ```
 
+This table shows that gilead sciences has the most imported documents ( x products x submissions ). Thre are quite a few active ingredients, the top 5 by distinct(aid) are: `r fda.tb |> group_by(prod.active) |> summarize(a=n_distinct(aid)) |> slice_max(n=5,order_by=a,with_ties=F) |> pull(prod.active) |> paste(collapse=", ")`
 
-```
+How many of those are Gilead active ingredients?
+
+```{r eval=FALSE}
 fda.tb |> filter(sponsor=="GILEAD SCIENCES INC")        |> # GET GSI docs
   count(prod.active,priority=sub.priority=="PRIORITY")    |> # get count by priority
   ggplot(aes(x=reorder(prod.active,n),y=n,fill=priority)) +  # make a plot
-  geom_col(position = "stack") + ...
+  geom_col(position = "stack") # + ...
 ```
 
 ```{r gilead_priority_drug_graph, echo=F}
@@ -183,15 +207,50 @@ fda.tb |> filter(sponsor=="GILEAD SCIENCES INC")          |> # GET GSI docs
 
 ## Manually Label
 
-
-## Automate Labels
+Sadly, most information in FDA docs is not metadata. More can be learned by reading, and extracting data from the docs. We could identify sentences that contain information like:\
+**1. phenotypes**: where is cardiotoxicity referenced? What other phenotypes are there?\
+**2. dose**:
 
 ```{r}
-# if(FALSE){
-  # slow.dl = download.file |> insistently(rate_delay(10,max_times = 5))
-  # runjob(jobname = "download", libs = c("purrr"),expr({ with(meta.tb, map2(url, path, slow.dl) )}))
-# }
+rsr::get_answers(111474) |> 
+  select(aid,user_id,confirm_time,short_label,value_type,answer)
 ```
 
-## Counting things
+## Automated Labels
 
+Sysrev services provide functions that can automate document review tasks like data sourcing, extraction, review and analysis. There are two services avaiable for this project:
+
+```{r services}
+rsr::service_list(111474)
+```
+
+Services are still in development, but the EN_TOX tool, developed by Marc Teunis and Marie Corradi for the [EU ONTOX project](https://ontox-project.eu/ "European Union ONTOX project") can automate some of the manual labelling tasks we described above. The service takes text and returns named toxicological entities.
+
+```{r eval=FALSE}
+possible_text = pdftools::pdf_text |> possibly(other = NA_character_)
+en_tox        = partial(service_run,pid=111474,service="en_tox") |>  possibly(o = tibble())
+
+entity.fda = meta.tb |> select(aid,path) |> slice(1:5)            |> 
+  mutate(text     = pblapply(path,possible_text)) |> unnest(text) |> 
+  mutate(text     = gsub(pat =" +",repl = " ", trimws(text)))     |> 
+  mutate(entities = pblapply(text,en_tox))                        |> 
+  unnest(entities) |> 
+  select(aid,entity,value,context)
+
+# Run on all files -> "entity.fda.RDS"
+```
+
+```{r}
+entity.fda = readRDS("data/entity.fda.RDS")
+
+entity.count = entity.fda |> 
+  mutate(entity=as.factor(entity),value=as.factor(tolower(value))) |> 
+  select(aid,entity,value) |> distinct() |> 
+  group_by(entity) |> mutate(value = forcats::fct_lump_n(value,10)) |> ungroup() |> 
+  group_by(entity,value) |> summarize(docs = n_distinct(aid))
+
+ggplot(entity.count,aes(x=reorder(value,docs),y=docs)) + geom_col() + coord_flip() + 
+  facet_wrap(~entity,scales = "free_y",ncol = 2) +
+  scale_y_continuous(expand=c(0,0)) + ggtitle("EN_TOX top FDA drug label extracted entities") +
+  ggthemes::theme_fivethirtyeight()
+```
