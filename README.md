@@ -3,9 +3,10 @@
 [![codecov](https://codecov.io/gh/sysrev/rsr/branch/master/graph/badge.svg?token=PPYGBLSWV3)](https://codecov.io/gh/sysrev/rsr)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
-Create and analyze Sysrev data. **rsr is in development. The package name and everything else may change**
 
+Create and analyze Sysrev data.  
 
+**WARNING: rsr is in development. Everything may change quickly**
 
 **Install**
 ``` r
