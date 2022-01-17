@@ -4,6 +4,12 @@
     <loc>https://r.sysrev.com/404.html</loc>
   </url>
   <url>
+    <loc>https://r.sysrev.com/articles/Accessing-Public-Reviews.html</loc>
+  </url>
+  <url>
+    <loc>https://r.sysrev.com/articles/bawto.html</loc>
+  </url>
+  <url>
     <loc>https://r.sysrev.com/articles/index.html</loc>
   </url>
   <url>
@@ -53,6 +59,12 @@
   </url>
   <url>
     <loc>https://r.sysrev.com/reference/review.html</loc>
+  </url>
+  <url>
+    <loc>https://r.sysrev.com/reference/service_list.html</loc>
+  </url>
+  <url>
+    <loc>https://r.sysrev.com/reference/service_run.html</loc>
   </url>
   <url>
     <loc>https://r.sysrev.com/reference/sroptions.html</loc>
