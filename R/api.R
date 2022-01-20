@@ -12,7 +12,7 @@
 srplumber = function(path,params=list(),token=get_srtoken()){
   req   <- GET(modify_url(getOption("srplumber.url"), path=path,query=params),add_headers(Authorization=glue("bearer {token}")))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
-  if(!is.null(res$error)){ stop(res$message) }
+  if(!is.null(res$error)){ rlang::abort(res$error) }
   res
 }
 
@@ -30,6 +30,18 @@ srplumber.post = function(path,body,token,encode="json"){
                 add_headers(Authorization=glue("bearer {token}")),
                 body=body,encode = encode)
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
-  if(!is.null(res$error)){ stop(res$message) }
+  
+  if(!is.list(res)){ return(res) }
+  
+  if(!is.null(res$error.srp)){
+    a = unlist(res$error.srp) 
+    a = set_names(a,map_chr(names(a),\(x){substr(x,1,1)}))
+    rlang::abort(a)
+  }
+    
+  if(!is.null(res$error)){ 
+    rlang::abort(res$error)
+  }
+  
   res
 }

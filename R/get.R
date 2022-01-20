@@ -17,8 +17,6 @@ get_articles <- function(pid,token=get_srtoken()){
 #' @export
 get_article_content <- function(pid,token=get_srtoken()){
   srplumber("get_article_content",list(pid=pid),token) |> tibble()
-    # rename(aid=.data$article_id) |>
-
 }
 
 
