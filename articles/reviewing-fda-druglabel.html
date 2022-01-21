@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rsr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,8 +53,6 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Accessing-Public-Reviews.html">Accessing-Public-Reviews</a>
-    <a class="dropdown-item" href="../articles/bawto.html">bawto</a>
     <a class="dropdown-item" href="../articles/reviewing-fda-druglabel.html">Reviewing Drugs@FDA</a>
   </div>
 </li>
@@ -79,8 +77,7 @@
 
 
 
-<script src="reviewing-fda-druglabel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="reviewing-fda-druglabel_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="reviewing-fda-druglabel_files/viz-1.8.2/viz.js"></script><link href="reviewing-fda-druglabel_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-<script src="reviewing-fda-druglabel_files/grViz-binding-1.0.7/grViz.js"></script><div class="row">
+<script src="reviewing-fda-druglabel_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Reviewing Drugs@FDA</h1>
             
@@ -91,11 +88,11 @@
 
     
     
-<p>Sysrev provides a Drugs@FDA searchable stream for document reviews which politely ingests PDFs and metadata from <a href="https://labels.fda.gov/" class="external-link">labels.fda.gov</a>.</p>
+<p>Sysrev provides a <a href="mailto:Drugs@FDA" class="email">Drugs@FDA</a> searchable stream for document reviews which politely ingests PDFs and metadata from <a href="https://labels.fda.gov/" class="external-link">labels.fda.gov</a>.</p>
 <p>The docs/metadata are indexed with a PDF parsing / OCR function to enable full text search and categorization. Sysrev also creates a versioning system for FDA documents by evaluating FDA application numbers and types.</p>
-<p>In this vignette, you will learn to:<br><strong>Search</strong> Drugs@FDA –&gt; <strong>Review</strong> drug labels –&gt; <strong>Analyze</strong> results.</p>
-<div id="htmlwidget-899b7519c71e55fa8d92" style="width:100%;height:250px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-899b7519c71e55fa8d92">{"x":{"diagram":"digraph G {\n  newrank=true;\n\n  graph [splines=ortho nodesep=\"0.15\" ranksep=\"0.2\"]\n  subgraph cluster_0 {\n  graph         [style=filled fillcolor=HoneyDew label=<<B>External Source<\/B>>]\n  node          [style=filled fillcolor=white width=1.5 shape=rectangle];\n  FDA           [label = <<B>Drugs@FDA<\/B>> fillcolor=\"#ff6600ff\"]\n  CT            [label = \"ClinicalTrials\" ]\n  PubMed        [label = \"PubMed\" ]\n  FDA -> CT     [style=invis]\n  CT  -> PubMed [style=invis]\n}\n  subgraph cluster_b {\n  graph [style=\"filled\" fillcolor=brown2 label = <<B> Build Stream <\/B>> ]\n  node  [style=\"filled\" fillcolor=\"white\" width=1.5]\n  {\n    Index    [label = \"Indexing\", shape=\"rectangle\" ]\n    Version  [label = \"Versioning\", shape=\"rectangle\" ]\n    Datapub  [label = \"Stream API\", shape=\"rectange\"]\n  }\n}\n  subgraph cluster_1 {\n  graph   [style=filled fillcolor=\"#a9bde6ff\" label=<<B>Review Entities<\/B>>]\n  node    [style=filled fillcolor=white width=1.5 shape=\"rectangle\"];\n  {\n    rank=same;\n    source1 [label=\"source\" width=0.4]\n    labels1 [label=\"labels\" width=0.4]\n  }\n  revs    [label=\"reviewers\"]\n  sysrev1 [label=\"sysrev.com/p/...\" shape=\"rectangle\"]\n  labels1 -> revs\n  source1 -> revs\n  revs -> sysrev1\n}\n  subgraph cluster_analysis {\n      graph [style=\"filled\" fillcolor=darkorchid1 label =<<B>Analyze<\/B>> ]\n      node  [style=\"filled\" fillcolor=\"white\" width=1.5 shape=rectangle]\n      {\n        rsr [label=\"r.sysrev\"]\n        a   [label=\"Applications\"]\n        b   [style=invis]\n      }\n      rsr -> a\n      a   -> b [style=invis]\n}\n\n  FDA     -> Index\n  CT      -> Index\n  PubMed  -> Index\n  Index   -> Version\n  Version -> Datapub\n  Datapub -> source1\n  sysrev1 -> rsr;\n\n  { rank=same; FDA; Index; source1; rsr}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><div class="section level2">
+<p>In this vignette, you will learn to:<br><strong>Search</strong> <a href="mailto:Drugs@FDA" class="email">Drugs@FDA</a> –&gt; <strong>Review</strong> drug labels –&gt; <strong>Analyze</strong> results.</p>
+<p><img src="../../../../../thomas/git/co.insilica/rsr/articles/reviewing-fda-druglabel_files/figure-gfm/unnamed-chunk-1-1.png" width="100%"></p>
+<div class="section level2">
 <h2 id="cardiotoxfda-sysrev">Cardiotox@FDA sysrev<a class="anchor" aria-label="anchor" href="#cardiotoxfda-sysrev"></a>
 </h2>
 <p>We are going to create a living review of FDA drug labels called <a href="https://sysrev.com/p/111474" class="external-link">Cardiotox@FDA</a>.</p>
@@ -103,17 +100,9 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/create_sysrev.html">create_sysrev</a></span><span class="op">(</span><span class="st">"Cardiotox@FDA"</span>,get_if_exists<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
 <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span> <span class="fu"><a href="../reference/browse_.html">browse_sysrev</a></span><span class="op">(</span>pid<span class="op">=</span><span class="fl">111474</span><span class="op">)</span> <span class="op">}</span></code></pre></div>
 <p>An FDA Sysrev source is created at <a href="https://sysrev.com/p/111474/add-articles" class="external-link">sysrev.com/p/111474/add-articles</a> by selecting FDA docs of application type new drug application <strong><code>NDA</code></strong> document type <strong><code>Review</code></strong> and text matching <strong><code>cardiotoxicity</code></strong>. Learn more about FDA applications types at <a href="https://www.fda.gov/drugs/how-drugs-are-developed-and-approved/types-applications" class="external-link">FDA How Drugs Are Developed.</a></p>
-<div class="figure">
-<img src="figures/cardiotox-source.png" alt="Creating a Drugs\@FDA source" width="100%"><p class="caption">
-Creating a Drugs@FDA source
-</p>
-</div>
+<p><img src="../../../../../thomas/git/co.insilica/rsr/articles/figures/cardiotox-source.png" title="Creating a Drugs\@FDA source" alt="Creating a Drugs\@FDA source" width="100%"></p>
 <p>The search results in 112 articles, a manageable size for a vignette. <code>Import</code> pushes the labels into the Cardiotox@FDA sysrev. We can inspect the data source, add notes, and set it to automatically add new articles that match our query by clicking “check new results” at the cardiotox@fda <a href="https://sysrev.com/p/111474/add-articles" class="external-link">sources page</a> (below screenshot).</p>
-<div class="figure">
-<img src="figures/cardiotox-source-living.png" alt="Clicking **check for new results** makes a living review" width="100%"><p class="caption">
-Clicking <strong>check for new results</strong> makes a living review
-</p>
-</div>
+<p><img src="../../../../../thomas/git/co.insilica/rsr/articles/figures/cardiotox-source-living.png" title="Clicking **check for new results** makes a living review" alt="Clicking **check for new results** makes a living review" width="100%"></p>
 <p>Anytime the FDA adds a new drug application review document with “cardiotoxicity” in the text it will be added to this review. Why might this be useful?</p>
 </div>
 <div class="section level2">
@@ -133,20 +122,18 @@ Clicking <strong>check for new results</strong> makes a living review
          submission <span class="op">=</span> <span class="va">Submissions</span>,        <span class="co"># nested list w/ submission data</span>
          url        <span class="op">=</span> <span class="va">contentUrl</span>,         <span class="co"># a url for the included pdf</span>
          <span class="va">path</span><span class="op">)</span>                            <span class="co"># a local path to store pdfs</span>
-
 <span class="va">meta.tb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="op">]</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 8</span></span>
+<pre><code><span class="co">## # A tibble: 2 × 8</span>
 <span class="co">##        aid fda.id sponsor             review   product  submission url     path </span>
-<span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;glu&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> 13<span style="text-decoration: underline;">913</span>155 207561 GILEAD SCIENCES INC medical… <span style="color: #949494;">&lt;list [</span>… <span style="color: #949494;">&lt;list [18</span>… https:… ~/tm…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> 13<span style="text-decoration: underline;">913</span>084 209360 LA JOLLA PHARMA     risk as… <span style="color: #949494;">&lt;list [</span>… <span style="color: #949494;">&lt;list [1]&gt;</span> https:… ~/tm…</span></code></pre>
+<span class="co">##      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;               &lt;chr&gt;    &lt;list&gt;   &lt;list&gt;     &lt;chr&gt;   &lt;glu&gt;</span>
+<span class="co">## 1 13913155 207561 GILEAD SCIENCES INC medical… &lt;list [… &lt;list [18… https:… ~/tm…</span>
+<span class="co">## 2 13913084 209360 LA JOLLA PHARMA     risk as… &lt;list [… &lt;list [1]&gt; https:… ~/tm…</span></code></pre>
 <p>Sometimes a document contains multiple submissions and products. These complex subfields can have many rows and a few columns. In the below code, we extract the active ingredient from <code>product</code>, and review priority / submission type from <code>submission</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">prod.tb</span> <span class="op">=</span> <span class="va">meta.tb</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">product</span><span class="op">)</span>          |&gt; <span class="co"># build aid -&gt; products</span>
   <span class="fu">unnest_longer</span><span class="op">(</span><span class="va">product</span><span class="op">)</span> |&gt; <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">product</span><span class="op">)</span> |&gt; <span class="co"># list to columns</span>
   <span class="fu">separate_rows</span><span class="op">(</span><span class="va">ActiveIngredient</span>,sep<span class="op">=</span><span class="st">"; "</span><span class="op">)</span>        |&gt; <span class="co"># "name; name" -&gt; 2 rows</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, prod.active <span class="op">=</span> <span class="va">ActiveIngredient</span><span class="op">)</span>
-
 <span class="va">sub.tb</span> <span class="op">=</span> <span class="va">meta.tb</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">submission</span><span class="op">)</span>               |&gt; <span class="co"># aid -&gt; submission</span>
   <span class="fu">unnest_longer</span><span class="op">(</span><span class="va">submission</span><span class="op">)</span> |&gt; <span class="fu">unnest_wider</span><span class="op">(</span><span class="va">submission</span><span class="op">)</span>  |&gt; <span class="co"># list to columns</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,
@@ -158,13 +145,12 @@ Clicking <strong>check for new results</strong> makes a living review
   <span class="fu">left_join</span><span class="op">(</span><span class="va">prod.tb</span>,by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span> |&gt; <span class="fu">left_join</span><span class="op">(</span><span class="va">sub.tb</span>, by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span> |&gt;
   <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, <span class="va">sponsor</span>, <span class="va">review</span>, <span class="va">sub.priority</span>, <span class="va">sub.subtype</span>, <span class="va">prod.active</span><span class="op">)</span> |&gt;
   <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span>
-
 <span class="va">fda.tb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="op">]</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 6</span></span>
+<pre><code><span class="co">## # A tibble: 2 × 6</span>
 <span class="co">##        aid sponsor             review       sub.priority sub.subtype prod.active</span>
-<span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> 13<span style="text-decoration: underline;">913</span>155 GILEAD SCIENCES INC medical rev… STANDARD     ORIG        COBICISTAT </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> 13<span style="text-decoration: underline;">913</span>155 GILEAD SCIENCES INC medical rev… STANDARD     SUPPL       COBICISTAT</span></code></pre>
+<span class="co">##      &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;      </span>
+<span class="co">## 1 13913155 GILEAD SCIENCES INC medical rev… STANDARD     ORIG        COBICISTAT </span>
+<span class="co">## 2 13913155 GILEAD SCIENCES INC medical rev… STANDARD     SUPPL       COBICISTAT</span></code></pre>
 <div class="section level3">
 <h3 id="meta-categories">Meta categories<a class="anchor" aria-label="anchor" href="#meta-categories"></a>
 </h3>
@@ -172,7 +158,7 @@ Clicking <strong>check for new results</strong> makes a living review
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">icat</span> <span class="op">&lt;-</span> <span class="fu">inspectdf</span><span class="fu">::</span><span class="fu"><a href="https://alastairrushworth.github.io/inspectdf/reference/inspect_cat.html" class="external-link">inspect_cat</a></span><span class="op">(</span><span class="va">fda.tb</span><span class="op">)</span>
 <span class="va">icat</span> |&gt; <span class="fu">inspectdf</span><span class="fu">::</span><span class="fu"><a href="https://alastairrushworth.github.io/inspectdf/reference/show_plot.html" class="external-link">show_plot</a></span><span class="op">(</span>label_color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></code></pre></div>
-<p><img src="reviewing-fda-druglabel_files/figure-html/inspect_meta_categories-1.png" width="100%"></p>
+<p><img src="../../../../../thomas/git/co.insilica/rsr/articles/reviewing-fda-druglabel_files/figure-gfm/inspect_meta_categories-1.png" width="100%"></p>
 <p>This table shows that gilead sciences has the most imported documents ( x products x submissions ). There are quite a few active ingredients, the top 5 by distinct(aid) are: COBICISTAT, SOFOSBUVIR, ELVITEGRAVIR, EMTRICITABINE, NALOXONE HYDROCHLORIDE</p>
 <p>How many of those are Gilead active ingredients?</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -180,7 +166,7 @@ Clicking <strong>check for new results</strong> makes a living review
   <span class="fu">count</span><span class="op">(</span><span class="va">prod.active</span>,priority<span class="op">=</span><span class="va">sub.priority</span><span class="op">==</span><span class="st">"PRIORITY"</span><span class="op">)</span>    |&gt; <span class="co"># get count by priority</span>
   <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">prod.active</span>,<span class="va">n</span><span class="op">)</span>,y<span class="op">=</span><span class="va">n</span>,fill<span class="op">=</span><span class="va">priority</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># make a plot</span>
   <span class="fu">geom_col</span><span class="op">(</span>position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span> <span class="co"># + ...</span></code></pre></div>
-<p><img src="reviewing-fda-druglabel_files/figure-html/gilead_priority_drug_graph-1.png" width="100%"></p>
+<p><img src="../../../../../thomas/git/co.insilica/rsr/articles/reviewing-fda-druglabel_files/figure-gfm/gilead_priority_drug_graph-1.png" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -191,13 +177,13 @@ Clicking <strong>check for new results</strong> makes a living review
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="fl">111474</span><span class="op">)</span> |&gt; 
   <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">user_id</span>,<span class="va">confirm_time</span>,<span class="va">short_label</span>,<span class="va">value_type</span>,<span class="va">answer</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<pre><code><span class="co">## # A tibble: 4 × 6</span>
 <span class="co">##        aid user_id confirm_time        short_label        value_type answer     </span>
-<span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> 13<span style="text-decoration: underline;">913</span>147     139 2022-01-16 19:44:29 cardiotox sentence annotation <span style="color: #949494;">"</span>{\"34afa2…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> 13<span style="text-decoration: underline;">913</span>147     139 2022-01-16 19:44:29 Include            boolean    <span style="color: #949494;">"</span>true<span style="color: #949494;">"</span>     </span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> 13<span style="text-decoration: underline;">913</span>153     139 2022-01-18 14:21:48 cardiotox sentence annotation <span style="color: #949494;">"</span>{\"a7de64…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> 13<span style="text-decoration: underline;">913</span>153     139 2022-01-18 14:21:48 Include            boolean    <span style="color: #949494;">"</span>true<span style="color: #949494;">"</span></span></code></pre>
+<span class="co">##      &lt;int&gt;   &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;              &lt;chr&gt;      &lt;chr&gt;      </span>
+<span class="co">## 1 13913147     139 2022-01-16 19:44:29 cardiotox sentence annotation "{\"34afa2…</span>
+<span class="co">## 2 13913147     139 2022-01-16 19:44:29 Include            boolean    "true"     </span>
+<span class="co">## 3 13913153     139 2022-01-18 14:21:48 cardiotox sentence annotation "{\"a7de64…</span>
+<span class="co">## 4 13913153     139 2022-01-18 14:21:48 Include            boolean    "true"</span></code></pre>
 <p>Annotating pdfs is laborious. Can we do it faster?</p>
 </div>
 <div class="section level2">
@@ -206,23 +192,21 @@ Clicking <strong>check for new results</strong> makes a living review
 <p>Sysrev services provide functions that can automate document review tasks like data sourcing, extraction, review and analysis. There are two services avaiable for this project:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/service_list.html">service_list</a></span><span class="op">(</span><span class="fl">111474</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 2 × 4</span></span>
+<pre><code><span class="co">## # A tibble: 2 × 4</span>
 <span class="co">##   service        status description             reference                       </span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> en_tox         active NER for toxicology      https://github.com/ontox-hu/... </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> export_answers active export answers to excel https://github.com/sysrev/servi…</span></code></pre>
+<span class="co">##   &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;                   &lt;chr&gt;                           </span>
+<span class="co">## 1 en_tox         active NER for toxicology      https://github.com/ontox-hu/... </span>
+<span class="co">## 2 export_answers active export answers to excel https://github.com/sysrev/servi…</span></code></pre>
 <p>Services are still in development, but the EN_TOX tool, developed by Marc Teunis and Marie Corradi for the <a href="https://ontox-project.eu/" title="European Union ONTOX project" class="external-link">EU ONTOX project</a> can automate some of the manual labelling tasks we described above. The service takes text and returns named toxicological entities. Below demonstrates how you could run this service on text from 5 imported FDA documents.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">possible_text</span> <span class="op">=</span> <span class="fu">pdftools</span><span class="fu">::</span><span class="va">pdf_text</span> |&gt; <span class="fu">possibly</span><span class="op">(</span>other <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span>
 <span class="va">en_tox</span>        <span class="op">=</span> <span class="fu">partial</span><span class="op">(</span><span class="va">service_run</span>,pid<span class="op">=</span><span class="fl">111474</span>,service<span class="op">=</span><span class="st">"en_tox"</span><span class="op">)</span> |&gt;  <span class="fu">possibly</span><span class="op">(</span>o <span class="op">=</span> <span class="fu">tibble</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
 <span class="co"># pdf_text works pretty well</span>
 <span class="va">text</span> <span class="op">=</span> <span class="fu">pdftools</span><span class="fu">::</span><span class="fu">pdf_text</span><span class="op">(</span><span class="va">meta.tb</span><span class="op">$</span><span class="va">path</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">text</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">text</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">text</span><span class="op">[</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">text</span><span class="op">[</span><span class="fl">100</span><span class="op">]</span><span class="op">)</span>
-
 <span class="va">entity.fda</span> <span class="op">=</span> <span class="va">meta.tb</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">path</span><span class="op">)</span> |&gt; <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>            |&gt; <span class="co"># demo on 5 paths </span>
   <span class="fu">mutate</span><span class="op">(</span>text     <span class="op">=</span> <span class="fu">pblapply</span><span class="op">(</span><span class="va">path</span>,<span class="va">possible_text</span><span class="op">)</span><span class="op">)</span> |&gt; <span class="fu">unnest</span><span class="op">(</span><span class="va">text</span><span class="op">)</span> |&gt; <span class="co"># pdf to text</span>
   <span class="fu">mutate</span><span class="op">(</span>text     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span>pat <span class="op">=</span><span class="st">" +"</span>,repl <span class="op">=</span> <span class="st">" "</span>, <span class="fu"><a href="https://rdrr.io/r/base/trimws.html" class="external-link">trimws</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>     |&gt; <span class="co"># clean text</span>
@@ -233,7 +217,6 @@ Clicking <strong>check for new results</strong> makes a living review
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">entity.fda</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"vignettes/data/entity.fda.RDS"</span><span class="op">)</span><span class="op">)</span> <span class="co"># get cached en_tox results </span>
 <span class="va">clean_text</span> <span class="op">=</span> <span class="fu">compose</span><span class="op">(</span><span class="va">tolower</span>,<span class="fu">textstem</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/textstem/man/lemmatize_strings.html" class="external-link">lemmatize_strings</a></span><span class="op">)</span>   <span class="co"># clean entity values</span>
-
 <span class="va">entity.count</span> <span class="op">=</span> <span class="va">entity.fda</span>                       |&gt; <span class="co"># lets count tox entities! </span>
   <span class="fu">mutate</span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu">clean_text</span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  |&gt; <span class="co"># factors let us use forcats</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">entity</span>,<span class="va">value</span><span class="op">)</span> |&gt; <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span>        |&gt; <span class="co"># count entity + value articles</span>
@@ -242,11 +225,7 @@ Clicking <strong>check for new results</strong> makes a living review
   <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>                                     |&gt; 
   <span class="fu">group_by</span><span class="op">(</span><span class="va">entity</span>,<span class="va">value</span><span class="op">)</span>                        |&gt; 
   <span class="fu">summarize</span><span class="op">(</span>docs <span class="op">=</span> <span class="fu">n_distinct</span><span class="op">(</span><span class="va">aid</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="figure">
-<img src="reviewing-fda-druglabel_files/figure-html/unnamed-chunk-10-1.png" alt="number of cardiotoxicity drugs@fda documents by entity value identified by the EN_TOX ner model" width="100%"><p class="caption">
-number of cardiotoxicity <a href="mailto:drugs@fda" class="email">drugs@fda</a> documents by entity value identified by the EN_TOX ner model
-</p>
-</div>
+<p><img src="../../../../../thomas/git/co.insilica/rsr/articles/reviewing-fda-druglabel_files/figure-gfm/unnamed-chunk-10-1.png" title="number of cardiotoxicity drugs@fda documents by entity value identified by the EN_TOX ner model" alt="number of cardiotoxicity drugs@fda documents by entity value identified by the EN_TOX ner model" width="100%"></p>
 <p>In this vignette we demonstrated integration of the <a href="mailto:Drugs@FDA" class="email">Drugs@FDA</a> resource into sysrev reviews. Sysrev services and rsr_methods were introduced:<br><strong>1.<code><a href="../reference/create_sysrev.html">rsr::create_sysrev</a></code></strong>: Create a sysrev with your sysrev token.<br><strong>2.<code><a href="../reference/get_.html">rsr::get_article_content</a></code></strong>: Get metadata and content urls from sysrev project ids.<br><strong>3.<code><a href="../reference/get_answers.html">rsr::get_answers</a></code></strong>: Get metadata and content urls from sysrev project ids.<br><strong>4.<code><a href="../reference/service_run.html">rsr::service_run</a></code></strong>: Get a function reference to run a sysrev service.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
