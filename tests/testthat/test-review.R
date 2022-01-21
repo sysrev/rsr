@@ -1,33 +1,37 @@
 local_token <- function(envir=parent.frame()){
   old.st  = Sys.getenv("SYSREV_TOKEN")
-  old.stt = Sys.getenv("SYSREV_TEST_TOKEN")
+  old.stt = Sys.getenv("sysrev.testtoken")
   tk      = ifelse(old.stt=='',yaml::read_yaml("~/.sr/credentials")$testtoken,old.stt)
-
+  
   Sys.setenv(sysrev.testtoken=tk)
   Sys.setenv(SYSREV_TOKEN    =tk)
-  withr::defer({
+  withr::defer({ 
     Sys.setenv(sysrev.testtoken = old.stt)
     Sys.setenv(SYSREV_TOKEN     = old.st)
   },envir)
-
+  
   tk
 }
 
 test_that("setting a label value works", {
-  local_token()
-
-  pid   = 105703
+  
+  token = local_token()
+  pid   = 105703 # rsysrev project
   aid   = 13458696
   lid   = "e5772423-7581-4a4a-a0d4-c8c356d2c297"
   uid   = 5804
-
-  ans = \(){get_answers(pid) |> filter(user_id==uid,lid==lid,aid==aid) |> pull(answer)=="true"}
-
-  ans.pre  = ans()
-  res      = review(pid=pid, aid=aid, lid=lid, answer=!ans.pre)
-  ans.post = ans()
-
-  expect_true(all(is.logical(c(ans.pre,ans.post))))
+  
+  a.pre  = rsr::get_answers(pid) |> 
+    filter(user_id==uid,lid==lid,aid==aid) |> 
+    pull(answer)=="true"
+  
+  res    = rsr::review(pid=pid, aid=aid, lid=lid, answer=!a.pre)
+  
+  a.post = rsr::get_answers(pid) |> 
+    filter(user_id==uid,lid==lid,aid==aid) |> 
+    pull(answer)=="true"
+  
+  expect_true(all(is.logical(c(a.pre,a.post))))
   expect_true(res$setLabels)
-  expect_true(ans.pre != ans.post)
+  expect_true(a.pre != a.post)
 })
