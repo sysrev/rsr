@@ -32,5 +32,5 @@ create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
 #' @return success message
 #' @export
 create_source_pmids <- function(pid,name,pmids,token=get_srtoken()){
-  srplumber.post("import_pmids",list(pid=pid,pmids=pmids),token)$result
+  srplumber.post("create_source_pmids",list(pid=pid,pmids=pmids),token)$result
 }
