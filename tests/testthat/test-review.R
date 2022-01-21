@@ -31,22 +31,3 @@ test_that("setting a label value works", {
   expect_true(res$setLabels)
   expect_true(ans.pre != ans.post)
 })
-
-# TODO waiting on sysrev permissions update
-# test_that("Landing page README should work", {
-#   local_token()
-#
-#   # Create/get a sysrev project
-#   sr = create_sysrev("rsr",get_if_exists=T)
-#
-#   # Import articles from pubmed with pmids
-#   pmids=c(1000,10001)
-#   create_source_pmids(sr,name="test",pmids=pmids)
-#
-#   # pull article data into R
-#   art = get_articles(sr)
-#
-#   expect_true()
-#   expect_true(res$setLabels)
-#   expect_true(ans.pre != ans.post)
-# })

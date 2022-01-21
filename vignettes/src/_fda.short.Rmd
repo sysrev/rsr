@@ -1,0 +1,155 @@
+---
+title: "Reviewing Drugs@FDA"
+output: rmarkdown::html_vignette
+description: >
+  Using rsr to create a Drugs@FDA review of cardiotoxicity documents.
+  Analyze the metadata, automate labelling, do some analysis of cardiotoxicity FDA reviews.
+vignette: >
+  %\VignetteIndexEntry{Reviewing Drugs@FDA}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+resource_files:
+  - data/
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, setup-libs, echo=F, result=F, message=FALSE}
+knitr::opts_chunk$set(out.width = '100%')
+library(here)
+library(tidyverse)
+library(glue)
+library(rsr)
+```
+
+
+```{r create-review, results=F}
+create_sysrev("Cardiotox@FDA",get_if_exists=T)
+if(interactive()){ browse_sysrev(pid=111474) }
+```
+
+
+```{r analyze-meta}
+meta.tb.raw = rsr::get_article_content(111474) # get article content
+meta.tb = meta.tb.raw                                   |> 
+  mutate(path     = glue('~/tmp/rsr/pdf/{aid}.pdf'))    |> # local file names
+  mutate(metadata = map(metadata,jsonlite::parse_json)) |> # parse FDA meta
+  unnest_wider(metadata)                                |> # FDA meta to cols
+  select(aid,                             
+         fda.id     = ApplNo,             # FDA Application Number
+         sponsor    = SponsorName,        # Sponsor of reviewed product 
+         review     = ReviewDocumentType, # review type medical, pharma, ...
+         product    = Products,           # nested list w/ product data
+         submission = Submissions,        # nested list w/ submission data
+         url        = contentUrl,         # a url for the included pdf
+         path)                            # a local path to store pdfs
+
+meta.tb[1:2,]
+```
+
+
+```{r products-submissions}
+prod.tb = meta.tb |> select(aid,product)          |> # build aid -> products
+  unnest_longer(product) |> unnest_wider(product) |> # list to columns
+  separate_rows(ActiveIngredient,sep="; ")        |> # "name; name" -> 2 rows
+  select(aid, prod.active = ActiveIngredient)
+
+sub.tb = meta.tb |> select(aid,submission)               |> # aid -> submission
+  unnest_longer(submission) |> unnest_wider(submission)  |> # list to columns
+  select(aid,
+         sub.priority = ReviewPriority,
+         sub.subtype  = SubmissionType)
+```
+
+
+```{r fda-table}
+fda.tb = meta.tb |> 
+  left_join(prod.tb,by="aid") |> 
+  left_join(sub.tb, by="aid") |>
+  select(aid, sponsor, review, sub.priority, sub.subtype, prod.active) |>
+  distinct()
+
+fda.tb[1:2,]
+```
+
+### Meta categories
+
+```{r inspect_meta_categories}
+icat <- inspectdf::inspect_cat(fda.tb)
+icat |> inspectdf::show_plot(label_color = "black")
+```
+
+```{r eval=FALSE}
+fda.tb |> filter(sponsor=="GILEAD SCIENCES INC")          |> # GET GSI docs
+  count(prod.active,priority=sub.priority=="PRIORITY")    # get count by priority
+```
+
+```{r gilead_priority_drug_graph, echo=F}
+fda.tb |> filter(sponsor=="GILEAD SCIENCES INC")          |> # GET GSI docs
+  count(prod.active,priority=sub.priority=="PRIORITY")    |> # get count by priority
+  ggplot(aes(x=reorder(prod.active,n),y=n,fill=priority)) +  # make a plot
+  geom_col(position = "stack") +
+  coord_flip() +
+  ggtitle("GSI ACTIVE INGREDIENT FDA PRIORITY STATUS") + xlab("") + 
+  scale_y_continuous(expand=c(0,0)) +
+  ggthemes::theme_fivethirtyeight() +
+  theme(plot.title.position = "plot",legend.position = c(0.7,0.1))
+```
+
+```{r}
+rsr::get_answers(111474) |> 
+  select(aid,user_id,confirm_time,short_label,value_type,answer)
+```
+
+
+```{r services}
+cholestasis.project = 111474
+rsr::service_list(cholestasis.project)
+```
+
+```{r eval=FALSE}
+possible_text = pdftools::pdf_text |> possibly(other = NA_character_)
+en_tox        = partial(service_run,pid=111474,service="en_tox") |>  possibly(o = tibble())
+service_run(cholestasis.project,"en_tox")("bisphenol a is a bad chemical")
+# pdf_text works pretty well
+text = possible_text(meta.tb$path[1])
+cat(text[1])   # Appl No
+cat(text[4])   # Who what where
+cat(text[10])  # TOC
+cat(text[100])
+
+entity.fda = meta.tb |> select(aid,path) |> slice(1:5)            |> # demo on 5 paths 
+  mutate(text     = pblapply(path,possible_text)) |> unnest(text) |> # pdf to text
+  mutate(text     = gsub(pat =" +",repl = " ", trimws(text)))     |> # clean text
+  mutate(entities = pblapply(text,en_tox))                        |> # run en_tox
+  unnest(entities)                                                |> # extract result
+  select(aid,entity,value,context) 
+```
+
+
+```{r, message=F, warning=F}
+entity.fda = readRDS(here("vignettes/data/entity.fda.RDS")) # get cached en_tox results 
+clean_text = compose(tolower,textstem::lemmatize_strings)   # clean entity values
+
+entity.count = readRDS(here("vignettes/data/entity.fda.counts.RDS"))
+entity.count = entity.fda                       |> # lets count tox entities! 
+  mutate(value = as.factor(clean_text(value)))  |> # factors let us use forcats
+  select(aid,entity,value) |> distinct()        |> # count entity + value articles
+  group_by(entity)                              |> # top 10 values by entity type
+  mutate(value = forcats::fct_lump_n(value,10)) |> # call non top 10 values 'Other'
+  ungroup()                                     |> 
+  group_by(entity,value)                        |> 
+  summarize(docs = n_distinct(aid))
+
+
+```
+
+```{r echo=F, fig.height=8}
+entity.count |> arrange(value=="Other",entity,-docs) |> mutate(row=row_number()) |> 
+ggplot(aes(x=reorder(value,-row),y=docs)) + geom_col() + coord_flip() + 
+  facet_wrap(~entity,scales = "free_y",ncol = 2) +
+  scale_y_continuous(expand=c(0,0)) + 
+  ggtitle("EN_TOX Top FDA Entities") +
+  ggthemes::theme_fivethirtyeight() + theme(plot.title.position = "plot")
+```
+

@@ -1,23 +1,19 @@
 ---
 title: "rsr"
-output: rmarkdown::html_vignette
-description: >
+description: |
   Learn to create, automate and analyze sysrev document reviews.
+output: "rmarkdown::html_vignette"
 vignette: >
   %\VignetteIndexEntry{rsr}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Learn the basics behind creating, automating and analyzing sysrev document reviews.
-
-```{r, setup, include = FALSE}
-knitr::opts_chunk$set(out.width = '100%')
-```
+Learn the basics behind creating, automating and analyzing sysrev
+document reviews.
 
 ## Create a sysrev
 
-```{r}
+``` r
 library(rsr)
 pid = rsr::create_sysrev("angry bees",get_if_exists = T)
 ```

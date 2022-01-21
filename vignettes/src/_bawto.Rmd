@@ -1,0 +1,57 @@
+---
+title: "bawto"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bawto}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>")
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(ggthemes)
+library(rsr)
+```
+
+```{r setup, include=FALSE}
+glDF   <- rsr::get_answers_list(81395)
+glDF$biomarker %>% tibble()
+```
+
+# barplot
+```{r}
+pdf = glDF$biomarker %>% group_by(biomarker.name) %>% count() %>% filter(n>2)
+ggplot(pdf,aes(x=reorder(biomarker.name,n),y=n)) + geom_col() + coord_flip() +
+  scale_y_continuous(expand=c(0,0)) +
+  theme_economist() + xlab("")
+```
+
+# heatmap
+```{r}
+glDF$biomarker |>  
+  complete(biomarker.name,aid,fill=list(eligibility="none")) |> 
+  ggplot(aes(x    = biomarker.name,
+             y    = as.character(aid),
+             fill = eligibility)) +
+  geom_tile(col="black") + coord_equal() +
+  scale_fill_manual(values=c("firebrick1","gray","chartreuse1","firebrick2","firebrick3")) +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + ylab("") + xlab("")
+```
+
+# forestplot
+```{r}
+example.dt = glDF$`Single Outcomes Ratio` %>%
+  filter(biomarker == "BRCA1,BRCA2",outcome_type == "psa response")
+
+m.gen = meta::metaprop(
+  event = as.numeric(num_response),
+  n = as.numeric(num_patients),
+  studlab = treatment,
+  data = example.dt
+  )
+
+meta::forest(m.gen,print.subgroup.labels=F)
+```
