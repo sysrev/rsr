@@ -22,13 +22,13 @@ test_that("setting a label value works", {
   uid   = 5804
   
   a.pre  = rsr::get_answers(pid) |> 
-    filter(user_id==uid,lid==lid,aid==aid) |> 
+    filter(user_id==uid,lid==.env$lid,aid==.env$aid) |> 
     pull(answer)=="true"
   
   res    = rsr::review(pid=pid, aid=aid, lid=lid, answer=!a.pre)
   
   a.post = rsr::get_answers(pid) |> 
-    filter(user_id==uid,lid==lid,aid==aid) |> 
+    filter(user_id==uid,lid==.env$lid,aid==.env$aid) |> 
     pull(answer)=="true"
   
   expect_true(all(is.logical(c(a.pre,a.post))))
