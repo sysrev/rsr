@@ -35,10 +35,10 @@ srplumber = function(path,params=list(),token=get_srtoken()){
 #' @param token a sysrev token with read access to the given project
 #' @return A dataframe
 #' @keywords internal
-srplumber.post = function(path,body,token,encode="json"){
+srplumber.post = function(path,body,token){
   req   <- POST(modify_url(getOption("srplumber.url"), path=path),
-                add_headers(Authorization=glue("bearer {token}")),
-                body=body,encode = encode)
+                add_headers(Authorization=glue("bearer {token}"),`Content-Type`="application/json"),
+                body=jsonlite::toJSON(body,auto_unbox = T))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
   
   if(!is.list(res)){ return(res) }
