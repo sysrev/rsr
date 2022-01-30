@@ -5,7 +5,7 @@
 \title{sysrev.plumber.post
 a simple wrapper for rplumber.sysrev.com httr api requests}
 \usage{
-srplumber.post(path, body, token, encode = "json")
+srplumber.post(path, body, token)
 }
 \arguments{
 \item{path}{the service path see rplumber.sysrev.com/__docs__/#/}

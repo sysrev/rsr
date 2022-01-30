@@ -48,3 +48,41 @@ get_answers <- function(pid,token=get_srtoken()){
     rename(aid=.data$article_id,lid=.data$label_id)|>
     tibble()
 }
+
+#' get sysrev project/options with a name or id
+#' @param name the sysrev to get metadata from
+#' @inheritParams get_
+#' @return A dataframe
+#' @export
+get_sysrev <- function(name,pid=NA,token=get_srtoken()){
+  srplumber("get_sysrev",list(name=name),token)
+}
+
+#' get sysrevs owned by the given organization
+#' @param oname organization name (cap sensitive for now)
+#' @inheritParams common_params
+#' @export
+get_sysrevs = function(oname,token=get_srtoken()){
+  srplumber("get_sysrevs",list(oname=oname),token) |> tibble()
+}
+
+# get_reviewer_activity = function(pid,uid){
+#   a = tbl(.pool,"reviewer_event") |> filter(user_id==4741) |> collect() 
+#   b = a |> mutate(day = lubridate::date(created)) |> group_by(day) |> count() |> ungroup()
+#   c= b |> 
+#     complete(day=seq(ymd("2021-08-13"),ymd("2021-12-30"),by="days"),fill = list(n=0)) |> 
+#     mutate(n = factor(case_when(
+#       day > today() ~ "NA",
+#       n ==0~"none",
+#       n<2~"low",
+#       n<14~"med",
+#       T ~"high"),levels=c("none","low","med","high"))) |>
+#     mutate(week = week(day))
+#   
+#   ggplot(c,aes(x=week, y=(wday(day)+1)%%7, fill=n)) + geom_tile(col="#0e1117ff",size=2) + coord_fixed() +
+#     scale_x_continuous(expand=c(0,0)) + scale_y_continuous(expand = c(0,0)) +
+#     scale_fill_manual(values = c("#171b22ff","#1d3642ff","#29606aff","#5ecec0ff"),na.value = "#0e1117ff") + 
+#     theme(plot.background = element_rect(fill = "#0e1117ff")) + xlab("") + ylab("") +
+#     ggtitle("vanessa-saul@t-online.de activity") + xlab("") + ylab("")
+#   
+# }

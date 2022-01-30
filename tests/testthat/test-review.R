@@ -32,6 +32,6 @@ test_that("setting a label value works", {
     pull(answer)=="true"
   
   expect_true(all(is.logical(c(a.pre,a.post))))
-  expect_true(res$setLabels)
+  expect_true(res$status=="complete")
   expect_true(a.pre != a.post)
 })

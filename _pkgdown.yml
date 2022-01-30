@@ -16,6 +16,7 @@ reference:
   desc:  get articles, labels, users, sysrevs as tibbles
   contents:
   - get_sysrev
+  - get_sysrevs
   - get_answers
   - get_
 

@@ -1,12 +1,3 @@
-#' get sysrev project/options with a name or id
-#' @param name the sysrev to get metadata from
-#' @inheritParams get_
-#' @return A dataframe
-#' @export
-get_sysrev <- function(name,pid=NA,token=get_srtoken()){
-  srplumber("get_sysrev",list(name=name),token)
-}
-
 #' create a sysrev project
 #' @param name the name of the project you want to create
 #' @param get_if_exists get the project if it already exists

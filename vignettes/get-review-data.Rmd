@@ -1,0 +1,47 @@
+---
+title: "get-review-data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{get-review-data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The rsr package lets you pull review data from projects you own, or from public projects. 
+
+```{r, include = FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>")
+```
+
+rsr::get_answers_list can be used to get data from [Prostate Cancer and Homologous Recombination](https://sysrev.com/o/2/p/81395)
+
+```{r}
+answers = rsr::get_answers_list(81395)
+names(answers)
+```
+
+This gives us a list with tables describing biomarker and clinical outcomes. The basic table describes clinical trial identifiers for the reviewed articles, and has some information about the presence and location of patient level outcomes in the reviewed text. We show three rows below:
+
+```{r}
+tb = answers$basic |> filter(has_patient_level_data=="TRUE") |>  select(aid,nct=`NCT Trial ID`,`patient level data location`)
+knitr::kable(tb[1:3,])
+```
+
+The biomarkers table gives us information about which genes were measured in which clinical trials. With ggplot we can build an informative heatplot:
+
+```{r}
+trial.tb = answers$basic |> select(aid,short_name)
+plot.tb  = answers$biomarker |> 
+  inner_join(trial.tb,by="aid") |> 
+  mutate(biomarker  = as.factor(biomarker.name) |> forcats::fct_infreq()) |> 
+  mutate(short_name = as.factor(short_name) |> forcats::fct_infreq()) |> 
+  complete(biomarker,short_name,fill=list(eligibility="none"))
+  
+ggplot(plot.tb,aes(x=biomarker,y=short_name,fill=eligibility)) +
+  geom_tile(col="black") + coord_equal() + 
+  scale_fill_manual(values=c("firebrick1","gray","chartreuse1","firebrick2","firebrick3")) + 
+  theme(axis.text.x = element_text(angle=45,hjust=1)) + ylab("") + xlab("")
+```
