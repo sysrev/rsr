@@ -66,7 +66,7 @@ joint = tbls$basic |>
          eli   = eligibility)
 
 top10 = joint |> group_by(bmkr) |> summarize(s = n_distinct(study)) |> 
-  slice_max(n=10,order_by=s)
+  slice_max(n=13,order_by=s,with_ties = F)
 
 ptb = joint |> 
   inner_join(top10,by="bmkr") |> 
@@ -80,9 +80,11 @@ ptb = joint |>
                           `measure/include`="measured"))
   
 ggplot(ptb,aes(x=study, y=bmkr, fill=eli)) +
-  geom_tile(col="black") + coord_equal() +
+  geom_tile(col="black") + 
   scale_fill_manual(values=c("#161616","#4C9605","#CC2C11")) + 
-  theme(axis.text.x = element_text(angle=90,hjust=1), legend.title = element_blank(),
+  theme(text = element_text(size=12),
+        axis.text.x = element_text(angle=90,hjust=1), 
+        legend.title = element_blank(),
         legend.position = "top") + 
   ylab("") + xlab("")
 ```
