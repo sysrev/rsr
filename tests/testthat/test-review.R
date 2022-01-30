@@ -25,6 +25,7 @@ test_that("setting a label value works", {
     filter(user_id==uid,lid==.env$lid,aid==.env$aid) |> 
     pull(answer)=="true"
   
+  
   res    = rsr::review(pid=pid, aid=aid, lid=lid, answer=!a.pre)
   
   a.post = rsr::get_answers(pid) |> 
