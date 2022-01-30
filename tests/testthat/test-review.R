@@ -1,6 +1,6 @@
 local_token <- function(envir=parent.frame()){
   old.st  = Sys.getenv("SYSREV_TOKEN")
-  old.stt = Sys.getenv("sysrev.testtoken")
+  old.stt = Sys.getenv("SYSREV_TEST_TOKEN")
   tk      = ifelse(old.stt=='',yaml::read_yaml("~/.sr/credentials")$testtoken,old.stt)
   
   Sys.setenv(sysrev.testtoken=tk)
