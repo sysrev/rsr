@@ -104,8 +104,7 @@
 <span class="co">#&gt;        aid biomarker.name</span>
 <span class="co">#&gt; 1 11781738 BRCA1 </span>
 <span class="co">#&gt; 2 11781738 BRCA2 </span></code></pre></div>
-<p>Extracted tables can be joined on the article identifier (aid).</p>
-<p>Here, joined basic/biomarker tables can link trials and biomarkers. <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">ggplot2::geom_tile</a></code> can then quickly visualize these relationships.</p>
+<p>Extracted tables can be joined by article <code>aid</code>. Here, joined basic/biomarker tables link trials and biomarkers. <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">ggplot2::geom_tile</a></code> can then quickly visualize which trials use which biomarkers.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">join.tb</span> <span class="op">=</span> <span class="va">tbls</span><span class="op">$</span><span class="va">basic</span> |&gt; 
   <span class="fu">inner_join</span><span class="op">(</span><span class="va">tbls</span><span class="op">$</span><span class="va">biomarker</span>,by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span>
@@ -114,7 +113,7 @@
 <span class="co">#   aes(x=bmkr, y=study, fill=elig)) + </span>
 <span class="co">#   geom_tile() + …</span></code></pre></div>
 <p><img src="get-review-data_files/figure-html/heatmap-1.png" width="700"></p>
-<p>Now you know how to get open access review data on sysrev.</p>
+<p>Now you know how to get open access review data on sysrev. Check out the <a href="https://r.sysrev.com/reference/index.html">rsr reference</a> for more documentation.</p>
   </main>
 </div>
 
