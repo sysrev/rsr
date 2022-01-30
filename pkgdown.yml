@@ -2,9 +2,8 @@ pandoc: 2.7.3
 pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  reviewing-fda-druglabel: reviewing-fda-druglabel.html
-  rsr: rsr.html
-last_built: 2022-01-26T22:06Z
+  get-review-data: get-review-data.html
+last_built: 2022-01-30T18:07Z
 urls:
   reference: https://r.sysrev.com/reference
   article: https://r.sysrev.com/articles

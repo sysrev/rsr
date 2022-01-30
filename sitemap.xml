@@ -4,13 +4,10 @@
     <loc>https://r.sysrev.com/404.html</loc>
   </url>
   <url>
+    <loc>https://r.sysrev.com/articles/get-review-data.html</loc>
+  </url>
+  <url>
     <loc>https://r.sysrev.com/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r.sysrev.com/articles/reviewing-fda-druglabel.html</loc>
-  </url>
-  <url>
-    <loc>https://r.sysrev.com/articles/rsr.html</loc>
   </url>
   <url>
     <loc>https://r.sysrev.com/authors.html</loc>
@@ -47,6 +44,9 @@
   </url>
   <url>
     <loc>https://r.sysrev.com/reference/get_sysrev.html</loc>
+  </url>
+  <url>
+    <loc>https://r.sysrev.com/reference/get_sysrevs.html</loc>
   </url>
   <url>
     <loc>https://r.sysrev.com/reference/index.html</loc>
