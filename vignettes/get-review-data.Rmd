@@ -46,9 +46,7 @@ tbls$biomarker |>
 #> 2 11781738 BRCA2 
 ```
 
-Extracted tables can be joined on the article identifier (aid).
-
-Here, joined basic/biomarker tables can link trials and biomarkers. `ggplot2::geom_tile` can then quickly visualize these relationships.
+Extracted tables can be joined by article `aid`. Here, joined basic/biomarker tables link trials and biomarkers. `ggplot2::geom_tile` can then quickly visualize which trials use which biomarkers.
 
 ```{r plot_tb, results='hide'}
 join.tb = tbls$basic |> 
@@ -89,4 +87,4 @@ ggplot(ptb,aes(x=study, y=bmkr, fill=eli)) +
   ylab("") + xlab("")
 ```
 
-Now you know how to get open access review data on sysrev.
+Now you know how to get open access review data on sysrev. Check out the [rsr reference](https://r.sysrev.com/reference/index.html) for more documentation.
