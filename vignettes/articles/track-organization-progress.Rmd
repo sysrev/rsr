@@ -1,6 +1,8 @@
 ---
 title: "Track organization progress"
 output: rmarkdown::html_vignette
+description: >
+  Learn how to track sysrev activity in an organization.
 vignette: >
   %\VignetteIndexEntry{Track organization progress}
   %\VignetteEngine{knitr::rmarkdown}
