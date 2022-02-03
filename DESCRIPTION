@@ -25,7 +25,6 @@ Imports:
     config,
     stats,
     base64enc,
-    jsonparse (>= 0.0.1.9000),
     lifecycle,
     withr
 Suggests:
@@ -46,4 +45,3 @@ Suggests:
     tibble
 Config/testthat/edition: 3
 Remotes: 
-    ChrisMuir/jsonparse

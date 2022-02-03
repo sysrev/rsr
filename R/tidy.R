@@ -6,7 +6,7 @@
 #' @inheritParams get_answers
 #' @return a tbl with tidy sysrev answers
 #' @export
-get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srtoken()) {
+get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srtoken()){
 
   pco = get_sroptions(pid,token=token)
 
@@ -77,7 +77,7 @@ get_answers_list = function(pid,token=get_srtoken()){
   c(list(basic=basic.tbl),tbls)
 }
 
-tidy.answers.basic   = function(answer){ lapply(answer,jsonparse::from_json) }
+tidy.answers.basic   = function(answer){ lapply(answer,jsonlite::fromJSON) }
 tidy.answers.boolean = function(answer){ lapply(answer,\(x) case_when(x=="true"~T,x=="false"~F,NULL)) }
 
 #' tidy answers for group labels
@@ -86,7 +86,7 @@ tidy.answers.boolean = function(answer){ lapply(answer,\(x) case_when(x=="true"~
 #' @return <rsr_group> vector which is a subclass of <tbl>
 #' @keywords internal
 tidy.answers.group   = function(answer){
-  longtb = tibble( aid=seq_along(answer), answer = purrr::map(answer,~jsonparse::from_json(.)$labels)) |>
+  longtb = tibble( aid=seq_along(answer), answer = purrr::map(answer,~jsonlite::fromJSON(.)$labels)) |>
     tidyr::unnest_longer(answer,indices_to = "row") |>
     tidyr::unnest_longer(answer,indices_to = "lid") |>
     mutate(row=as.numeric(row)) |>
