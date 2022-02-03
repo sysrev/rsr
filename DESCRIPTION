@@ -39,7 +39,10 @@ Suggests:
     ggplot2,
     here,
     forcats,
-    textstem
+    textstem,
+    lubridate,
+    DT,
+    geomtextpath
 Config/testthat/edition: 3
 Remotes: 
     ChrisMuir/jsonparse
