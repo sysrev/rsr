@@ -126,7 +126,7 @@ labels = map_dfr(sysrevs$project_id,rsr::get_labels)
 labels |> 
   filter(is.na(root_label_id_local)) |> # remove child labels
   count(short_label,question,name="projects") |> # count projects with label
-  arrange(-n) |> 
+  arrange(-projects) |> 
   datatable()
 ```
 
