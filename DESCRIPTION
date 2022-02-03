@@ -42,7 +42,8 @@ Suggests:
     textstem,
     lubridate,
     DT,
-    geomtextpath
+    geomtextpath,
+    tibble
 Config/testthat/edition: 3
 Remotes: 
     ChrisMuir/jsonparse

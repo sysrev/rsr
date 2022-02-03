@@ -14,10 +14,12 @@ library(lubridate)
 library(ggplot2)
 library(purrr)
 library(rsr)
-library(tidyverse)
 library(geomtextpath)
+library(tibble)
 library(ggthemes)
 library(DT)
+library(dplyr)
+library(tidyr)
 library(knitr)
 
 local({
