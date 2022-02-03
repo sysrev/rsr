@@ -17,17 +17,23 @@ create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
 }
 
 #' Create a new project based on an existing project
-#' @param source.pid project id of the source project
-#' @param target.name name of the new project
+#' @param pid project id of the source project
+#' @param name name of the new project
 #' @param add.articles import the articles from source project?
 #' @param add.labels import the labels from source project?
 #' @param add.members import the members from source project?
 #' @param add.answers import the answers from source project?
+#' @param get_if_exists gets the sysrev instead of cloning if it already exists
 #' @inheritParams common_params
 #' @keyword internal
-clone_sysrev <- function(source.pid,target.name,add.articles=T,add.labels=T,add.members=F,add.answers=F,token){
+clone_sysrev <- function(pid,name,add.articles=T,add.labels=T,add.members=F,add.answers=F,
+                         get_if_exists=T,token=get_srtoken()){
+  
+  sr   = get_sysrev(name,token)
+  if(get_if_exists&&sr$exists){ return(sr) }
+  
   body = as.list(environment())
-  res = srplumber.post("clone_sysrev",body,token)
+  res  = srplumber.post("clone_sysrev",body,token)
   if(!is.null(res$error)){stop(res$error$message)}
   res
 }

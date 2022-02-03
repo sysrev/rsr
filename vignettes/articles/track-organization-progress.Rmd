@@ -1,0 +1,130 @@
+---
+title: "Track organization progress"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Track organization progress}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, include = FALSE}
+library(lubridate)
+library(ggplot2)
+library(purrr)
+library(rsr)
+library(tidyverse)
+library(geomtextpath)
+library(ggthemes)
+library(DT)
+library(knitr)
+
+local({
+  hook_plot = knit_hooks$get('plot')
+  knit_hooks$set(plot = function(x, options) {
+    x = paste(x, collapse = '.')
+    if (!grepl('\\.svg', x)) return(hook_plot(x, options))
+    # read the content of the svg image and write it out without <?xml ... ?>
+    paste(readLines(x)[-1], collapse = '\n')
+  })
+})
+
+mytheme = function (base_size = 12, base_family = "sans") 
+{
+    colors <- deframe(ggthemes::ggthemes_data[["fivethirtyeight"]])
+    (theme_foundation(base_size = base_size, base_family = base_family) + 
+        theme(line = element_line(colour = "black"), rect = element_rect(fill = colors["white"], 
+            linetype = 0, colour = NA), text = element_text(colour = colors["Dark Gray"]), 
+            axis.title = element_blank(), axis.text = element_text(), 
+            axis.ticks = element_blank(), axis.line = element_blank(), 
+            legend.background = element_rect(), legend.position = "none", 
+            legend.direction = "horizontal", legend.box = "vertical", 
+            panel.grid = element_line(colour = NULL), panel.grid.major = element_line(colour = colors["Medium Gray"]), 
+            panel.grid.minor = element_blank(), plot.title = element_text(hjust = 0, 
+                size = rel(1.5), face = "bold"), plot.margin = unit(c(1, 
+                1, 1, 1), "lines"), strip.background = element_rect()))
+}
+
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>",dev = 'svg', fig.ext=".svg", warning = F, message = F) 
+# knitr::opts_chunk$set(cache = T,cache.path = "./cache")
+```
+
+Organizations can accumulate many users, projects, labels and answers. Keeping track of organization activity can be a real challenge. Here is a simple approach to tracking organization activity.
+
+## Get Sysrevs
+`rsr::get_sysrevs` gets all of the sysrevs for a given organization.
+
+```{r results=F}
+sysrevs = rsr::get_sysrevs("Ontox")
+```
+```{r echo=F}
+sysrevs |> 
+  select(project_id,name,roles) |> 
+  print(,n=2)
+```
+
+The first project above can be found at (sysrev.com/p/77703). The project names, creation dates, and roles are available. 
+
+## Roles
+Project administrators can be discovered by unnesting the roles column. 
+
+```{r eval=F}
+sysrevs |> unnest(roles) |> filter(role=="admin")
+```
+
+```{r echo=F}
+sysrevs  |> 
+  unnest(roles) |> filter(role=="admin") |> 
+  select(project_id,name,username,role) |> 
+  print(n=2)
+```
+
+## Labeling activity
+How active are the different projects? `get_answers` gets a projects answers. Run it on every project to get all organization answers. The `p.answers` function below guarantees that this section will run, even if get_answers breaks for some specific project. 
+
+```{r results=F}
+p.answers  = possibly(rsr::get_answers,otherwise = tibble())
+sr.answers = sysrevs |> 
+  select(project_id,name) |> 
+  mutate(answers = map(project_id,p.answers)) |> 
+  unnest(answers)
+```
+
+```{r echo=F}
+sr.answers |> print(n=2)
+```
+
+### Project activity
+A simple ggplot can now track project activity over time:
+
+```{r echo=F, results=F,out.width="95%", fig.width=8,fig.height=4,fig.align='center',cache=F}
+daily.answers = sr.answers |> 
+  mutate(day = date(confirm_time)) |> 
+  group_by(name,day) |> summarize(ans = n()) |> ungroup()
+
+cumulative.answers = daily.answers |> 
+  group_by(name) |> 
+  arrange(day) |> mutate(ans = cumsum(ans)) |>
+  filter(max(ans)>200) |> 
+  ungroup()
+
+ggplot(cumulative.answers,aes(x=day,y=ans,col=name,label=name)) + 
+  geom_textline(text_smoothing = 60, size = 3, vjust=-1, fontface="bold") +
+  geom_point(size=1,col="black") + mytheme()
+```
+
+### Labels
+
+A table collecting all the labels and their usage can be generated:
+
+```{r results=F}
+labels = map_dfr(sysrevs$project_id,rsr::get_labels)
+```
+
+```{r echo=F}
+labels |> 
+  filter(is.na(root_label_id_local)) |> # remove child labels
+  count(short_label,question,name="projects") |> # count projects with label
+  arrange(-n) |> 
+  datatable()
+```
+

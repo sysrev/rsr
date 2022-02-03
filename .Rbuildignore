@@ -11,4 +11,4 @@
 ^vignettes/articles$
 ^doc$
 ^Meta$
-^scratch\.R$
+^scratch.*
