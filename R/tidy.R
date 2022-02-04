@@ -14,21 +14,21 @@ get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srtoken()){
     group_by(.data$lid) |> mutate(answer = srtidy_answer(.data$answer, .data$value_type)) |> ungroup() |>
     group_by(.data$aid) |> # filter out reviews superseded by a resolve review
     (\(tbl){ purrr::when(drop.resolved.discordant,
-                         T ~ tbl |> filter(.data$resolve == max(.data$resolve)) |> ungroup(),
-                         F ~ tbl )})()
+                         T ~ tbl |> filter(.data$resolve == max(.data$resolve)),
+                         F ~ tbl )})() |> ungroup()
 
   b = a |> # calculate concordance by aid
-    group_by(.data$aid, .data$lid) |> mutate(conc = concordant(.data$answer, F, pco)) |> ungroup() |>
-    mutate(conc = max(.data$conc, .data$lid %in% pco$consensus.labels)) |>
-    group_by(.data$aid) |> mutate(conc    = all(.data$conc)) |> ungroup() |>
-    group_by(.data$aid) |> mutate(reviews = n_distinct(.data$user_id)) |> ungroup()
+    group_by(aid, lid) |> mutate(conc = concordant(answer, F, pco)) |> ungroup() |>
+    mutate(conc = max(conc, lid %in% pco$consensus.labels)) |>
+    group_by(aid) |> mutate(conc = all(conc)) |> ungroup() |>
+    group_by(aid) |> mutate(reviews = n_distinct(.data$user_id)) |> ungroup()
 
   # calculate a concordance status
   b |> mutate(
     conc.status = case_when(
       resolve      ~ "resolved",
-      conc         ~ "concordant",
       reviews == 1 ~ "single",
+      conc         ~ "concordant",
       T            ~ "discordant"
     ),
     .keep = "unused"
@@ -91,8 +91,11 @@ tidy.answers.group   = function(answer){
     tidyr::unnest_longer(answer,indices_to = "lid") |>
     mutate(row=as.numeric(row)) |>
     select(.data$aid,.data$row,.data$lid,value=answer)
-
-  groups = longtb |> group_by(.data$aid) |> tidyr::nest() |> ungroup() |> pull(.data$data)
+  
+  empty.t = tibble(row=numeric(),lid=character(),list())
+  groups  = longtb |> group_by(.data$aid) |> tidyr::nest() |> ungroup() |> 
+    tidyr::complete(aid=seq_along(answer),fill=list(data=list(empty.t))) |> 
+    pull(.data$data)
 
   purrr::map(groups, ~ structure(.,class=c("rsr_group",class(.))))
 }
