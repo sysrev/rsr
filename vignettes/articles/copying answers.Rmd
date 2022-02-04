@@ -17,7 +17,6 @@ library(scales)
 library(dplyr)
 library(ggplot2)
 library(knitr)
-library(svglite)
 
 theme_538 = function(legend.pos="right"){
   theme(legend.title = element_blank(),
