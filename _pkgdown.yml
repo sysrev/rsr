@@ -25,6 +25,7 @@ reference:
   - create_sysrev
   - create_source_pmids
   - clone_sysrev
+  - copy_answers
 
 - title: review
   contents:

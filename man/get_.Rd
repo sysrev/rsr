@@ -15,7 +15,7 @@ get_article_content(pid, token = get_srtoken())
 
 get_predictions(pid, token = get_srtoken())
 
-get_labels(pid, token = get_srtoken())
+get_labels(pid, enabled.only = T, token = get_srtoken())
 
 get_users(pid, token = get_srtoken())
 }
@@ -23,6 +23,8 @@ get_users(pid, token = get_srtoken())
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
 \item{token}{a sysrev token with read access to the given project}
+
+\item{enabled.only}{filter out disabled labels (default T)}
 }
 \value{
 A tibble

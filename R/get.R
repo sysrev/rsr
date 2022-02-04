@@ -29,9 +29,12 @@ get_predictions <- function(pid,token=get_srtoken()){
 }
 
 #' @rdname get_
+#' @descriptoin get labels from a sysrev
+#' @param enabled.only filter out disabled labels (default T)
 #' @export
-get_labels <- function(pid,token=get_srtoken()){
-  srplumber("get_labels",list(pid=pid),token) |> dplyr::rename(lid=label_id) |> tidyr::tibble()
+get_labels <- function(pid,enabled.only=T,token=get_srtoken()){
+  a = srplumber("get_labels",list(pid=pid),token) |> rename(lid=label_id) |> tibble()
+  if(enabled.only){ a |> filter(.data$enabled) }else{ a }
 }
 
 #' @rdname get_

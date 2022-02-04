@@ -12,7 +12,7 @@
 srplumber = function(path,params=list(),token=get_srtoken()){
   req   <- GET(modify_url(getOption("srplumber.url"), path=path,query=params),add_headers(Authorization=glue("bearer {token}")))
   res   <- content(req, as="text", encoding = "UTF-8") %>% jsonlite::fromJSON()
-  browser()
+  
   if(!is.list(res)){ return(res) }
   
   if(!is.null(res$error.srp)){

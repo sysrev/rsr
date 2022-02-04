@@ -2,6 +2,7 @@
 
 export(browse_article)
 export(browse_sysrev)
+export(clone_sysrev)
 export(concordant)
 export(copy_answers)
 export(create_source_pmids)
