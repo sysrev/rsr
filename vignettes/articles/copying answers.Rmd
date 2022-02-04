@@ -1,0 +1,106 @@
+---
+title: "copying answers"
+output: rmarkdown::html_vignette
+description: >
+  Learn how to copy answers between reviews and avoid redundant work.
+vignette: >
+  %\VignetteIndexEntry{copying answers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, setup, include=F}
+library(assertthat)
+library(glue)
+library(rsr)
+library(scales)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+
+theme_538 = function(legend.pos="right"){
+  theme(legend.title = element_blank(),
+        legend.position = legend.pos,
+        text = element_text(size=12)) 
+}
+
+myplot = function(ans,lbl){
+  tb = ans |> count(short_label,answer) |> inner_join(lbl,by="short_label")
+  ggplot(tb,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) + 
+    scale_fill_brewer("Cyl", palette = "Dark2") +
+    coord_flip() + scale_y_continuous(expand=c(0,0)) +
+    guides(fill=guide_legend(byrow = F)) +
+    geom_col() +  xlab("") + ylab("") + theme_538()
+}
+
+
+local({
+  hook_plot = knit_hooks$get('plot')
+  knit_hooks$set(plot = function(x, options) {
+    x = paste(x, collapse = '.')
+    if (!grepl('\\.svg', x)) return(hook_plot(x, options))
+    # read the content of the svg image and write it out without <?xml ... ?>
+    paste(readLines(x)[-1], collapse = '\n')
+  })
+})
+ 
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>",dev = 'svg', fig.ext=".svg", warning = F, message = F) 
+
+```
+
+Sysrev and rsr make review data reusable. This vignette demonstrates reusability methods on a public review of [Echinococcosis](https://sysrev.com/p/111200) (ESR).
+
+ESR reviewed 31 title+abstracts and assigned values to 9 boolean labels relevant to the parasitic disease. 
+
+```{r dev='svg'}
+ESR.pid  = 111200 # ESR project id is 111200
+ESR.lbl  = get_labels(ESR.pid) |> filter(enabled) # 9 lbls
+ESR.art  = get_articles(ESR.pid)   # 31 articles
+ESR.ans  = get_answers(ESR.pid)    # 279 answers
+ESR.plot = myplot(ESR.ans,ESR.lbl) # custom plot
+```
+
+```{r lbl-barplot,fig.width=8, fig.height=2, out.width="90%", out.height="200em",fig.align='center', echo=F}
+ESR.plot
+```
+
+# Auto-Review Reusability
+Automated review is a powerful rsr feature that can help with reusability, among other things. This section uses cloning and auto-review to create a new project with the same labels, articles, and answers.
+
+Articles/labels can be re-used through cloning. Cloned projects optionally copy all of their parent labels and/or articles.
+
+```{r clone-labels}
+CPY.pid = rsr:::clone_sysrev(ESR.pid,"Clone ESR")$pid
+CPY.lbl = get_labels(CPY.pid) |> filter(enabled)
+CPY.art = get_articles(CPY.pid)
+```
+
+all articles share the same `article_data_id`
+```{r}
+CPY.art$article_data_id |> 
+  setequal(ESR.art$article_data_id)
+```
+
+9 copied labels share the same `global_label_id`
+
+```{r}
+ESR.lbl$global_label_id |> 
+  intersect(CPY.lbl$global_label_id) |> 
+  length()
+```
+
+Articles can be linked between projects by their `article_data_id`. Labels can be linked between projects by their `global_label_id`. All that remains is to copy answers from one project over to another. The `rsr::answers_copy` function helps with that:
+
+
+```{r eval=F}
+rsr::copy(ESR.pid,CPY.pid)
+```
+If the copy worked, the project answer plot should look the same.
+
+```{r fig.width=8, fig.height=2, out.width="90%", out.height="200em",fig.align='center'}
+CPY.ans  = get_answers(CPY.pid)    # 279 answers
+myplot(CPY.ans,CPY.lbl) # custom plot
+```
+
+# Video Demo
+

@@ -4,7 +4,16 @@
 \alias{review}
 \title{set the value of a given article+label}
 \usage{
-review(pid, aid, lid, answer, change = T, resolve = F, token = get_srtoken())
+review(
+  pid,
+  aid,
+  lid,
+  answer,
+  change = T,
+  resolve = F,
+  raw.json = F,
+  token = get_srtoken()
+)
 }
 \arguments{
 \item{pid}{the project id to update}
@@ -18,6 +27,8 @@ review(pid, aid, lid, answer, change = T, resolve = F, token = get_srtoken())
 \item{change}{treat this label update as a change (use default if you don't know what this means)}
 
 \item{resolve}{treat this label update as resolve (use the default if you don't know what this means)}
+
+\item{raw.json}{treat this as raw.json?}
 
 \item{token}{a token with write acces}
 }

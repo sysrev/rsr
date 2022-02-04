@@ -26,7 +26,8 @@ Imports:
     stats,
     base64enc,
     lifecycle,
-    withr
+    withr,
+    pbapply
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown,
