@@ -29,7 +29,7 @@ knitr::opts_chunk$set(collapse = TRUE,comment = "#>",dev="svg",fig.ext = "svg")
 
 Document reviews can eat a lot of time and often involve redundant work. Sysrev and rsr can help avoid duplicate work in document review.
 
-This demo of reusability uses a sysrev of the parasitic disease [Echinococcosis](https://sysrev.com/p/111200) (ESR). ESR reviewed 31 articles and assigned values to 9 boolean labels. Sysrev provides a few methods for re-using the anaswers visualized below:
+This demo of reusability uses a sysrev of the parasitic disease [Echinococcosis](https://sysrev.com/p/111200) (ESR). ESR reviewed 31 articles and assigned values to 9 boolean labels. Sysrev provides a few methods for re-using article, labels and answers. Let's get started by pulling down the data from ESR and visualizing it:
 
 ```{r dev='svg'}
 ESR.pid = 111200 # ESR id is 111200
