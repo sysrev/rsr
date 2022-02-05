@@ -53,9 +53,10 @@ ggplot(tb,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) +
 # Copying answers with code
 **Some methods require sysrev technical support**
 
-ESR articles and labels can be copied into a new project through cloning, and previous answers can be assigned through `rsr::review` or `rsr::copy_answers`. Alternatively, articles and labels could be manually imported into a new project. See the video demo.
+ESR articles and labels can be copied into a new project through cloning, and previous answers can be assigned through `rsr::review` or `rsr::copy_answers`. Below the ESR project is cloned into "Clone ESR" and some tests are run to confirm that the clone worked:
 
 ```{r clone-labels}
+# clone ESR
 CPY = clone_sysrev(ESR.pid,"Clone ESR")
 
 # get cloned lbls & articles
@@ -63,27 +64,27 @@ CPY.lbl = get_labels(CPY$pid)
 CPY.art = get_articles(CPY$pid)
 ```
 
-**`article_data_id`** is a shared article id.
+**`article_data_id`** is a shared article id. Since all articles are cloned from ESR, the article_data_id set in ESR should be the same as CPY:
 
-```{r eval=F}
+```{r}
 CPY.art$article_data_id |> 
   setequal(ESR.art$article_data_id)
 ```
 
-**`global_label_id`** is a shared label id.
+**`global_label_id`** is a shared label id. Since all labels are cloned from ESR, the global_label_id set in ESR should be the same as CPY:
 
 ```{r}
 ESR.lbl$global_label_id |> 
   setequal(CPY.lbl$global_label_id)
 ```
 
-`rsr::copy_answers` copies answers between projects with shared articles/labels. 
+Projects sharing article_data_ids and global_label_ids can use `rsr::copy_answers` to copy answers from a source to a target. Running copy_answers can take a bit of time. 
 
 ```{r eval=F}
 rsr::copy_answers(ESR.pid,CPY$pid)
 ```
 
-Plotting results shows a faithful duplication.
+Plotting results shows that `copy_answers` created a faithful duplication.
 
 ```{r compareplot, echo=F}
 CPY.ans  = get_answers(CPY$pid)
