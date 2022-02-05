@@ -4,6 +4,9 @@
     <loc>https://r.sysrev.com/404.html</loc>
   </url>
   <url>
+    <loc>https://r.sysrev.com/articles/copying-answers.html</loc>
+  </url>
+  <url>
     <loc>https://r.sysrev.com/articles/get-review-data.html</loc>
   </url>
   <url>
@@ -32,6 +35,9 @@
   </url>
   <url>
     <loc>https://r.sysrev.com/reference/concordant2.html</loc>
+  </url>
+  <url>
+    <loc>https://r.sysrev.com/reference/copy_answers.html</loc>
   </url>
   <url>
     <loc>https://r.sysrev.com/reference/create_source_pmids.html</loc>

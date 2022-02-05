@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rsr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9011</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/copying-answers.html">Copying answers</a>
     <a class="dropdown-item" href="../articles/track-organization-progress.html">Track organization progress</a>
     <a class="dropdown-item" href="../articles/get-review-data.html">get review data</a>
   </div>
@@ -55,7 +56,16 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">review</span><span class="op">(</span><span class="va">pid</span>, <span class="va">aid</span>, <span class="va">lid</span>, <span class="va">answer</span>, change <span class="op">=</span> <span class="cn">T</span>, resolve <span class="op">=</span> <span class="cn">F</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">review</span><span class="op">(</span>
+  <span class="va">pid</span>,
+  <span class="va">aid</span>,
+  <span class="va">lid</span>,
+  <span class="va">answer</span>,
+  change <span class="op">=</span> <span class="cn">T</span>,
+  resolve <span class="op">=</span> <span class="cn">F</span>,
+  raw.json <span class="op">=</span> <span class="cn">F</span>,
+  token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,6 +82,8 @@
 <dd><p>treat this label update as a change (use default if you don't know what this means)</p></dd>
 <dt>resolve</dt>
 <dd><p>treat this label update as resolve (use the default if you don't know what this means)</p></dd>
+<dt>raw.json</dt>
+<dd><p>treat this as raw.json?</p></dd>
 <dt>token</dt>
 <dd><p>a token with write acces</p></dd>
 </dl></div>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rsr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9011</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/copying-answers.html">Copying answers</a>
     <a class="dropdown-item" href="../articles/track-organization-progress.html">Track organization progress</a>
     <a class="dropdown-item" href="../articles/get-review-data.html">get review data</a>
   </div>
@@ -57,7 +58,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">clone_sysrev</span><span class="op">(</span>
   <span class="va">pid</span>,
-  <span class="va">name</span>,
+  <span class="va">target.name</span>,
   add.articles <span class="op">=</span> <span class="cn">T</span>,
   add.labels <span class="op">=</span> <span class="cn">T</span>,
   add.members <span class="op">=</span> <span class="cn">F</span>,
@@ -71,7 +72,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>pid</dt>
 <dd><p>project id of the source project</p></dd>
-<dt>name</dt>
+<dt>target.name</dt>
 <dd><p>name of the new project</p></dd>
 <dt>add.articles</dt>
 <dd><p>import the articles from source project?</p></dd>
