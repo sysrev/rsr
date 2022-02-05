@@ -101,26 +101,28 @@
 <h2 id="copying-answers-with-code">Copying answers with code<a class="anchor" aria-label="anchor" href="#copying-answers-with-code"></a>
 </h2>
 <p><strong>Some methods require sysrev technical support</strong></p>
-<p>ESR articles and labels can be copied into a new project through cloning, and previous answers can be assigned through <code><a href="../reference/review.html">rsr::review</a></code> or <code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code>. Alternatively, articles and labels could be manually imported into a new project. See the video demo.</p>
+<p>ESR articles and labels can be copied into a new project through cloning, and previous answers can be assigned through <code><a href="../reference/review.html">rsr::review</a></code> or <code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code>. Below the ESR project is cloned into “Clone ESR” and some tests are run to confirm that the clone worked:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">CPY</span> <span class="op">=</span> <span class="fu"><a href="../reference/clone_sysrev.html">clone_sysrev</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="st">"Clone ESR"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># clone ESR</span>
+<span class="va">CPY</span> <span class="op">=</span> <span class="fu"><a href="../reference/clone_sysrev.html">clone_sysrev</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="st">"Clone ESR"</span><span class="op">)</span>
 
 <span class="co"># get cloned lbls &amp; articles</span>
 <span class="va">CPY.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span>   
 <span class="va">CPY.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span></code></pre></div>
-<p><strong><code>article_data_id</code></strong> is a shared article id.</p>
+<p><strong><code>article_data_id</code></strong> is a shared article id. Since all articles are cloned from ESR, the article_data_id set in ESR should be the same as CPY:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">CPY.art</span><span class="op">$</span><span class="va">article_data_id</span> |&gt; 
-  <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.art</span><span class="op">$</span><span class="va">article_data_id</span><span class="op">)</span></code></pre></div>
-<p><strong><code>global_label_id</code></strong> is a shared label id.</p>
+  <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.art</span><span class="op">$</span><span class="va">article_data_id</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p><strong><code>global_label_id</code></strong> is a shared label id. Since all labels are cloned from ESR, the global_label_id set in ESR should be the same as CPY:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ESR.lbl</span><span class="op">$</span><span class="va">global_label_id</span> |&gt; 
   <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">CPY.lbl</span><span class="op">$</span><span class="va">global_label_id</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p><code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code> copies answers between projects with shared articles/labels.</p>
+<p>Projects sharing article_data_ids and global_label_ids can use <code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code> to copy answers from a source to a target. Running copy_answers can take a bit of time.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span></code></pre></div>
-<p>Plotting results shows a faithful duplication.</p>
+<p>Plotting results shows that <code>copy_answers</code> created a faithful duplication.</p>
 <p><img src="copying-answers_files/figure-html/compare-1.svg" width="90%" height="300em" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
