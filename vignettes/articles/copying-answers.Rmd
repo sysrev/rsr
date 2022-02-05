@@ -24,18 +24,7 @@ theme_538 = function(legend.pos="right"){
         text = element_text(size=12)) 
 }
 
-myplot = function(ans,lbl){
-  tb = ans |> count(short_label,answer) |> inner_join(lbl,by="short_label")
-  ggplot(tb,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) + 
-    scale_fill_brewer("Cyl", palette = "Dark2") +
-    coord_flip() + scale_y_continuous(expand=c(0,0)) +
-    guides(fill=guide_legend(byrow = F)) +
-    geom_col() +  xlab("") + ylab("") + 
-    theme_538()
-}
-
-knitr::opts_chunk$set(collapse = TRUE,comment = "#>",dev = 'svg', fig.ext=".svg",
-                      warning = F, message = F) 
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>",dev="svg",fig.ext = "svg")
 ```
 
 Document reviews can eat a lot of time and often involve redundant work. Sysrev and rsr can help avoid duplicate work in document review.
@@ -51,8 +40,14 @@ ESR.ans = get_answers(ESR.pid)
 ESR.lbl = get_labels(ESR.pid)   
 ```
 
-```{r lbl-barplot,fig.width=8, fig.height=2, out.width="90%", out.height="200em",fig.align='center', echo=F}
-myplot(ESR.ans,ESR.lbl)
+```{r lbl-barplot,fig.width=8, fig.height=2, out.width="90%", out.height="250em",fig.align='center', echo=F, dpi=300}
+tb = ESR.ans |> count(short_label,answer) |> inner_join(ESR.lbl,by="short_label")
+ggplot(tb,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) + 
+  scale_fill_brewer("Cyl", palette = "Dark2") +
+  coord_flip() + scale_y_continuous(expand=c(0,0)) +
+  guides(fill=guide_legend(byrow = F)) +
+  geom_col() +  xlab("") + ylab("") + 
+  theme_538()
 ```
 
 # Copy_answers
@@ -70,7 +65,7 @@ CPY.art = get_articles(CPY$pid)
 
 **`article_data_id`** is a shared article id.
 
-```{r eval=T}
+```{r eval=F}
 CPY.art$article_data_id |> 
   setequal(ESR.art$article_data_id)
 ```
@@ -90,7 +85,7 @@ rsr::copy_answers(ESR.pid,CPY$pid)
 
 Plotting results shows a faithful duplication.
 
-```{r lbl-barplot-2, fig.width=8, fig.height=2, out.width="90%", out.height="200em",fig.align='center', echo=F}
+```{r compareplot, echo=F}
 CPY.ans  = get_answers(CPY$pid)
 
 tb  = ESR.ans |> count(short_label,answer) |> inner_join(ESR.lbl,by="short_label")
@@ -98,13 +93,15 @@ tb2 = CPY.ans |> count(short_label,answer) |> inner_join(CPY.lbl,by="short_label
 tb3 = rbind(tb |> mutate(sysrev="ESR"),tb2 |> mutate(sysrev="Clone ESR")) |> 
   select(sysrev,short_label,project_ordering,n,answer) |> 
   mutate(short_label = stringr::str_trunc(short_label,25,ellipsis = "…"))
+```
 
-ggplot(tb3,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) + 
+```{r compare, fig.width=8, fig.height=2, out.width="90%", out.height="250em",fig.align='center', echo=F}
+ggplot(tb3,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) +
   scale_fill_brewer("Cyl", palette = "Dark2") +
   coord_flip() + scale_y_continuous(expand=c(0,0)) +
   facet_grid(~sysrev) +
   guides(fill=guide_legend(byrow = F)) +
-  geom_col() +  xlab("") + ylab("") + 
+  geom_col() +  xlab("") + ylab("") +
   theme_538()
 ```
 

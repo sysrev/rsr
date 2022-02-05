@@ -14,7 +14,7 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 library(forcats)
-knitr::opts_chunk$set(collapse = TRUE,comment = "#>",pillar.print_max=2, tibble.print_max=2)
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>",dev="svg",fig.ext = "svg")
 ```
 
 Sysrev users assign millions of labels to documents. The rsr package let's you access and analyze that data. This demo shows how to access data from a review of prostate cancer biomarkers [sysrev.com/p/81395](https://sysrev.com/p/81395).

@@ -29,7 +29,7 @@ get_predictions <- function(pid,token=get_srtoken()){
 }
 
 #' @rdname get_
-#' @descriptoin get labels from a sysrev
+#' @description get labels from a sysrev
 #' @param enabled.only filter out disabled labels (default T)
 #' @export
 get_labels <- function(pid,enabled.only=T,token=get_srtoken()){
