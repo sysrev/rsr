@@ -17,7 +17,7 @@ create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
 }
 
 #' Create a new project based on an existing project
-#' @param source.pid project id of the source project
+#' @param pid project id of the source project
 #' @param target.name name of the new project
 #' @param add.articles import the articles from source project?
 #' @param add.labels import the labels from source project?
@@ -26,7 +26,7 @@ create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
 #' @param get_if_exists gets the sysrev instead of cloning if it already exists
 #' @inheritParams common_params
 #' @export
-clone_sysrev <- function(source.pid,target.name,add.articles=T,add.labels=T,add.members=F,add.answers=F,
+clone_sysrev <- function(pid,target.name,add.articles=T,add.labels=T,add.members=F,add.answers=F,
                          get_if_exists=T,token=get_srtoken()){
   
   sr   = get_sysrev(target.name,token)

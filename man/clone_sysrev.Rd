@@ -5,7 +5,7 @@
 \title{Create a new project based on an existing project}
 \usage{
 clone_sysrev(
-  source.pid,
+  pid,
   target.name,
   add.articles = T,
   add.labels = T,
@@ -16,7 +16,7 @@ clone_sysrev(
 )
 }
 \arguments{
-\item{source.pid}{project id of the source project}
+\item{pid}{project id of the source project}
 
 \item{target.name}{name of the new project}
 

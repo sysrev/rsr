@@ -30,5 +30,5 @@ get_users(pid, token = get_srtoken())
 A tibble
 }
 \description{
-export tibbles from sysrev projects
+get labels from a sysrev
 }

@@ -40,7 +40,7 @@ ESR.ans = get_answers(ESR.pid)
 ESR.lbl = get_labels(ESR.pid)   
 ```
 
-```{r lbl-barplot,fig.width=8, fig.height=2, out.width="90%", out.height="250em",fig.align='center', echo=F, dpi=300}
+```{r lbl-barplot,fig.width=8, fig.height=2, out.width="90%", out.height="300em",fig.align='center', echo=F, dpi=300}
 tb = ESR.ans |> count(short_label,answer) |> inner_join(ESR.lbl,by="short_label")
 ggplot(tb,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) + 
   scale_fill_brewer("Cyl", palette = "Dark2") +
@@ -50,7 +50,7 @@ ggplot(tb,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) +
   theme_538()
 ```
 
-# Copy_answers
+# Copying answers with code
 **Some methods require sysrev technical support**
 
 ESR articles and labels can be copied into a new project through cloning, and previous answers can be assigned through `rsr::review` or `rsr::copy_answers`. Alternatively, articles and labels could be manually imported into a new project. See the video demo.
@@ -95,7 +95,7 @@ tb3 = rbind(tb |> mutate(sysrev="ESR"),tb2 |> mutate(sysrev="Clone ESR")) |>
   mutate(short_label = stringr::str_trunc(short_label,25,ellipsis = "…"))
 ```
 
-```{r compare, fig.width=8, fig.height=2, out.width="90%", out.height="250em",fig.align='center', echo=F}
+```{r compare, fig.width=8, fig.height=2, out.width="90%", out.height="300em",fig.align='center', echo=F}
 ggplot(tb3,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) +
   scale_fill_brewer("Cyl", palette = "Dark2") +
   coord_flip() + scale_y_continuous(expand=c(0,0)) +
@@ -105,7 +105,74 @@ ggplot(tb3,aes(x=reorder(short_label,-project_ordering),y=n,fill=answer)) +
   theme_538()
 ```
 
-# Video Demo
+# Copying answers on sysrev.com
+
+<div style="position:relative;padding-bottom:56.25%;">
+<iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;" frameborder="0" width="100%" height="100%" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube.com/embed/eUllo6xwXLA"></iframe>
+</div>
+
+Final code from the video is below:
+
+```{r eval=FALSE}
+ESR.pid = 111200
+CLN.pid = 115689
+
+rsr::get_answers(ESR.pid)
+ESR.lbl = rsr::get_labels(ESR.pid) |> 
+  arrange(project_ordering) |> 
+  select(short_label,global_label_id)
+
+CLN.lbl = rsr::get_labels(CLN.pid) |> 
+  arrange(project_ordering) |> 
+  select(short_label,global_label_id)
+
+ESR.art = rsr::get_articles(ESR.pid) |> select(aid,article_data_id)
+CLN.art = rsr::get_articles(CLN.pid) |> select(aid,article_data_id)
+rsr::copy_answers(ESR.pid,CLN.pid)
+
+IMP.pid = 115697
+IMP.lbl = rsr::get_labels(IMP.pid) |> 
+  arrange(project_ordering) |> 
+  select(short_label,global_label_id)
+
+rsr::copy_answers(source.pid = ESR.pid, target.pid = IMP.pid)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
