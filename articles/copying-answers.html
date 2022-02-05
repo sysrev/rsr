@@ -96,11 +96,11 @@
 <span class="va">ESR.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> 
 <span class="va">ESR.ans</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>  
 <span class="va">ESR.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>   </code></pre></div>
-<p><img src="copying-answers_files/figure-html/lbl-barplot-1.svg" width="90%" height="300em" style="display: block; margin: auto;"></p>
+<p><img src="copying-answers_files/figure-html/lbl-barplot-1.svg" width="90%" height="400em" style="display: block; margin: auto;"></p>
 <div class="section level2">
 <h2 id="copying-answers-with-code">Copying answers with code<a class="anchor" aria-label="anchor" href="#copying-answers-with-code"></a>
 </h2>
-<p><strong>Some methods require sysrev technical support</strong></p>
+<p><span class="text-danger">Some methods require sysrev technical support</span></p>
 <p>ESR articles and labels can be copied into a new project through cloning, and previous answers can be assigned through <code><a href="../reference/review.html">rsr::review</a></code> or <code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code>. Below the ESR project is cloned into “Clone ESR” and some tests are run to confirm that the clone worked:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># clone ESR</span>
@@ -109,21 +109,22 @@
 <span class="co"># get cloned lbls &amp; articles</span>
 <span class="va">CPY.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span>   
 <span class="va">CPY.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span></code></pre></div>
-<p><strong><code>article_data_id</code></strong> is a shared article id. Since all articles are cloned from ESR, the article_data_id set in ESR should be the same as CPY:</p>
+<p><strong><code>article_data_id</code></strong> (adid) is a shared article id. Since CPY is an ESR clone, it has the same adids:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">CPY.art</span><span class="op">$</span><span class="va">article_data_id</span> |&gt; 
-  <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.art</span><span class="op">$</span><span class="va">article_data_id</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.art</span><span class="op">$</span><span class="va">article_data_id</span>,
+         <span class="va">CPY.art</span><span class="op">$</span><span class="va">article_data_id</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p><strong><code>global_label_id</code></strong> is a shared label id. Since all labels are cloned from ESR, the global_label_id set in ESR should be the same as CPY:</p>
+<p><strong><code>global_label_id</code></strong> (glid) is a shared label id. Since CPY is an ESR clone, it has the same glids:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ESR.lbl</span><span class="op">$</span><span class="va">global_label_id</span> |&gt; 
-  <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">CPY.lbl</span><span class="op">$</span><span class="va">global_label_id</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.lbl</span><span class="op">$</span><span class="va">global_label_id</span>,
+         <span class="va">CPY.lbl</span><span class="op">$</span><span class="va">global_label_id</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p>Projects sharing article_data_ids and global_label_ids can use <code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code> to copy answers from a source to a target. Running copy_answers can take a bit of time.</p>
+<p><code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code> copies answers between projects with shared adids/glids:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span></code></pre></div>
-<p>Plotting results shows that <code>copy_answers</code> created a faithful duplication.</p>
-<p><img src="copying-answers_files/figure-html/compare-1.svg" width="90%" height="300em" style="display: block; margin: auto;"></p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span>source.pid <span class="op">=</span> <span class="va">ESR.pid</span>,
+             target.pid <span class="op">=</span> <span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span></code></pre></div>
+<p>After copying, a quick plot shows identical answers in the source and clone:</p>
+<p><img src="copying-answers_files/figure-html/compare-1.svg" width="90%" height="400em" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="copying-answers-on-sysrev-com">Copying answers on sysrev.com<a class="anchor" aria-label="anchor" href="#copying-answers-on-sysrev-com"></a>
@@ -137,25 +138,39 @@
 <code class="sourceCode R"><span class="va">ESR.pid</span> <span class="op">=</span> <span class="fl">111200</span>
 <span class="va">CLN.pid</span> <span class="op">=</span> <span class="fl">115689</span>
 
-<span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>
-<span class="va">ESR.lbl</span> <span class="op">=</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> |&gt; 
+<span class="co"># look at source answers</span>
+<span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>
+
+<span class="co"># look at source labels</span>
+<span class="va">ESR.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> |&gt; 
   <span class="fu">arrange</span><span class="op">(</span><span class="va">project_ordering</span><span class="op">)</span> |&gt; 
   <span class="fu">select</span><span class="op">(</span><span class="va">short_label</span>,<span class="va">global_label_id</span><span class="op">)</span>
 
-<span class="va">CLN.lbl</span> <span class="op">=</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">CLN.pid</span><span class="op">)</span> |&gt; 
+<span class="co"># look at clone labels</span>
+<span class="va">CLN.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">CLN.pid</span><span class="op">)</span> |&gt; 
   <span class="fu">arrange</span><span class="op">(</span><span class="va">project_ordering</span><span class="op">)</span> |&gt; 
   <span class="fu">select</span><span class="op">(</span><span class="va">short_label</span>,<span class="va">global_label_id</span><span class="op">)</span>
 
-<span class="va">ESR.art</span> <span class="op">=</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">article_data_id</span><span class="op">)</span>
-<span class="va">CLN.art</span> <span class="op">=</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">CLN.pid</span><span class="op">)</span> |&gt; <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">article_data_id</span><span class="op">)</span>
-<span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="va">CLN.pid</span><span class="op">)</span>
+<span class="co"># look at source adids</span>
+<span class="va">ESR.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> |&gt; 
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">article_data_id</span><span class="op">)</span>
 
+<span class="co"># look at clone adids</span>
+<span class="va">CLN.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">CLN.pid</span><span class="op">)</span> |&gt; 
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">article_data_id</span><span class="op">)</span>
+
+<span class="co"># copy answers source -&gt; clone</span>
+<span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="va">CLN.pid</span><span class="op">)</span>
+
+<span class="co"># get project w/ one imported label</span>
 <span class="va">IMP.pid</span> <span class="op">=</span> <span class="fl">115697</span>
 <span class="va">IMP.lbl</span> <span class="op">=</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">IMP.pid</span><span class="op">)</span> |&gt; 
   <span class="fu">arrange</span><span class="op">(</span><span class="va">project_ordering</span><span class="op">)</span> |&gt; 
   <span class="fu">select</span><span class="op">(</span><span class="va">short_label</span>,<span class="va">global_label_id</span><span class="op">)</span>
 
-<span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span>source.pid <span class="op">=</span> <span class="va">ESR.pid</span>, target.pid <span class="op">=</span> <span class="va">IMP.pid</span><span class="op">)</span></code></pre></div>
+<span class="co"># copy answers from source to import</span>
+<span class="fu"><a href="../reference/copy_answers.html">copy_answers</a></span><span class="op">(</span>source.pid <span class="op">=</span> <span class="va">ESR.pid</span>, 
+             target.pid <span class="op">=</span> <span class="va">IMP.pid</span><span class="op">)</span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
