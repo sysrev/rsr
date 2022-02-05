@@ -34,10 +34,10 @@ This demo of reusability uses a sysrev of the parasitic disease [Echinococcosis]
 ```{r dev='svg'}
 ESR.pid = 111200 # ESR id is 111200
 
-# get 31 articles, 279 answers & 9 lbls
-ESR.art = get_articles(ESR.pid) 
-ESR.ans = get_answers(ESR.pid)  
-ESR.lbl = get_labels(ESR.pid)   
+# tibbles for articles, answers and lbls
+ESR.art = get_articles(ESR.pid)# 31  × 11
+ESR.ans = get_answers(ESR.pid) # 279 x 8
+ESR.lbl = get_labels(ESR.pid)  # 9   x 15
 ```
 
 ```{r lbl-barplot,fig.width=8, fig.height=3, out.width="90%", out.height="400em",fig.align='center', echo=F}
@@ -60,14 +60,15 @@ ESR articles and labels can be copied into a new project through cloning, and pr
 # clone ESR
 CPY = clone_sysrev(ESR.pid,"Clone ESR")
 
-# get cloned lbls & articles
-CPY.lbl = get_labels(CPY$pid)   
-CPY.art = get_articles(CPY$pid)
+# get cloned lbls & articles tibbles
+CPY.lbl = get_labels(CPY$pid)   # 9  x 15
+CPY.art = get_articles(CPY$pid) # 31 x 11
 ```
 
 **`article_data_id`** (adid) is a shared article id. Since CPY is an ESR clone, it has the same adids:
 
 ```{r}
+# Test if all ESR articles in the clone
 setequal(ESR.art$article_data_id,
          CPY.art$article_data_id)
 ```
@@ -75,6 +76,7 @@ setequal(ESR.art$article_data_id,
 **`global_label_id`** (glid) is a shared label id. Since CPY is an ESR clone, it has the same glids:
 
 ```{r}
+# Test if all ESR labels in clone
 setequal(ESR.lbl$global_label_id,
          CPY.lbl$global_label_id)
 ```
