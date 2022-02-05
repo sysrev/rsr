@@ -92,10 +92,10 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ESR.pid</span> <span class="op">=</span> <span class="fl">111200</span> <span class="co"># ESR id is 111200</span>
 
-<span class="co"># get 31 articles, 279 answers &amp; 9 lbls</span>
-<span class="va">ESR.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> 
-<span class="va">ESR.ans</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>  
-<span class="va">ESR.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>   </code></pre></div>
+<span class="co"># tibbles for articles, answers and lbls</span>
+<span class="va">ESR.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span><span class="co"># 31  × 11</span>
+<span class="va">ESR.ans</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span> <span class="co"># 279 x 8</span>
+<span class="va">ESR.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">ESR.pid</span><span class="op">)</span>  <span class="co"># 9   x 15</span></code></pre></div>
 <p><img src="copying-answers_files/figure-html/lbl-barplot-1.svg" width="90%" height="400em" style="display: block; margin: auto;"></p>
 <div class="section level2">
 <h2 id="copying-answers-with-code">Copying answers with code<a class="anchor" aria-label="anchor" href="#copying-answers-with-code"></a>
@@ -106,17 +106,19 @@
 <code class="sourceCode R"><span class="co"># clone ESR</span>
 <span class="va">CPY</span> <span class="op">=</span> <span class="fu"><a href="../reference/clone_sysrev.html">clone_sysrev</a></span><span class="op">(</span><span class="va">ESR.pid</span>,<span class="st">"Clone ESR"</span><span class="op">)</span>
 
-<span class="co"># get cloned lbls &amp; articles</span>
-<span class="va">CPY.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span>   
-<span class="va">CPY.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span></code></pre></div>
+<span class="co"># get cloned lbls &amp; articles tibbles</span>
+<span class="va">CPY.lbl</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_labels</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span>   <span class="co"># 9  x 15</span>
+<span class="va">CPY.art</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_.html">get_articles</a></span><span class="op">(</span><span class="va">CPY</span><span class="op">$</span><span class="va">pid</span><span class="op">)</span> <span class="co"># 31 x 11</span></code></pre></div>
 <p><strong><code>article_data_id</code></strong> (adid) is a shared article id. Since CPY is an ESR clone, it has the same adids:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.art</span><span class="op">$</span><span class="va">article_data_id</span>,
+<code class="sourceCode R"><span class="co"># Test if all ESR articles in the clone</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.art</span><span class="op">$</span><span class="va">article_data_id</span>,
          <span class="va">CPY.art</span><span class="op">$</span><span class="va">article_data_id</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p><strong><code>global_label_id</code></strong> (glid) is a shared label id. Since CPY is an ESR clone, it has the same glids:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.lbl</span><span class="op">$</span><span class="va">global_label_id</span>,
+<code class="sourceCode R"><span class="co"># Test if all ESR labels in clone</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setequal</a></span><span class="op">(</span><span class="va">ESR.lbl</span><span class="op">$</span><span class="va">global_label_id</span>,
          <span class="va">CPY.lbl</span><span class="op">$</span><span class="va">global_label_id</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p><code><a href="../reference/copy_answers.html">rsr::copy_answers</a></code> copies answers between projects with shared adids/glids:</p>
