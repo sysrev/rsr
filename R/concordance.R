@@ -60,6 +60,7 @@ concordant2 = function(a,b,options){
 #' @importFrom rlang .data
 #' @keywords internal
 concordant2.rsr_group = function(a,b,options){
+  # TODO we shouldn't require group labels to have the same row order
   a1 = a |> filter(.data$lid %in% options$consensus.labels)
   b1 = b |> filter(.data$lid %in% options$consensus.labels)
   all_equal(a1,b1) == TRUE
