@@ -56,14 +56,16 @@ concordant2 = function(a,b,options){
   UseMethod("concordant2")
 }
 
-#' @importFrom dplyr filter
-#' @importFrom rlang .data
 #' @keywords internal
-concordant2.rsr_group = function(a,b,options){
-  # TODO we shouldn't require group labels to have the same row order
-  a1 = a |> filter(.data$lid %in% options$consensus.labels)
-  b1 = b |> filter(.data$lid %in% options$consensus.labels)
-  all_equal(a1,b1) == TRUE
+concordant2.rsr_group = function(a,b,pco){
+  clab = pco$consensus.labels
+  
+  if(nrow(a) != nrow(b)){ return(F) }
+  if(nrow(a) == 0){ return(T) }
+  
+  a1 |> inner_join(b1,by=c("lid","value")) |> filter(lid %in% clab) |> with({
+    all(row.x == a1$row)
+  })
 }
 
 #' @keywords internal

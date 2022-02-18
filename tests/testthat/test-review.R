@@ -36,3 +36,38 @@ test_that("setting a label value works", {
   expect_true(res$status=="complete")
   expect_true(a.pre != a.post)
 })
+
+test_that("concordance is correct", {
+  # tok   = local_token()
+  pid   = 43140
+  tbls  = rsr::get_answers_list(pid,token)
+  
+  # no conflicts in 43140
+  concs = c("concordant","resolved","single")
+  expect_setequal(tbls$basic$consensus,concs)
+  
+  # resolved examples
+  tbls$basic |> inner_join(tbls$Actor,by="aid") |> with({
+    expect_equal(conc.status.x,conc.status.y)
+  })
+  test.aid = 11161239
+  
+  expect_equal(
+    tbls$basic |> filter(aid==11161239) |> pull(conc.status),
+    "resolved")
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

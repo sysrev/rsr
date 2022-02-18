@@ -3,28 +3,27 @@
 \name{get_answers}
 \alias{get_answers}
 \alias{get_answers_tidy}
-\alias{get_answers_list}
 \title{get sysrev answers tibble with answers as rsr types}
 \usage{
 get_answers(pid, token = get_srtoken())
 
-get_answers_tidy(pid, drop.resolved.discordant = F, token = get_srtoken())
-
-get_answers_list(pid, token = get_srtoken())
+get_answers_tidy(
+  pid,
+  concordance = F,
+  concordant.collapse = F,
+  token = get_srtoken()
+)
 }
 \arguments{
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
 \item{token}{a sysrev token with read access to the given project}
 
-\item{drop.resolved.discordant}{remove answers for articles that have a resolved alternative?}
+\item{conform}{remove user_ids and use a single answer for each aid+lid}
 }
 \value{
 a tbl with tidy sysrev answers
-
-list of tibbles
 }
 \description{
-a special `basic` value in the list is populated by categorical boolean and string labels
-every other value in the list represents a sysrev group label <rsr_group>
+get sysrev answers tibble with answers as rsr types
 }

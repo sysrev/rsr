@@ -27,7 +27,8 @@ Imports:
     base64enc,
     lifecycle,
     withr,
-    pbapply
+    pbapply,
+    tibble
 Suggests:
     testthat (>= 3.0.0),
     rmarkdown,
@@ -42,7 +43,6 @@ Suggests:
     textstem,
     lubridate,
     DT,
-    geomtextpath,
-    tibble
+    geomtextpath
 Config/testthat/edition: 3
 Remotes: 

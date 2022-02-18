@@ -1,80 +1,126 @@
-#' get sysrev answers tibble with answers as rsr types
-#' @rdname get_answers
-#' @import dplyr
-#' @importFrom rlang .data
-#' @param drop.resolved.discordant remove answers for articles that have a resolved alternative?
-#' @inheritParams get_answers
-#' @return a tbl with tidy sysrev answers
+#' conform reduces a list of answers and concordance statuses to a single conforming answer
+#' TODO make this work!
+#' @param answer 
+#' @return
 #' @export
-get_answers_tidy = function(pid,drop.resolved.discordant=F,token=get_srtoken()){
-
-  pco = get_sroptions(pid,token=token)
-
-  a = get_answers(pid,token = token) |> # get tidy sysrev answers
-    group_by(.data$lid) |> mutate(answer = srtidy_answer(.data$answer, .data$value_type)) |> ungroup() |>
-    group_by(.data$aid) |> # filter out reviews superseded by a resolve review
-    (\(tbl){ purrr::when(drop.resolved.discordant,
-                         T ~ tbl |> filter(.data$resolve == max(.data$resolve)),
-                         F ~ tbl )})() |> ungroup()
-
-  b = a |> # calculate concordance by aid
-    group_by(aid, lid) |> mutate(conc = concordant(answer, F, pco)) |> ungroup() |>
-    mutate(conc = max(conc, lid %in% pco$consensus.labels)) |>
-    group_by(aid) |> mutate(conc = all(conc)) |> ungroup() |>
-    group_by(aid) |> mutate(reviews = n_distinct(.data$user_id)) |> ungroup()
-
-  # calculate a concordance status
-  b |> mutate(
-    conc.status = case_when(
-      resolve      ~ "resolved",
-      reviews == 1 ~ "single",
-      conc         ~ "concordant",
-      T            ~ "discordant"
-    ),
-    .keep = "unused"
-  )
+conform = function(answer,resolve.answer){
+  stop("not implemented")
 }
 
+#' get sysrev answers tibble with answers as rsr types
+#' @rdname get_answers
+#' @inheritParams get_answers
+#' @param conform remove user_ids and use a single answer for each aid+lid
+#' @importFrom rlang .data
+#' @return a tbl with tidy sysrev answers
+#' @export
+get_answers_tidy = function(pid,concordance=F,concordant.collapse=F,token=get_srtoken()){
+
+  pco = get_sroptions(pid,token=token)
+  
+  a1 = get_answers(pid,token = token) |> # get tidy sysrev answers
+    group_by(lid) |> mutate(answer = srtidy_answer(answer, value_type)) |> ungroup()
+  
+  if(!concordance){ return(a1) }
+  
+  a2 = a1 |> group_by(aid,lid) |> 
+    mutate(conc        = concordant(answer, F, pco),
+           consensus   = factor(case_when(
+             any(resolve) ~ "resolved",
+             all(conc)    ~ "concordant",
+             n() == 1     ~ "single",
+             T            ~ "discordant"
+           ))) |> 
+    ungroup() 
+  
+  if(!concordant.collapse){ return(a2) }
+  
+  not.discordant = a2 |> 
+    filter(consensus != "discordant") |> 
+    arrange(desc(confirm_time),-resolve) |>
+    group_by(aid,lid,short_label,value_type,consensus) |> slice(1) |> ungroup() |> 
+    select(aid,lid,short_label,value_type,answer,consensus) |> 
+    mutate(concordant = T)
+  
+  discordant = a2 |> 
+    filter(consensus == "discordant") |> 
+    group_by(aid,lid,short_label,value_type,consensus) |> 
+    summarize(answer = srcollapse(answer)) |> 
+    select(aid,lid,short_label,value_type,answer,consensus) |> 
+    mutate(concordant = F)
+  
+  dplyr::bind_rows(not.discordant,discordant)
+}
+
+srcollapse = function(answer,pid){
+  # input tests
+  classes = map(answer,class)
+  i       = purrr::detect_index(classes,.f = ~ any(. != classes[[1]]))
+  if(i != 0){ rlang::abort(c("elements must be same class",x=glue("row {i} is wrong class"))) }
+  
+  # dispatch
+  if(is.atomic(answer[[1]])){         return( list(unique(answer)) ) }
+  if(classes[[1]][1] == "rsr_group"){ return( srcollapse.rsr_group(answer,pid) ) }
+  
+  abort(c(
+    "unsupported srcollapse class",
+    x=glue("class {classes[[1]]} is not supported")))
+}
+
+srcollapse.rsr_group = function(answer,pid){
+  
+  a1  = answer |> purrr::imap_dfr( ~ .x |> mutate(i=.y))
+  
+  # TODO collapse group labels should consider pco$consensus.labels 
+  # But it seems like this can have perhaps surprising results for end user
+  # For now we collapse a discordant group label by getting all the unique rows
+  
+  a1 |> 
+    tidyr::nest(data = c(lid,value)) |> 
+    select(data) |> distinct() |> 
+    mutate(row=row_number()) |> 
+    unnest(data) |> 
+    select(row,lid,value) |> list()
+
+}
+
+#' @rdname get_answers
 #' get a list of tidy answer tibbles
-#'
 #' @description
 #' a special `basic` value in the list is populated by categorical boolean and string labels
 #' every other value in the list represents a sysrev group label <rsr_group>
-#' @rdname get_answers
 #' @inheritParams get_answers
-#' @importFrom rlang .data
-#' @importFrom tidyr pivot_wider unnest
-#' @importFrom purrr map_chr map set_names pluck
+#' @param conform remove user_ids and use a single conformant answer for each aid+lid
 #' @return list of tibbles
 #' @export
-get_answers_list = function(pid,token=get_srtoken()){
-
-  tidy.ans   = get_answers_tidy(pid,token=token)
-
+get_answers_list = function(pid,concordance=F,concordant.collapse=F,token=get_srtoken()){
+  
+  tidy.ans   = get_answers_tidy(pid,
+                                concordance         = concordance,
+                                concordant.collapse = concordance.collapse)
+  
+  groupcols  = if(concordant.collapse){ c("aid") }else{ c("aid","user_id") }
   basic.tbl  = tidy.ans |>
-    filter(.data$value_type %in% c("categorical","boolean","string")) |>
-    select(-.data$lid,-.data$value_type) |>
-    mutate(answer = map_chr(.data$answer,~paste(.,collapse=";"))) |>
-    pivot_wider(names_from=.data$short_label,values_from = .data$answer)
-
-  lookup.lidname  = get_labels(pid,token=token) |>
+    filter(value_type %in% c("categorical","boolean","string")) |>
+    pivot_wider(id_cols = all_of(groupcols), names_from=short_label, values_from=answer)
+  
+  lbl.tbl = get_labels(pid,token=token)
+  colnams = lbl.tbl |> pull(short_label)
+  lookup.lidname  = lbl.tbl |>
     with(\(n){ pluck(short_label,which(lid==n),.default = n) }) |>
     Vectorize()
-
+  
   tbls = tidy.ans |>
-    filter(.data$value_type == "group") |>
-    select(-.data$lid,-.data$value_type) |>
-    group_split(.data$short_label) %>%
+    filter(value_type == "group") |>
+    select(-lid,-value_type) |>
+    group_split(short_label) %>%
     (\(x){ set_names(x,map_chr(x,\(tbl){tbl$short_label[1]})) }) |>
     map(\(tbl){
       tbl |>
-        unnest(.data$answer) |>
-        mutate(value=map_chr(.data$value,~paste(.,collapse=";"))) |>
-        pivot_wider(names_from=.data$lid,values_from=.data$value) |>
-        rename_with(lookup.lidname)
+        unnest(answer) |> 
+        pivot_wider(names_from=lid, values_from=value) |>
+        rename_with(lookup.lidname) 
     })
-
-  c(list(basic=basic.tbl),tbls)
 }
 
 tidy.answers.basic   = function(answer){ lapply(answer,jsonlite::fromJSON) }

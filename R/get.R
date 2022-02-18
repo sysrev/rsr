@@ -33,7 +33,11 @@ get_predictions <- function(pid,token=get_srtoken()){
 #' @param enabled.only filter out disabled labels (default T)
 #' @export
 get_labels <- function(pid,enabled.only=T,token=get_srtoken()){
-  a = srplumber("get_labels",list(pid=pid),token) |> rename(lid=label_id) |> tibble()
+  a = srplumber("get_labels",list(pid=pid),token) |> 
+    rename(lid=label_id) |> 
+    arrange(project_ordering) |> 
+    tibble() 
+  
   if(enabled.only){ a |> filter(.data$enabled) }else{ a }
 }
 
@@ -48,7 +52,7 @@ get_users <- function(pid,token=get_srtoken()){
 #' @export
 get_answers <- function(pid,token=get_srtoken()){
   srplumber("get_answers",list(pid=pid),token) |>
-    rename(aid=.data$article_id,lid=.data$label_id)|>
+    rename(aid=article_id,lid=label_id)|>
     tibble()
 }
 
