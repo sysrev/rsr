@@ -48,6 +48,8 @@ get_users <- function(pid,token=get_srtoken()){
 }
 
 #' @rdname get_answers
+#' @param concordance whether to compute concordance
+#' @param collapse whether to remove user_ids and collapse answers
 #' @inheritParams get_
 #' @export
 get_answers <- function(pid,token=get_srtoken()){

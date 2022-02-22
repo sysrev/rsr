@@ -1,40 +1,34 @@
-#' conform reduces a list of answers and concordance statuses to a single conforming answer
-#' TODO make this work!
-#' @param answer 
-#' @return
-#' @export
-conform = function(answer,resolve.answer){
-  stop("not implemented")
-}
-
 #' get sysrev answers tibble with answers as rsr types
 #' @rdname get_answers
 #' @inheritParams get_answers
-#' @param conform remove user_ids and use a single answer for each aid+lid
 #' @importFrom rlang .data
 #' @return a tbl with tidy sysrev answers
 #' @export
-get_answers_tidy = function(pid,concordance=F,concordant.collapse=F,token=get_srtoken()){
+get_answers_tidy = function(pid,concordance=F,collapse=F,enabled.only=T,token=get_srtoken()){
 
-  pco = get_sroptions(pid,token=token)
+  pco        = get_sroptions(pid,token=token)
+  legal.lbls = get_labels(pid,enabled.only = enabled.only) |> pull(lid)
   
   a1 = get_answers(pid,token = token) |> # get tidy sysrev answers
     group_by(lid) |> mutate(answer = srtidy_answer(answer, value_type)) |> ungroup()
   
   if(!concordance){ return(a1) }
   
-  a2 = a1 |> group_by(aid,lid) |> 
-    mutate(conc        = concordant(answer, F, pco),
-           consensus   = factor(case_when(
-             any(resolve) ~ "resolved",
-             all(conc)    ~ "concordant",
-             n() == 1     ~ "single",
-             T            ~ "discordant"
-           ))) |> 
+  a2 = a1 |> # add label concordance and consensus
+    group_by(aid,lid) |> 
+    mutate(concordant  = concordant(answer, F, pco)) |> 
+    mutate(consensus   = factor(case_when(
+      any(resolve)    ~ "resolved",
+      all(concordant) ~ "concordant",
+      n() == 1        ~ "single",
+      T               ~ "discordant"
+    ))) |> 
     ungroup() 
   
-  if(!concordant.collapse){ return(a2) }
+  if(!collapse){ return(a2) }
   
+  # collapse to top answer only for not-discordant article labels
+  # removes user_id from tibble
   not.discordant = a2 |> 
     filter(consensus != "discordant") |> 
     arrange(desc(confirm_time),-resolve) |>
@@ -42,6 +36,8 @@ get_answers_tidy = function(pid,concordance=F,concordant.collapse=F,token=get_sr
     select(aid,lid,short_label,value_type,answer,consensus) |> 
     mutate(concordant = T)
   
+  # collapses discordant article labels with srcollapse
+  # removes user_id from tibble
   discordant = a2 |> 
     filter(consensus == "discordant") |> 
     group_by(aid,lid,short_label,value_type,consensus) |> 
@@ -62,9 +58,9 @@ srcollapse = function(answer,pid){
   if(is.atomic(answer[[1]])){         return( list(unique(answer)) ) }
   if(classes[[1]][1] == "rsr_group"){ return( srcollapse.rsr_group(answer,pid) ) }
   
-  abort(c(
+  rlang::abort(c(
     "unsupported srcollapse class",
-    x=glue("class {classes[[1]]} is not supported")))
+    x=glue("class {paste(classes[[1]],collapse=', ')} is not supported")))
 }
 
 srcollapse.rsr_group = function(answer,pid){
@@ -77,50 +73,80 @@ srcollapse.rsr_group = function(answer,pid){
   
   a1 |> 
     tidyr::nest(data = c(lid,value)) |> 
-    select(data) |> distinct() |> 
+    select(.data$data) |> distinct() |> 
     mutate(row=row_number()) |> 
-    unnest(data) |> 
+    unnest(.data$data) |> 
     select(row,lid,value) |> list()
 
 }
 
-#' @rdname get_answers
 #' get a list of tidy answer tibbles
 #' @description
 #' a special `basic` value in the list is populated by categorical boolean and string labels
 #' every other value in the list represents a sysrev group label <rsr_group>
 #' @inheritParams get_answers
-#' @param conform remove user_ids and use a single conformant answer for each aid+lid
 #' @return list of tibbles
 #' @export
-get_answers_list = function(pid,concordance=F,concordant.collapse=F,token=get_srtoken()){
+get_answers_list = function(pid,concordance=F,collapse=F,token=get_srtoken()){
   
-  tidy.ans   = get_answers_tidy(pid,
-                                concordance         = concordance,
-                                concordant.collapse = concordance.collapse)
+  if(concordance==F && collapse==T){rlang::abort(c(x="concordance must be T if collapse is T"))}
+  pco        = get_sroptions(pid)
+  tidy.ans   = get_answers_tidy(pid,concordance,collapse)
   
-  groupcols  = if(concordant.collapse){ c("aid") }else{ c("aid","user_id") }
-  basic.tbl  = tidy.ans |>
+  
+  # gets article level consensus
+  # if any label is resolved - treat article as resolved
+  # concordant if all labels concordant
+  # otherwise single or discordant
+  concordant_collapse = function(lid,concordant,pco){
+    tibble(lid,concordant) |> 
+      filter(lid %in% pco$consensus.labels) |>
+      with(all(concordant))
+  }
+  
+  consensus_collapse  = function(lid,cons,pco){
+    conc = tibble(lid,cons) |> 
+      filter(lid %in% pco$consensus.labels) |>
+      with(all(cons=="concordant"))
+    
+    if("resolved" %in% cons){        "resolved"   }
+    else if(conc){                   "concordant" }
+    else if("discordant" %in% cons){ "discordant" }
+    else if("single"     %in% cons){ "single"     }
+    else{ stop("cannot calculate consensus")}
+  }
+  
+  tidy.ans.cons = if(!concordance){tidy.ans}else{
+    tidy.ans |>
+      group_by(aid) |> 
+      mutate(concordant = concordant_collapse(lid,concordant,pco)) |> 
+      mutate(consensus  = consensus_collapse(lid,consensus,pco)) |> 
+      ungroup()
+  }
+  
+  groupcols   = if(concordance){c("aid","consensus","concordant")}else{c("aid","user_id")}
+  lbl.tbl     = get_labels(pid) |> select(lid,short_label,project_ordering)
+  basic.tbl   = tidy.ans.cons |>
     filter(value_type %in% c("categorical","boolean","string")) |>
+    inner_join(lbl.tbl |> select(lid,project_ordering),by="lid") |>  # filter out excluded labels
+    arrange(aid,project_ordering) |> 
     pivot_wider(id_cols = all_of(groupcols), names_from=short_label, values_from=answer)
   
-  lbl.tbl = get_labels(pid,token=token)
-  colnams = lbl.tbl |> pull(short_label)
-  lookup.lidname  = lbl.tbl |>
-    with(\(n){ pluck(short_label,which(lid==n),.default = n) }) |>
-    Vectorize()
-  
-  tbls = tidy.ans |>
+  tbls = tidy.ans.cons |>
     filter(value_type == "group") |>
-    select(-lid,-value_type) |>
-    group_split(short_label) %>%
-    (\(x){ set_names(x,map_chr(x,\(tbl){tbl$short_label[1]})) }) |>
+    select(-lid,-value_type) %>% 
+    split(.,.$short_label) |> 
     map(\(tbl){
-      tbl |>
-        unnest(answer) |> 
-        pivot_wider(names_from=lid, values_from=value) |>
-        rename_with(lookup.lidname) 
+      tbl |> 
+        select(-short_label) |> 
+        unnest(answer,keep_empty = F) |> 
+        inner_join(lbl.tbl,by="lid") |> # filter out excluded labels
+        arrange(aid,project_ordering) |> 
+        mutate(value = set_names(value,NULL)) |> 
+        pivot_wider(id_cols = c(groupcols,"row"), names_from=short_label, values_from=value, values_fn = list)
     })
+  
+  res = c(list(basic=basic.tbl),tbls)
 }
 
 tidy.answers.basic   = function(answer){ lapply(answer,jsonlite::fromJSON) }

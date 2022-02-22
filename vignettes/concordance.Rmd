@@ -1,0 +1,29 @@
+---
+title: "evaluating concordance"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{evaluating concordance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>")
+```
+
+Many reviews 
+
+```{r setup}
+library(rsr)
+conc.sr   = create_sysrev("concordance",get=T)
+ans       = get_answers(conc.sr)
+ans.tdy   = get_answers_tidy(conc.sr,concordance = T,collapse = T)
+ans.lst   = get_answers_list(conc.sr,concordance = F)
+ans.lst.c = get_answers_list(conc.sr,concordance = T)
+
+# consensus    : include, emotion, beebool, beebool2
+# non-consensus: busy, beegroup, beecat
+# 14311077 - discordant include, concordant emotion, concordant beegroup
+# 14311078 - single review
+# 14311080 - resolved 
+```

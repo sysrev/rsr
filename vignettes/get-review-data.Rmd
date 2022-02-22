@@ -30,7 +30,8 @@ The **basic** table links articles (eg. `aid` [1781738](https://sysrev.com/p/813
 
 ```{r trial_tb, results='hide'}
 tbls$basic |> 
-  select(aid,nct=`NCT Trial ID`)
+  mutate(nct=unlist(`NCT Trial ID`)) |> 
+  select(aid,nct)
 #>        aid nct        
 #> 1 11781750 NCT01682772
 #> 2 11781738 NCT02854436
@@ -40,6 +41,7 @@ The other named values in get_answer_list are group labels, which are themselves
 
 ```{r biomarker_tb, results='hide'}
 tbls$biomarker |> 
+  mutate(biomarker.name=unlist(biomarker.name)) |> 
   select(aid, biomarker.name)
 #>        aid biomarker.name
 #> 1 11781738 BRCA1 
@@ -63,7 +65,8 @@ joint = tbls$basic |>
   select(aid,
          study = short_name,
          bmkr  = biomarker.name,
-         eli   = eligibility)
+         eli   = eligibility) |> 
+  purrr::modify(~ unlist(.,recursive = T))
 
 top10 = joint |> group_by(bmkr) |> summarize(s = n_distinct(study)) |> 
   slice_max(n=13,order_by=s,with_ties = F)

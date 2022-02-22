@@ -11,15 +11,14 @@ sroptions = function(consensus.labels=list(),na.rm=T){
 #' @rdname get_sysrev
 #' @export
 get_sroptions = function(pid=NA,token=get_srtoken()){
-  lbl           = rsr::get_labels(pid,token = token)
-  consensus.lbl = lbl |> filter(.data$consensus)
+  lbl           = rsr::get_labels(pid,token = token,enabled.only = F)
+  consensus.lbl = lbl |> filter(.data$consensus & .data$enabled)
 
   group.consensus = if("root_label_id_local" %in% colnames(lbl)){
     lbl |> filter(.data$label_id_local %in% consensus.lbl$root_label_id_local)
   } # A group label with a consensus child is a consensus label
 
-  sroptions(consensus.labels = unique(c(consensus.lbl$lid,
-                                        group.consensus$lid)))
+  sroptions(consensus.labels = unique(c(consensus.lbl$lid,group.consensus$lid)))
 }
 
 #' concordant
@@ -58,14 +57,13 @@ concordant2 = function(a,b,options){
 
 #' @keywords internal
 concordant2.rsr_group = function(a,b,pco){
-  clab = pco$consensus.labels
   
   if(nrow(a) != nrow(b)){ return(F) }
-  if(nrow(a) == 0){ return(T) }
+  if(nrow(a) == 0){       return(T) }
   
-  a1 |> inner_join(b1,by=c("lid","value")) |> filter(lid %in% clab) |> with({
-    all(row.x == a1$row)
-  })
+  inner_join(a,b,by=c("lid","value")) |> 
+    filter(lid %in% pco$consensus.labels) |> 
+    with({ length(row.x) == length(a$row) && all(row.x == a$row) })
 }
 
 #' @keywords internal

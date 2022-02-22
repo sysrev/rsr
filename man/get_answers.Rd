@@ -10,7 +10,8 @@ get_answers(pid, token = get_srtoken())
 get_answers_tidy(
   pid,
   concordance = F,
-  concordant.collapse = F,
+  collapse = F,
+  enabled.only = T,
   token = get_srtoken()
 )
 }
@@ -19,7 +20,11 @@ get_answers_tidy(
 
 \item{token}{a sysrev token with read access to the given project}
 
-\item{conform}{remove user_ids and use a single answer for each aid+lid}
+\item{concordance}{whether to compute concordance}
+
+\item{collapse}{whether to remove user_ids and collapse answers}
+
+\item{enabled.only}{filter out disabled labels (default T)}
 }
 \value{
 a tbl with tidy sysrev answers
