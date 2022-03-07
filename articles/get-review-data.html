@@ -90,18 +90,20 @@
 <p>Sysrev users assign millions of labels to documents. The rsr package let’s you access and analyze that data. This demo shows how to access data from a review of prostate cancer biomarkers <a href="https://sysrev.com/p/81395" class="external-link">sysrev.com/p/81395</a>.</p>
 <p><code>get_answers_list(81395)</code> organizes data from the review (p/81395) into a list of tables.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tbls</span> <span class="op">&lt;-</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_answers.html">get_answers_list</a></span><span class="op">(</span><span class="fl">81395</span><span class="op">)</span> 
+<code class="sourceCode R"><span class="va">tbls</span> <span class="op">&lt;-</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_answers_list.html">get_answers_list</a></span><span class="op">(</span><span class="fl">81395</span><span class="op">)</span> 
 <span class="co">#&gt; list(basic=&lt;tbl&gt;,biomarker=&lt;tbl&gt;,...)</span></code></pre></div>
 <p>The <strong>basic</strong> table links articles (eg. <code>aid</code> <a href="https://sysrev.com/p/81395/article/11781738" class="external-link">1781738</a>) to basic label data (logical, string, category). In this project, a basic label describes article trial identifiers (eg <a href="https://clinicaltrials.gov/ct2/show/NCT01682772" class="external-link">NCT01682772</a>):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tbls</span><span class="op">$</span><span class="va">basic</span> |&gt; 
-  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,nct<span class="op">=</span><span class="va">`NCT Trial ID`</span><span class="op">)</span>
+  <span class="fu">mutate</span><span class="op">(</span>nct<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">`NCT Trial ID`</span><span class="op">)</span><span class="op">)</span> |&gt; 
+  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">nct</span><span class="op">)</span>
 <span class="co">#&gt;        aid nct        </span>
 <span class="co">#&gt; 1 11781750 NCT01682772</span>
 <span class="co">#&gt; 2 11781738 NCT02854436</span></code></pre></div>
 <p>The other named values in get_answer_list are group labels, which are themselves tables. Here, the <strong>biomarker</strong> table describes which trials evaluated which genes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tbls</span><span class="op">$</span><span class="va">biomarker</span> |&gt; 
+  <span class="fu">mutate</span><span class="op">(</span>biomarker.name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">biomarker.name</span><span class="op">)</span><span class="op">)</span> |&gt; 
   <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, <span class="va">biomarker.name</span><span class="op">)</span>
 <span class="co">#&gt;        aid biomarker.name</span>
 <span class="co">#&gt; 1 11781738 BRCA1 </span>
