@@ -4,12 +4,12 @@
 #' @importFrom rlang .data
 #' @return a tbl with tidy sysrev answers
 #' @export
-get_answers_tidy = function(pid,concordance=F,collapse=F,enabled.only=T,token=get_srtoken()){
+get_answers_tidy = function(pid,concordance=F,collapse=F,enabled.only=T,token=get_srtoken(),...){
 
   pco        = get_sroptions(pid,token=token)
   legal.lbls = get_labels(pid,enabled.only = enabled.only) |> pull(lid)
   
-  a1 = get_answers(pid,token = token) |> # get tidy sysrev answers
+  a1 = get_answers(pid,token = token,...) |> # get tidy sysrev answers
     group_by(lid) |> mutate(answer = srtidy_answer(answer, value_type)) |> ungroup()
   
   if(!concordance){ return(a1) }
@@ -87,11 +87,11 @@ srcollapse.rsr_group = function(answer,pid){
 #' @inheritParams get_answers
 #' @return list of tibbles
 #' @export
-get_answers_list = function(pid,concordance=F,collapse=F,token=get_srtoken()){
+get_answers_list = function(pid,concordance=F,collapse=F,token=get_srtoken(),...){
   
   if(concordance==F && collapse==T){rlang::abort(c(x="concordance must be T if collapse is T"))}
   pco        = get_sroptions(pid)
-  tidy.ans   = get_answers_tidy(pid,concordance,collapse)
+  tidy.ans   = get_answers_tidy(pid,concordance,collapse,...)
   
   
   # gets article level consensus

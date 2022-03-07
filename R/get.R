@@ -7,10 +7,11 @@ NULL
 
 #' @rdname get_
 #' @export
-get_articles <- function(pid,token=get_srtoken()){
-  srplumber("get_articles",list(pid=pid),token) |>
+get_articles <- function(pid,enabled.only=T,token=get_srtoken()){
+  res = srplumber("get_articles",list(pid=pid),token) |>
     rename(aid=.data$article_id) |>
     tibble()
+  if(enabled.only) res |> filter(enabled) else res
 }
 
 #' @rdname get_
@@ -52,10 +53,13 @@ get_users <- function(pid,token=get_srtoken()){
 #' @param collapse whether to remove user_ids and collapse answers
 #' @inheritParams get_
 #' @export
-get_answers <- function(pid,token=get_srtoken()){
-  srplumber("get_answers",list(pid=pid),token) |>
+get_answers <- function(pid,enabled.only=T,token=get_srtoken()){
+  # TODO remove call to get_articles, handle on srplumber side
+  articles <- rsr::get_articles(pid,enabled.only) |> select(aid,title)
+  answers  <- srplumber("get_answers",list(pid=pid),token) |>
     rename(aid=article_id,lid=label_id)|>
     tibble()
+  articles |> inner_join(answers,by="aid")
 }
 
 #' get sysrev project/options with a name or id

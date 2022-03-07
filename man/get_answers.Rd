@@ -5,26 +5,27 @@
 \alias{get_answers_tidy}
 \title{get sysrev answers tibble with answers as rsr types}
 \usage{
-get_answers(pid, token = get_srtoken())
+get_answers(pid, enabled.only = T, token = get_srtoken())
 
 get_answers_tidy(
   pid,
   concordance = F,
   collapse = F,
   enabled.only = T,
-  token = get_srtoken()
+  token = get_srtoken(),
+  ...
 )
 }
 \arguments{
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
+
+\item{enabled.only}{filter out disabled labels (default T)}
 
 \item{token}{a sysrev token with read access to the given project}
 
 \item{concordance}{whether to compute concordance}
 
 \item{collapse}{whether to remove user_ids and collapse answers}
-
-\item{enabled.only}{filter out disabled labels (default T)}
 }
 \value{
 a tbl with tidy sysrev answers

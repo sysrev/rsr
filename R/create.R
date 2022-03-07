@@ -16,6 +16,11 @@ create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
   sr$pid
 }
 
+create_predictions <- function(pid,aid,lid,lbl.value,pred,token=get_srtoken()) {
+  body = list(pid=pid,aid=aid,lid=lid,lbl.value=lbl.value,pred=pred)
+  srplumber.post(path = "create_predictions", body=body, token = token)
+}
+
 #' Create a new project based on an existing project
 #' @param pid project id of the source project
 #' @param target.name name of the new project

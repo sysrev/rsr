@@ -13,6 +13,11 @@ local_token <- function(envir=parent.frame()){
   tk
 }
 
+local_rsr <- function(){
+  op = options(srplumber.url=glue::glue("http://0.0.0.0:5216"))
+  withr::defer({ options(op) },envir)
+}
+
 test_that("setting a label value works", {
   
   token = local_token()
@@ -36,6 +41,19 @@ test_that("setting a label value works", {
   expect_true(all(is.logical(c(a.pre,a.post))))
   expect_true(res$status=="complete")
   expect_true(a.pre != a.post)
+})
+
+test_that("can make predictions",{
+  pid = 105703
+  aid = c(13458696,13458698,13458697)
+  lid = rep("e5772423-7581-4a4a-a0d4-c8c356d2c297",3)
+  lbl.value = rep(T,3)
+  pred = c(0.25,0.75,0.5)
+  
+  max.pred   = rsr::get_predictions(pid) |> pull(predict_run_id) |> max()
+  rsr::create_predictions(pid = pid,aid = aid,lid = lid,lbl.value = lbl.value,pred = pred)
+  max.pred.2 = rsr::get_predictions(pid) |> pull(predict_run_id) |> max()
+  expect_gt(max.pred.2,max.pred)
 })
 
 # test_that("concordance is correct", {

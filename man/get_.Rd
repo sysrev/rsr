@@ -9,7 +9,7 @@
 \alias{get_users}
 \title{export tibbles from sysrev projects}
 \usage{
-get_articles(pid, token = get_srtoken())
+get_articles(pid, enabled.only = T, token = get_srtoken())
 
 get_article_content(pid, token = get_srtoken())
 
@@ -22,9 +22,9 @@ get_users(pid, token = get_srtoken())
 \arguments{
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
-\item{token}{a sysrev token with read access to the given project}
-
 \item{enabled.only}{filter out disabled labels (default T)}
+
+\item{token}{a sysrev token with read access to the given project}
 }
 \value{
 A tibble

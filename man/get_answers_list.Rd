@@ -4,7 +4,13 @@
 \alias{get_answers_list}
 \title{get a list of tidy answer tibbles}
 \usage{
-get_answers_list(pid, concordance = F, collapse = F, token = get_srtoken())
+get_answers_list(
+  pid,
+  concordance = F,
+  collapse = F,
+  token = get_srtoken(),
+  ...
+)
 }
 \arguments{
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
