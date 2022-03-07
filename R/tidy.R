@@ -1,6 +1,7 @@
 #' get sysrev answers tibble with answers as rsr types
 #' @rdname get_answers
 #' @inheritParams get_answers
+#' @param ... options sent to `get_answers`
 #' @importFrom rlang .data
 #' @return a tbl with tidy sysrev answers
 #' @export
@@ -85,6 +86,7 @@ srcollapse.rsr_group = function(answer,pid){
 #' a special `basic` value in the list is populated by categorical boolean and string labels
 #' every other value in the list represents a sysrev group label <rsr_group>
 #' @inheritParams get_answers
+#' @param ... options sent to `get_answers_tidy`
 #' @return list of tibbles
 #' @export
 get_answers_list = function(pid,concordance=F,collapse=F,token=get_srtoken(),...){

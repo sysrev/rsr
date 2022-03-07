@@ -19,13 +19,15 @@ get_answers_tidy(
 \arguments{
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
-\item{enabled.only}{filter out disabled labels (default T)}
+\item{enabled.only}{only get answers from enabled articles?}
 
 \item{token}{a sysrev token with read access to the given project}
 
 \item{concordance}{whether to compute concordance}
 
 \item{collapse}{whether to remove user_ids and collapse answers}
+
+\item{...}{options sent to `get_answers`}
 }
 \value{
 a tbl with tidy sysrev answers

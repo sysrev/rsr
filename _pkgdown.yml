@@ -25,6 +25,7 @@ reference:
   contents:
   - create_sysrev
   - create_source_pmids
+  - create_predictions
   - clone_sysrev
   - copy_answers
 

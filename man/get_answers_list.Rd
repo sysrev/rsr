@@ -20,6 +20,8 @@ get_answers_list(
 \item{collapse}{whether to remove user_ids and collapse answers}
 
 \item{token}{a sysrev token with read access to the given project}
+
+\item{...}{options sent to `get_answers_tidy`}
 }
 \value{
 list of tibbles
