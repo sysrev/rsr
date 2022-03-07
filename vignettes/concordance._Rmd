@@ -1,0 +1,66 @@
+---
+title: "evaluating concordance"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{evaluating concordance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,comment = "#>")
+```
+
+Many reviews 
+
+```{r setup}
+library(dplyr)
+library(rsr)
+conc.sr   = create_sysrev("concordance",get=T)
+ans       = get_answers(conc.sr)
+ans.tdy   = get_answers_tidy(conc.sr,concordance = T,collapse = T)
+ans.lst   = get_answers_list(conc.sr,concordance = F)
+ans.lst.c = get_answers_list(conc.sr,concordance = T)
+
+# consensus    : include, emotion, beebool, beebool2
+# non-consensus: busy, beegroup, beecat
+# 14311077 - discordant include, concordant emotion, concordant beegroup
+# 14311078 - single review
+# 14311080 - resolved 
+```
+
+```{r}
+# TODO 
+# I will update export logic to 
+# (1) remove articles from disabled sources by default. & done
+# (2) treat articles w/ mix of missing/not-missing answers for required-concordant lbls as discordant. & pending
+
+pid  = 43140
+pco          = rsr::get_sroptions(pid = 43140)
+tans         = rsr::get_answers_tidy(pid, concordance=T)
+include.cons =  tans |> filter(short_label == "Include") |> 
+  group_by(aid) |> summarize(consensus=consensus_collapse(lid,consensus,pco))
+
+consensus_collapse  = function(lid,cons,pco){
+  conc = tibble(lid,cons) |> 
+    filter(lid %in% pco$consensus.labels) |>
+    with(all(cons=="concordant"))
+  
+  if("resolved" %in% cons){        "resolved"   }
+  else if(conc){                   "concordant" }
+  else if("discordant" %in% cons){ "discordant" }
+  else if("single"     %in% cons){ "single"     }
+  else{ stop("cannot calculate consensus")}
+}
+
+
+tbls = rsr::get_answers_list(pid, concordance=T, collapse=T)
+
+charify = compose(partial(paste,collapse=";"),unique,partial(unlist,recursive=T))
+basic   = tbls$basic  |> mutate(across(!first(3),~ map_chr(.,charify)))
+actors  = tbls$Actors |> mutate(across(!first(4),~ map_chr(.,charify)))
+
+
+l <- lst(basic,actors)
+openxlsx::write.xlsx(l, file = "/home/thomas/Downloads/jan.rough.xlsx")
+```

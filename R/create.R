@@ -16,6 +16,12 @@ create_sysrev <- function(name,get_if_exists=F,token=get_srtoken()){
   sr$pid
 }
 
+#' create predictions for a sysrev project
+#' @inheritParams common_params
+#' @param lbl.value a value to predict for the given aid and lid
+#' @param pred a prediction (0-1) for the given aid,lid and lbl.value
+#' @return json describing result of call
+#' @export
 create_predictions <- function(pid,aid,lid,lbl.value,pred,token=get_srtoken()) {
   body = list(pid=pid,aid=aid,lid=lid,lbl.value=lbl.value,pred=pred)
   srplumber.post(path = "create_predictions", body=body, token = token)
