@@ -1,6 +1,6 @@
 Package: rsr
 Title: rsr
-Version: 0.4.0
+Version: 0.4.0.9000
 Authors@R: person("Thomas", "Luechtefeld", email = "tom@insilica.co", role = c("aut","cre"))
 Description: an R client for sysrev.com. Comes packaged with some data analysis tools.
 Depends: R (>= 3.1.0)
