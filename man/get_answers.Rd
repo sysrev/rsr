@@ -2,32 +2,31 @@
 % Please edit documentation in R/get.R, R/tidy.R
 \name{get_answers}
 \alias{get_answers}
-\alias{get_answers_tidy}
+\alias{tidy_answers}
 \title{get sysrev answers tibble with answers as rsr types}
 \usage{
-get_answers(pid, enabled.only = T, token = get_srtoken())
+get_answers(pid, enabled_only = T, token = get_srtoken())
 
-get_answers_tidy(
-  pid,
+tidy_answers(
+  answers,
   concordance = F,
   collapse = F,
-  enabled.only = T,
-  token = get_srtoken(),
-  ...
+  enabled_only = T,
+  token = get_srtoken()
 )
 }
 \arguments{
 \item{pid}{a sysrev project id - sysrev.com/p/<pid>}
 
-\item{enabled.only}{only get answers from enabled articles?}
+\item{enabled_only}{only get answers from enabled articles?}
 
 \item{token}{a sysrev token with read access to the given project}
+
+\item{answers}{answers from a `get_answers` call}
 
 \item{concordance}{whether to compute concordance}
 
 \item{collapse}{whether to remove user_ids and collapse answers}
-
-\item{...}{options sent to `get_answers`}
 }
 \value{
 a tbl with tidy sysrev answers

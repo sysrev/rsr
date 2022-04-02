@@ -7,11 +7,11 @@ NULL
 
 #' @rdname get_
 #' @export
-get_articles <- function(pid,enabled.only=T,token=get_srtoken()){
+get_articles <- function(pid,enabled_only=T,token=get_srtoken()){
   res = srplumber("get_articles",list(pid=pid),token) |>
     rename(aid=.data$article_id) |>
     tibble()
-  if(enabled.only) res |> filter(enabled) else res
+  if(enabled_only) res |> filter(enabled) else res
 }
 
 #' @rdname get_
@@ -31,15 +31,15 @@ get_predictions <- function(pid,token=get_srtoken()){
 
 #' @rdname get_
 #' @description get labels from a sysrev
-#' @param enabled.only filter out disabled labels (default T)
+#' @param enabled_only filter out disabled labels (default T)
 #' @export
-get_labels <- function(pid,enabled.only=T,token=get_srtoken()){
+get_labels <- function(pid,enabled_only=T,token=get_srtoken()){
   a = srplumber("get_labels",list(pid=pid),token) |> 
     rename(lid=label_id) |> 
     arrange(project_ordering) |> 
     tibble() 
   
-  if(enabled.only){ a |> filter(.data$enabled) }else{ a }
+  if(enabled_only){ a |> filter(.data$enabled) }else{ a }
 }
 
 #' @rdname get_
@@ -49,16 +49,18 @@ get_users <- function(pid,token=get_srtoken()){
 }
 
 #' @rdname get_answers
-#' @param enabled.only only get answers from enabled articles?
+#' @param enabled_only only get answers from enabled articles?
 #' @param concordance whether to compute concordance
 #' @param collapse whether to remove user_ids and collapse answers
 #' @inheritParams get_
 #' @export
-get_answers <- function(pid,enabled.only=T,token=get_srtoken()){
+get_answers <- function(pid,enabled_only=T,token=get_srtoken()){
   # TODO remove call to get_articles, handle on srplumber side
-  articles <- rsr::get_articles(pid,enabled.only) |> select(aid,title)
+  articles <- rsr::get_articles(pid,enabled_only) |> select(aid,title)
+  opts     <- rsr::get_sroptions(pid)
   answers  <- srplumber("get_answers",list(pid=pid),token) |>
-    rename(aid=article_id,lid=label_id)|>
+    mutate(opts = list(opts), pid = pid) |>
+    rename(aid=article_id,lid=label_id) |>
     tibble()
   articles |> inner_join(answers,by="aid")
 }

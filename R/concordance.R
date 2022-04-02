@@ -11,7 +11,7 @@ sroptions = function(consensus.labels=list(),na.rm=T){
 #' @rdname get_sysrev
 #' @export
 get_sroptions = function(pid=NA,token=get_srtoken()){
-  lbl           = rsr::get_labels(pid,token = token,enabled.only = F)
+  lbl           = rsr::get_labels(pid,token = token,enabled_only = F)
   consensus.lbl = lbl |> filter(.data$consensus & .data$enabled)
 
   group.consensus = if("root_label_id_local" %in% colnames(lbl)){
@@ -57,13 +57,16 @@ concordant2 = function(a,b,options){
 
 #' @keywords internal
 concordant2.rsr_group = function(a,b,pco){
+  a1 <- a |> filter(lid %in% pco$consensus.labels)
+  b1 <- b |> filter(lid %in% pco$consensus.labels) 
   
-  if(nrow(a) != nrow(b)){ return(F) }
-  if(nrow(a) == 0){       return(T) }
+  if(nrow(a1) != nrow(b1)){ return(F) }
+  if(nrow(a1) == 0){        return(T) }
   
-  inner_join(a,b,by=c("lid","value")) |> 
-    filter(lid %in% pco$consensus.labels) |> 
-    with({ length(row.x) == length(a$row) && all(row.x == a$row) })
+  lidrn <- \(lid){sprintf("..%s",gsub("-",".",lid))}
+  a2 <- a1 |> mutate(lid = lidrn(lid)) |> pivot_wider(id_cols = row,names_from = lid) |> select(-row)
+  b2 <- a1 |> mutate(lid = lidrn(lid)) |> pivot_wider(id_cols = row,names_from = lid) |> select(-row)
+  dplyr::all_equal(a2,b2,ignore_col_order = T,ignore_row_order = T)
 }
 
 #' @keywords internal
