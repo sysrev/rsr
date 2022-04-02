@@ -55,9 +55,15 @@ tidy.answers.basic = function(ans){ map(ans,~ jsonlite::fromJSON(.) |> when(is_e
 #' @return <rsr_group> vector which is a subclass of <tbl>
 #' @keywords internal
 tidy.answers.group   = function(answer){
-  jsonans = purrr::map(answer,~jsonlite::fromJSON(.)$labels)
+  jsonans = purrr::map(answer,~jsonlite::fromJSON(.)$labels) |>
+    purrr::map(\(grouplbl){ 
+      a = discard(grouplbl, is_empty) # discard rows with no entries
+      if(is_empty(names(a))){ return(NA) }  # discard group labels with no rows
+      a |> purrr::set_names(as.character(1:length(a)))
+    })
   
   longtb  = tibble( aid=seq_along(answer), answer = jsonans) |>
+    filter(!is.na(answer)) |>
     tidyr::unnest_longer(answer,indices_to = "row") |>
     tidyr::unnest_longer(answer,indices_to = "lid") |>
     mutate(row=as.numeric(row)) |>
