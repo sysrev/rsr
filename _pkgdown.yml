@@ -18,8 +18,8 @@ reference:
   - get_sysrev
   - get_sysrevs
   - get_answers
-  - get_answers_list
-  - get_
+  - list_answers
+  - tidy_answers
 
 - title: create
   contents:
