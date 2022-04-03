@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rsr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,13 +56,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_articles</span><span class="op">(</span><span class="va">pid</span>, enabled.only <span class="op">=</span> <span class="cn">T</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_articles</span><span class="op">(</span><span class="va">pid</span>, enabled_only <span class="op">=</span> <span class="cn">T</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">get_article_content</span><span class="op">(</span><span class="va">pid</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">get_predictions</span><span class="op">(</span><span class="va">pid</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">get_labels</span><span class="op">(</span><span class="va">pid</span>, enabled.only <span class="op">=</span> <span class="cn">T</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">get_labels</span><span class="op">(</span><span class="va">pid</span>, enabled_only <span class="op">=</span> <span class="cn">T</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">get_users</span><span class="op">(</span><span class="va">pid</span>, token <span class="op">=</span> <span class="fu"><a href="get_srtoken.html">get_srtoken</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
@@ -71,7 +71,7 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>pid</dt>
 <dd><p>a sysrev project id - sysrev.com/p/&lt;pid&gt;</p></dd>
-<dt>enabled.only</dt>
+<dt>enabled_only</dt>
 <dd><p>filter out disabled labels (default T)</p></dd>
 <dt>token</dt>
 <dd><p>a sysrev token with read access to the given project</p></dd>

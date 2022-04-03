@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rsr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1.9012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
 <p>Sysrev users assign millions of labels to documents. The rsr package let’s you access and analyze that data. This demo shows how to access data from a review of prostate cancer biomarkers <a href="https://sysrev.com/p/81395" class="external-link">sysrev.com/p/81395</a>.</p>
 <p><code>get_answers_list(81395)</code> organizes data from the review (p/81395) into a list of tables.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tbls</span> <span class="op">&lt;-</span> <span class="fu">rsr</span><span class="fu">::</span><span class="fu"><a href="../reference/get_answers_list.html">get_answers_list</a></span><span class="op">(</span><span class="fl">81395</span><span class="op">)</span> 
+<code class="sourceCode R"><span class="va">tbls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="fl">81395</span><span class="op">)</span> |&gt; <span class="fu"><a href="../reference/list_answers.html">list_answers</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; list(basic=&lt;tbl&gt;,biomarker=&lt;tbl&gt;,...)</span></code></pre></div>
 <p>The <strong>basic</strong> table links articles (eg. <code>aid</code> <a href="https://sysrev.com/p/81395/article/11781738" class="external-link">1781738</a>) to basic label data (logical, string, category). In this project, a basic label describes article trial identifiers (eg <a href="https://clinicaltrials.gov/ct2/show/NCT01682772" class="external-link">NCT01682772</a>):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
