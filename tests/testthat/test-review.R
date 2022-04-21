@@ -56,6 +56,13 @@ test_that("can make predictions",{
   expect_gt(max.pred.2,max.pred)
 })
 
+# test_that("bad rsr::review error messages #18", {
+#   pid = 119089
+#   aid = 14866903
+#   lid = "e9859059-2012-4b4e-87d8-95b96ff74b7b" # a category var with "1" and "2"
+#   err = rsr::review(pid,aid,"",2,change = T, resolve = F)  
+# })
+
 # test_that("concordance is correct", {
 #   token   = local_token()
 #   pid     = 43140
@@ -81,7 +88,7 @@ test_that("can make predictions",{
 
 
 
-
+for what it's worth, transforming the json sysrev generates for 'group' labels into tables is not that difficult, although our schema could be better. The difficult thing ends up being concordance and collapsing concordant answers into one answer. If that isn't important for phymdos, then writing your own list_answers should not be too difficult.
 
 
 

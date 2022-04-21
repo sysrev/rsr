@@ -56,7 +56,7 @@ get_users <- function(pid,token=get_srtoken()){
 #' @export
 get_answers <- function(pid,enabled_only=T,token=get_srtoken()){
   # TODO remove call to get_articles, handle on srplumber side
-  articles <- rsr::get_articles(pid,enabled_only) |> select(aid,title)
+  articles <- rsr::get_articles(pid,enabled_only,token = token) |> select(aid,title)
   opts     <- rsr::get_sroptions(pid)
   answers  <- srplumber("get_answers",list(pid=pid),token) |>
     mutate(opts = list(opts), pid = pid) |>
