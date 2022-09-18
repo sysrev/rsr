@@ -88,8 +88,6 @@ test_that("can make predictions",{
 
 
 
-for what it's worth, transforming the json sysrev generates for 'group' labels into tables is not that difficult, although our schema could be better. The difficult thing ends up being concordance and collapsing concordant answers into one answer. If that isn't important for phymdos, then writing your own list_answers should not be too difficult.
-
 
 
 
