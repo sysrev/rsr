@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="get review data">
 <meta property="og:description" content="Learn how to access data from public reviews.
@@ -77,7 +77,7 @@
 
 
 <script src="get-review-data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>get review data</h1>
             
       
@@ -90,32 +90,32 @@
 <p>Sysrev users assign millions of labels to documents. The rsr package let’s you access and analyze that data. This demo shows how to access data from a review of prostate cancer biomarkers <a href="https://sysrev.com/p/81395" class="external-link">sysrev.com/p/81395</a>.</p>
 <p><code>get_answers_list(81395)</code> organizes data from the review (p/81395) into a list of tables.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tbls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="fl">81395</span><span class="op">)</span> |&gt; <span class="fu"><a href="../reference/list_answers.html">list_answers</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; list(basic=&lt;tbl&gt;,biomarker=&lt;tbl&gt;,...)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tbls</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_answers.html">get_answers</a></span><span class="op">(</span><span class="fl">81395</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/list_answers.html">list_answers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; list(basic=&lt;tbl&gt;,biomarker=&lt;tbl&gt;,...)</span></span></code></pre></div>
 <p>The <strong>basic</strong> table links articles (eg. <code>aid</code> <a href="https://sysrev.com/p/81395/article/11781738" class="external-link">1781738</a>) to basic label data (logical, string, category). In this project, a basic label describes article trial identifiers (eg <a href="https://clinicaltrials.gov/ct2/show/NCT01682772" class="external-link">NCT01682772</a>):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tbls</span><span class="op">$</span><span class="va">basic</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>nct<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">`NCT Trial ID`</span><span class="op">)</span><span class="op">)</span> |&gt; 
-  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">nct</span><span class="op">)</span>
-<span class="co">#&gt;        aid nct        </span>
-<span class="co">#&gt; 1 11781750 NCT01682772</span>
-<span class="co">#&gt; 2 11781738 NCT02854436</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tbls</span><span class="op">$</span><span class="va">basic</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>nct<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">`NCT Trial ID`</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>,<span class="va">nct</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        aid nct        </span></span>
+<span><span class="co">#&gt; 1 11781750 NCT01682772</span></span>
+<span><span class="co">#&gt; 2 11781738 NCT02854436</span></span></code></pre></div>
 <p>The other named values in get_answer_list are group labels, which are themselves tables. Here, the <strong>biomarker</strong> table describes which trials evaluated which genes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tbls</span><span class="op">$</span><span class="va">biomarker</span> |&gt; 
-  <span class="fu">mutate</span><span class="op">(</span>biomarker.name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">biomarker.name</span><span class="op">)</span><span class="op">)</span> |&gt; 
-  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, <span class="va">biomarker.name</span><span class="op">)</span>
-<span class="co">#&gt;        aid biomarker.name</span>
-<span class="co">#&gt; 1 11781738 BRCA1 </span>
-<span class="co">#&gt; 2 11781738 BRCA2 </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tbls</span><span class="op">$</span><span class="va">biomarker</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>biomarker.name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">biomarker.name</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">aid</span>, <span class="va">biomarker.name</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        aid biomarker.name</span></span>
+<span><span class="co">#&gt; 1 11781738 BRCA1 </span></span>
+<span><span class="co">#&gt; 2 11781738 BRCA2 </span></span></code></pre></div>
 <p>Extracted tables can be joined by article <code>aid</code>. Here, joined basic/biomarker tables link trials and biomarkers. <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">ggplot2::geom_tile</a></code> can then quickly visualize which trials use which biomarkers.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">join.tb</span> <span class="op">=</span> <span class="va">tbls</span><span class="op">$</span><span class="va">basic</span> |&gt; 
-  <span class="fu">inner_join</span><span class="op">(</span><span class="va">tbls</span><span class="op">$</span><span class="va">biomarker</span>,by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span>
-
-<span class="co"># ggplot(join.tb,</span>
-<span class="co">#   aes(x=bmkr, y=study, fill=elig)) + </span>
-<span class="co">#   geom_tile() + …</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">join.tb</span> <span class="op">=</span> <span class="va">tbls</span><span class="op">$</span><span class="va">basic</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">inner_join</span><span class="op">(</span><span class="va">tbls</span><span class="op">$</span><span class="va">biomarker</span>,by<span class="op">=</span><span class="st">"aid"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ggplot(join.tb,</span></span>
+<span><span class="co">#   aes(x=bmkr, y=study, fill=elig)) + </span></span>
+<span><span class="co">#   geom_tile() + …</span></span></code></pre></div>
 <p><img src="get-review-data_files/figure-html/heatmap-1.svg" width="700"></p>
 <p>Now you know how to get open access review data on sysrev. Check out the <a href="https://r.sysrev.com/reference/index.html">rsr reference</a> for more documentation.</p>
   </main>
@@ -130,7 +130,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
