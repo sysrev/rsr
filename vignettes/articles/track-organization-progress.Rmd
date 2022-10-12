@@ -10,17 +10,7 @@ vignette: >
 ---
 
 ```{r, setup, include = FALSE}
-library(lubridate)
-library(ggplot2)
-library(purrr)
-library(rsr)
-library(geomtextpath)
-library(tibble)
-library(ggthemes)
-library(DT)
-library(dplyr)
-library(tidyr)
-library(knitr)
+pacman::p_load(tidyverse,rsr,geomtextpath,ggthemes,DT,knitr)
 
 local({
   hook_plot = knit_hooks$get('plot')
@@ -32,8 +22,7 @@ local({
   })
 })
 
-mytheme = function (base_size = 12, base_family = "sans") 
-{
+mytheme = function (base_size = 12, base_family = "sans"){
     colors <- deframe(ggthemes::ggthemes_data[["fivethirtyeight"]])
     (theme_foundation(base_size = base_size, base_family = base_family) + 
         theme(line = element_line(colour = "black"), rect = element_rect(fill = colors["white"], 
@@ -58,7 +47,8 @@ Organizations can accumulate many users, projects, labels and answers. Keeping t
 `rsr::get_sysrevs` gets all of the sysrevs for a given organization.
 
 ```{r results=F}
-sysrevs = rsr::get_sysrevs("Ontox")
+sysrevs <- rsr::get_sysrevs("Ontox") 
+sysrevs |> arrange(desc(date_created))
 ```
 ```{r echo=F}
 sysrevs |> 
@@ -86,8 +76,8 @@ sysrevs  |>
 How active are the different projects? `get_answers` gets a projects answers. Run it on every project to get all organization answers. The `p.answers` function below guarantees that this section will run, even if get_answers breaks for some specific project. 
 
 ```{r results=F}
-p.answers  = possibly(rsr::get_answers,otherwise = tibble())
-sr.answers = sysrevs |> 
+p.answers  <- possibly(rsr::get_answers,otherwise = tibble())
+sr.answers <- sysrevs |> 
   select(project_id,name) |> 
   mutate(answers = map(project_id,p.answers)) |> 
   unnest(answers)
@@ -102,7 +92,7 @@ A simple ggplot can now track project activity over time:
 
 ```{r echo=F, results=F,out.width="95%", fig.width=8,fig.height=4,fig.align='center',cache=F}
 daily.answers = sr.answers |> 
-  mutate(day = date(confirm_time)) |> 
+  mutate(day = lubridate::date(confirm_time)) |> 
   group_by(name,day) |> summarize(ans = n()) |> ungroup()
 
 cumulative.answers = daily.answers |> 
@@ -112,7 +102,8 @@ cumulative.answers = daily.answers |>
   ungroup()
 
 ggplot(cumulative.answers,aes(x=day,y=ans,col=name,label=name)) + 
-  geom_textline(text_smoothing = 60, size = 3, vjust=-1, fontface="bold") +
+  geom_line() + 
+  # geom_textline(text_smoothing = 60, size = 3, vjust=-1, fontface="bold") +
   geom_point(size=1,col="black") + mytheme()
 ```
 
@@ -131,4 +122,3 @@ labels |>
   arrange(-projects) |> 
   datatable()
 ```
-

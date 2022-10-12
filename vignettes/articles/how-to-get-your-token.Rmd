@@ -1,0 +1,26 @@
+---
+title: "how to get your sysrev token"
+---
+
+rsr commands require a user token. To get access to your token:
+
+1. login to sysrev.com
+2. go to your user page (click icon in upper right)
+3. go to settings
+4. Copy the value following "API Key"
+
+Once you have this token you should save it to the `SYSREV_TOKEN` environmental variable:
+
+```
+Sys.setenv(SYSREV_TOKEN='enter your value')
+```
+
+You can also set the SYSREV_TOKEN environmental variable outside of your code. 
+
+Please remember to **never share your token** and don't put your token anywhere in code that you share.  
+
+To check that your token is working, try the below code:
+
+```{r}
+rsr::get_answers(3144)
+```
