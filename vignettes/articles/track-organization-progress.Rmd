@@ -10,12 +10,7 @@ vignette: >
 ---
 
 ```{r, setup, include = FALSE}
-library(tidyverse)
-library(rsr)
-library(geomtextpath)
-library(ggthemes)
-library(DT)
-library(knitr)
+pacman::p_load(tidyverse,rsr,geomtextpath,ggthemes,DT,knitr)
 
 local({
   hook_plot = knit_hooks$get('plot')

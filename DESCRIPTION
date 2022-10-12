@@ -43,6 +43,7 @@ Suggests:
     textstem,
     lubridate,
     DT,
-    geomtextpath
+    geomtextpath,
+    pacman
 Config/testthat/edition: 3
 Remotes: 
