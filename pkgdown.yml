@@ -3,9 +3,10 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   copying-answers: copying-answers.html
+  how-to-get-your-token: how-to-get-your-token.html
   track-organization-progress: track-organization-progress.html
   get-review-data: get-review-data.html
-last_built: 2022-09-18T21:21Z
+last_built: 2022-10-12T17:06Z
 urls:
   reference: https://r.sysrev.com/reference
   article: https://r.sysrev.com/articles
