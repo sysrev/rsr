@@ -11,6 +11,7 @@ tidy_answers <- function(answers,concordance=F,collapse=F,enabled_only=T,token=g
     group_by(lid) |> mutate(answer = srtidy_answer(answer, value_type)) |> ungroup() |> 
     filter(!is.na(answer)) # remove rows where answers tidy transform to NA
   
+  if(!concordance && collapse){ warning("collapse cannot complete when concordance is false")}
   if(!concordance){ return(a1) }
   
   a2 = a1 |> # add label concordance and consensus
