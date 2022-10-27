@@ -6,7 +6,7 @@ srcollapse = function(answer){
   if(i != 0){ rlang::abort(c("elements must be same class",x=glue("row {i} is wrong class"))) }
   
   # dispatch
-  if(is.atomic(answer[[1]])){         return( list(unique(answer)) ) }
+  if(is.atomic(answer[[1]])){ return( list(unique(unlist(answer))) ) }
   if(classes[[1]][1] == "rsr_group"){ return( srcollapse.rsr_group(answer) ) }
   
   rlang::abort(c(

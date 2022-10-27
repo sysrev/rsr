@@ -42,6 +42,7 @@ tidy_answers <- function(answers,concordance=F,collapse=F,enabled_only=T,token=g
     filter(consensus == "discordant") |> 
     group_by(aid,lid,short_label,value_type,consensus) |> 
     summarize(answer = srcollapse(answer)) |> 
+    ungroup() |>
     select(aid,lid,short_label,value_type,answer,consensus) |> 
     mutate(concordant = F)
   

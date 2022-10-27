@@ -24,34 +24,40 @@ review <- function(pid,aid,lid,answer,change = T,resolve = F,raw.json=F,token = 
 
 #' set the value of a given article+label
 #' @importFrom pbapply pblapply
-#' @param source.pid source project
-#' @param target.pid target project
+#' @param src.pid source project
+#' @param tgt.pid target project
 #' @return list of modified articles
 #' @export
-copy_answers = function(source.pid,target.pid){
+copy_answers = function(src.pid,tgt.pid){
   
-  src.glid = rsr::get_labels(source.pid) |> 
-    select(lid,global_label_id)
+  src.glid = get_labels(src.pid) |> select(lid,global_label_id)
   
   # get all the labels that were cloned
-  CPY.lid = rsr::get_labels(target.pid) |> 
+  CPY.lid = get_labels(tgt.pid) |> 
     inner_join(src.glid,by="global_label_id") |>  
-    select(lid=.data$lid.y, cpy.lid=.data$lid.x)
+    select(lid=lid.y, cpy.lid=lid.x)
   
   # Link articles between ESR and CPY by article_data_id
-  ART.link  = rsr::get_articles(source.pid) |> 
-    inner_join(rsr::get_articles(target.pid),by="article_data_id") |> 
-    select(aid=.data$aid.x,cpy.aid=.data$aid.y)
+  ART.link  = get_articles(src.pid) |> 
+    inner_join(get_articles(tgt.pid),by="article_data_id") |> 
+    select(aid=aid.x,cpy.aid=aid.y)
   
   # Link old answers to new articles
-  import = rsr::get_answers(source.pid) |> 
-    inner_join(ART.link,by="aid")       |> # link articles
-    inner_join(CPY.lid, by="lid")       |> # link labels
-    select(aid=.data$cpy.aid,lid=.data$cpy.lid,answer) 
-  
+  import = get_answers(src.pid) |> 
+    tidy_answers(concordance=T,collapse=T) |>
+    inner_join(ART.link,by="aid") |> # link articles
+    inner_join(CPY.lid, by="lid") |> # link labels
+    select(aid=cpy.aid,lid=cpy.lid,value_type,answer)
+      
   1:nrow(import) |> pbapply::pblapply(function(i){
-    review(pid = target.pid, aid = import$aid[i], lid = import$lid[i],
-                answer = jsonlite::fromJSON(import$answer[i]))
+    if(import$value_type[[i]] == "categorical"){
+      answer <- as.list(import$answer[[i]])
+      review(pid = tgt.pid, aid = import$aid[[i]], lid = import$lid[[i]], answer = answer)
+    }else if(import$value_type[[i]] == "boolean"){
+      review(pid = tgt.pid, aid = import$aid[[i]], lid = import$lid[[i]], answer = import$answer[[i]])
+    }else{
+      stop(sprintf("value type of %s not yet supported",import$value_type[[i]]))
+    }
   })
   
 }
