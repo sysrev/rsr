@@ -14,8 +14,10 @@ devtools::install_github('sysrev/rsr')
 ```
 
 **Authenticate**  
-Get your sysrev token from your sysrev.com user page.
-
+Get your sysrev token (`API key`) from your sysrev.com user page by going to
+Settings and then enable the `Developer Account`. The token can then be set
+as environment variable with `export SYSREV_TOKEN=...` or in R with
+`Sys.setenv(SYSREV_TOKEN="...")`.
 
 **Pubmed example**  
 Setup a simple review of pubmed title/abstracts.
