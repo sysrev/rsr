@@ -87,6 +87,18 @@ sr.answers <- sysrevs |>
 sr.answers |> print(n=2)
 ```
 
+Labeling activity over time is a simple ggplot:
+```{r,out.width="95%", fig.width=8,fig.height=4,fig.align='center',cache=F}
+pdf = sr.answers |> 
+  mutate(day = lubridate::date(confirm_time)) |> 
+  group_by(day) |> summarize(ans = n()) |> ungroup() |>
+  arrange(day) |> mutate(ans = cumsum(ans))
+
+ggplot(pdf,aes(x=day,y=ans)) + 
+  geom_line() + 
+  geom_point(size=1,col="black") + mytheme() + 
+  xlab("Date") + ylab("Cumulative answers")
+```
 ### Project activity
 A simple ggplot can now track project activity over time:
 
