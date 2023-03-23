@@ -1,4 +1,5 @@
 .*
+!.envrc
 !.github
 !.gitignore
 !.Rbuildignore
@@ -9,4 +10,5 @@ tmp.R
 /doc/
 /Meta/
 inst/doc
+result
 scratch.*
