@@ -1,12 +1,11 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
+.*
+!.github
+!.gitignore
+!.Rbuildignore
 
 tmp.rmd
 docs
 tmp.R
-.secrets.yaml
 /doc/
 /Meta/
 inst/doc
