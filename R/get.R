@@ -35,8 +35,7 @@ get_predictions <- function(pid,token=get_srtoken()){
 #' @export
 get_labels <- function(pid,enabled_only=T,token=get_srtoken()){
   a = srplumber("get_labels",list(pid=pid),token) |> 
-    rename(lid=label_id) |> 
-    arrange(project_ordering) |> 
+    rename(lid=label_id) |>
     tibble() 
   
   if(enabled_only){ a |> filter(.data$enabled) }else{ a }
